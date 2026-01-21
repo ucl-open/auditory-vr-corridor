@@ -1,0 +1,66 @@
+_templates_suffix: .jinja
+_exclude:
+  - README.md
+  
+project_name:
+  # Eg: new-project
+  type: str
+  help: What is your project name? (use kebab-case, e.g. "new-project")
+  default: new-project
+  validator: >-
+    {% if not (project_name | regex_search('^[a-z][a-z0-9\\-]*$')) %}
+    Project name must start with a lowercase letter and contain only lowercase letters, digits, or hyphens.
+    {% endif %} 
+
+author_name:
+  # Eg: John Doe
+  type: str
+  help: Who is the author?
+  default: Anonymous
+
+author_email:
+  # Eg: john.doe@example.com
+  type: str
+  help: What is the author's email?
+  default: anonymous@example.com
+
+prefix:
+  # Eg: ucl-open
+  type: str
+  help: What is your project prefix? (use kebab-case, e.g. "ucl-open")
+  default: ucl-open
+  validator: >-
+    {% if not (prefix | regex_search('^[a-z][a-z0-9\\-]*$')) %}
+    Prefix must start with a lowercase letter and contain only lowercase letters, digits, or hyphens.
+    {% endif %}
+
+python_folder_name:
+  # Eg: ucl_open_new_project
+  default: '{{ prefix | replace("-", "_") }}_{{ project_name | replace("-", "_") }}'
+  help: Internal Python module folder name (auto-generated)
+  when: false
+
+python_package_name:
+  # Eg: ucl-open-new-project
+  default: '{{ python_folder_name | replace("_", "-") }}'
+  help: Internal Python package name (auto-generated)
+  when: false
+
+dotnet_name:
+  # Eg: NewProject
+  default: '{{ (project_name | replace("-", " ") | title | replace(" ", "")) }}'
+  help: Internal .NET project name (auto-generated)
+  when: false
+
+dotnet_full_name:
+  # Eg: Aind.Behavior.NewProject
+  default: '{{ (prefix | replace("-", " ") | title | replace(" ", ".")) }}.{{ (dotnet_name) }}'
+  help: Internal .NET module name (auto-generated)
+  when: false
+
+python_class_prefix:
+  # Eg: AindBehaviorNewProject
+  default: '{{ dotnet_full_name | replace(".", "") }}'
+  help: Internal Python class prefix (auto-generated)
+  type: str
+  when: false

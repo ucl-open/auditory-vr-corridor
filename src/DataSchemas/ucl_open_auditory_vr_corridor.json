@@ -1,0 +1,427 @@
+{
+  "$defs": {
+    "BehaviorBoard": {
+      "description": "Represents a Harp Behavior Board device.",
+      "properties": {
+        "deviceType": {
+          "const": "BehaviorBoard",
+          "default": "BehaviorBoard",
+          "title": "DeviceType",
+          "type": "string"
+        },
+        "portName": {
+          "description": "The name of the device serial port.",
+          "examples": [
+            "COM"
+          ],
+          "title": "PortName",
+          "type": "string"
+        },
+        "pulseController": {
+          "default": null,
+          "description": "Optional PulseController module for generating digital output pulses.",
+          "oneOf": [
+            {
+              "$ref": "#/$defs/PulseController"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "PulseController"
+        },
+        "cameraController": {
+          "default": null,
+          "description": "Optional CameraController module for emitting camera trigger pulses.",
+          "oneOf": [
+            {
+              "$ref": "#/$defs/CameraController"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "CameraController"
+        },
+        "runningWheel": {
+          "default": null,
+          "description": "Optional RunningWheelModule module to define wheel geometry.",
+          "oneOf": [
+            {
+              "$ref": "#/$defs/RunningWheelModule"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "RunningWheel"
+        }
+      },
+      "required": [
+        "portName"
+      ],
+      "title": "BehaviorBoard",
+      "type": "object"
+    },
+    "CameraController": {
+      "description": "Represents a CameraController Module for a BehaviourBoard device.\nMirrors the externalized properties of the Bonsai workflow of the same name,\nexcluding subject name properties.",
+      "properties": {
+        "triggerFrequency": {
+          "description": "The frequency, in Hz, at which to emit camera triggers from DO0 of a behavior board (`CameraOutput0`)",
+          "examples": [
+            "50"
+          ],
+          "title": "TriggerFrequency",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "triggerFrequency"
+      ],
+      "title": "CameraController",
+      "type": "object"
+    },
+    "PulseController": {
+      "description": "Represents the PulseController module on the BehaviourBoard.\nMirrors the externalized properties of the Bonsai workflow of the same name,\nexcluding subject name properties.",
+      "properties": {
+        "outputPulseEnable": {
+          "description": "List of digital output lines that are enabled for pulse generation.",
+          "items": {
+            "type": "string"
+          },
+          "title": "OutputPulseEnable",
+          "type": "array"
+        },
+        "pulseWidths": {
+          "$ref": "#/$defs/PulseWidths",
+          "description": "Pulse width configuration for DO1, DO2, and DO3 lines."
+        }
+      },
+      "required": [
+        "pulseWidths"
+      ],
+      "title": "PulseController",
+      "type": "object"
+    },
+    "PulseWidths": {
+      "properties": {
+        "PulseDO1": {
+          "maximum": 65535,
+          "minimum": 0,
+          "title": "PulseDo1",
+          "type": "integer"
+        },
+        "PulseDO2": {
+          "maximum": 65535,
+          "minimum": 0,
+          "title": "PulseDo2",
+          "type": "integer"
+        },
+        "PulseDO3": {
+          "maximum": 65535,
+          "minimum": 0,
+          "title": "PulseDo3",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "PulseDO1",
+        "PulseDO2",
+        "PulseDO3"
+      ],
+      "title": "PulseWidths",
+      "type": "object"
+    },
+    "PunishmentConfig": {
+      "description": "Punishment-related parameters.",
+      "properties": {
+        "timeoutSec": {
+          "default": 5,
+          "description": "Timeout duration in seconds",
+          "title": "TimeoutSec",
+          "type": "integer"
+        },
+        "stage4PunishedLick": {
+          "default": 5,
+          "description": "Licks before punishment in stage 4",
+          "title": "Stage4PunishedLick",
+          "type": "integer"
+        },
+        "stage5PunishedLick": {
+          "default": 4,
+          "description": "Licks before punishment in stage 5",
+          "title": "Stage5PunishedLick",
+          "type": "integer"
+        },
+        "stage6PunishedLick": {
+          "default": 3,
+          "description": "Licks before punishment in stage 6",
+          "title": "Stage6PunishedLick",
+          "type": "integer"
+        }
+      },
+      "title": "PunishmentConfig",
+      "type": "object"
+    },
+    "RunningWheelModule": {
+      "description": "Represents the RunningWheel Bonsai workflow module.\nExposes wheel geometry parameters used to compute speed and distance from encoder counts.",
+      "properties": {
+        "countsPerRev": {
+          "description": "Number of encoder counts per full revolution of the running wheel.",
+          "title": "CountsPerRev",
+          "type": "integer"
+        },
+        "wheelDiameterMm": {
+          "description": "The diameter, in millimeters, of the running wheel.",
+          "title": "WheelDiameterMm",
+          "type": "number"
+        }
+      },
+      "required": [
+        "countsPerRev",
+        "wheelDiameterMm"
+      ],
+      "title": "RunningWheelModule",
+      "type": "object"
+    },
+    "Stage": {
+      "description": "Frequency boundaries for a single shaping stage.",
+      "properties": {
+        "floor": {
+          "description": "Lower frequency threshold (Hz)",
+          "title": "Floor",
+          "type": "integer"
+        },
+        "ceiling": {
+          "description": "Upper frequency ceiling (Hz)",
+          "title": "Ceiling",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "floor",
+        "ceiling"
+      ],
+      "title": "Stage",
+      "type": "object"
+    },
+    "ThresholdFrequencies": {
+      "description": "Threshold and ceiling frequencies for each shaping stage.",
+      "properties": {
+        "stage1": {
+          "$ref": "#/$defs/Stage",
+          "default": {
+            "floor": 18000,
+            "ceiling": 25000
+          },
+          "title": "Stage1"
+        },
+        "stage2": {
+          "$ref": "#/$defs/Stage",
+          "default": {
+            "floor": 18000,
+            "ceiling": 25000
+          },
+          "title": "Stage2"
+        },
+        "stage3": {
+          "$ref": "#/$defs/Stage",
+          "default": {
+            "floor": 14000,
+            "ceiling": 25000
+          },
+          "title": "Stage3"
+        },
+        "stage4": {
+          "$ref": "#/$defs/Stage",
+          "default": {
+            "floor": 14000,
+            "ceiling": 25000
+          },
+          "title": "Stage4"
+        },
+        "stage5": {
+          "$ref": "#/$defs/Stage",
+          "default": {
+            "floor": 14000,
+            "ceiling": 22000
+          },
+          "title": "Stage5"
+        },
+        "stage6": {
+          "$ref": "#/$defs/Stage",
+          "default": {
+            "floor": 16000,
+            "ceiling": 20000
+          },
+          "title": "Stage6"
+        }
+      },
+      "title": "ThresholdFrequencies",
+      "type": "object"
+    },
+    "UclOpenAuditoryVrCorridorRig": {
+      "properties": {
+        "version": {
+          "const": "0.0.0-rc1",
+          "default": "0.0.0-rc1",
+          "title": "Version",
+          "type": "string"
+        },
+        "behaviorboard": {
+          "$ref": "#/$defs/BehaviorBoard",
+          "title": "Behaviorboard"
+        },
+        "runningwheel": {
+          "$ref": "#/$defs/RunningWheelModule",
+          "title": "Runningwheel"
+        }
+      },
+      "required": [
+        "behaviorboard",
+        "runningwheel"
+      ],
+      "title": "UclOpenAuditoryVrCorridorRig",
+      "type": "object"
+    },
+    "UclOpenAuditoryVrCorridorTaskLogic": {
+      "description": "Top-level task logic schema.",
+      "properties": {
+        "version": {
+          "const": "0.0.0-rc1",
+          "default": "0.0.0-rc1",
+          "title": "Version",
+          "type": "string"
+        },
+        "name": {
+          "const": "UclOpenAuditoryVrCorridor",
+          "default": "UclOpenAuditoryVrCorridor",
+          "description": "Name of the task logic",
+          "title": "Name",
+          "type": "string"
+        },
+        "taskParameters": {
+          "$ref": "#/$defs/UclOpenAuditoryVrCorridorTaskParameters",
+          "default": {
+            "shapingStage": 1,
+            "startFreq": 2000,
+            "endFreq": 25000,
+            "thresholdFrequencies": {
+              "stage1": {
+                "ceiling": 25000,
+                "floor": 18000
+              },
+              "stage2": {
+                "ceiling": 25000,
+                "floor": 18000
+              },
+              "stage3": {
+                "ceiling": 25000,
+                "floor": 14000
+              },
+              "stage4": {
+                "ceiling": 25000,
+                "floor": 14000
+              },
+              "stage5": {
+                "ceiling": 22000,
+                "floor": 14000
+              },
+              "stage6": {
+                "ceiling": 20000,
+                "floor": 16000
+              }
+            },
+            "punishment": {
+              "stage4PunishedLick": 5,
+              "stage5PunishedLick": 4,
+              "stage6PunishedLick": 3,
+              "timeoutSec": 5
+            },
+            "amplitude": 0.5,
+            "quantizeBinSize": 1
+          },
+          "title": "TaskParameters"
+        }
+      },
+      "title": "UclOpenAuditoryVrCorridorTaskLogic",
+      "type": "object"
+    },
+    "UclOpenAuditoryVrCorridorTaskParameters": {
+      "description": "Task parameters that map to Bonsai BehaviorSubject nodes.",
+      "properties": {
+        "shapingStage": {
+          "default": 1,
+          "description": "Shaping stage (1-6)",
+          "title": "ShapingStage",
+          "type": "integer"
+        },
+        "startFreq": {
+          "default": 2000,
+          "description": "Start frequency of the sweep (Hz)",
+          "title": "StartFreq",
+          "type": "integer"
+        },
+        "endFreq": {
+          "default": 25000,
+          "description": "End frequency of the sweep (Hz)",
+          "title": "EndFreq",
+          "type": "integer"
+        },
+        "thresholdFrequencies": {
+          "$ref": "#/$defs/ThresholdFrequencies",
+          "default": {
+            "stage1": {
+              "ceiling": 25000,
+              "floor": 18000
+            },
+            "stage2": {
+              "ceiling": 25000,
+              "floor": 18000
+            },
+            "stage3": {
+              "ceiling": 25000,
+              "floor": 14000
+            },
+            "stage4": {
+              "ceiling": 25000,
+              "floor": 14000
+            },
+            "stage5": {
+              "ceiling": 22000,
+              "floor": 14000
+            },
+            "stage6": {
+              "ceiling": 20000,
+              "floor": 16000
+            }
+          }
+        },
+        "punishment": {
+          "$ref": "#/$defs/PunishmentConfig",
+          "default": {
+            "timeoutSec": 5,
+            "stage4PunishedLick": 5,
+            "stage5PunishedLick": 4,
+            "stage6PunishedLick": 3
+          },
+          "title": "Punishment"
+        },
+        "amplitude": {
+          "default": 0.5,
+          "description": "Audio amplitude (0.0 to 1.0)",
+          "title": "Amplitude",
+          "type": "number"
+        },
+        "quantizeBinSize": {
+          "default": 1,
+          "description": "Bin size for frequency quantization (Hz)",
+          "title": "QuantizeBinSize",
+          "type": "integer"
+        }
+      },
+      "title": "UclOpenAuditoryVrCorridorTaskParameters",
+      "type": "object"
+    }
+  }
+}

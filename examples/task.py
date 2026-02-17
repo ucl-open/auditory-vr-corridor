@@ -6,7 +6,9 @@ from ucl_open_auditory_vr_corridor.task import (
 )
 
 task_logic = UclOpenAuditoryVrCorridorTaskLogic(
-    task_parameters=UclOpenAuditoryVrCorridorTaskParameters(),
+    task_parameters=UclOpenAuditoryVrCorridorTaskParameters(
+        shaping_stage=1, # Change shaping stage here
+    ),
 )
 
 def main(path_seed: str = "./local/{schema}.json"):

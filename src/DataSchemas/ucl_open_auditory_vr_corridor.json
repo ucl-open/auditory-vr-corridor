@@ -297,33 +297,33 @@
             "shapingStage": 1,
             "startFreq": 2000,
             "endFreq": 25000,
-            "centerFreq": 18222,
+            "centerFreq": 18000,
             "stage5WindowSize": 8000,
             "stage6WindowSize": 4000,
             "thresholdFrequencies": {
               "stage1": {
                 "ceiling": 25000,
-                "floor": 18222
+                "floor": 18000
               },
               "stage2": {
                 "ceiling": 25000,
-                "floor": 18222
+                "floor": 18000
               },
               "stage3": {
                 "ceiling": 25000,
-                "floor": 13281
+                "floor": 12960
               },
               "stage4": {
                 "ceiling": 25000,
-                "floor": 13281
+                "floor": 12960
               },
               "stage5": {
-                "ceiling": 22655,
-                "floor": 14655
+                "ceiling": 22439,
+                "floor": 14439
               },
               "stage6": {
-                "ceiling": 20331,
-                "floor": 16331
+                "ceiling": 20110,
+                "floor": 16110
               }
             },
             "punishment": {
@@ -369,7 +369,7 @@
           "type": "integer"
         },
         "centerFreq": {
-          "default": 18222,
+          "default": 18000,
           "description": "Center frequency of all reward windows (Hz)",
           "maximum": 25000,
           "minimum": 1,

@@ -430,10 +430,10 @@ namespace UclOpenAuditoryVrCorridorDataSchema
 
 
     /// <summary>
-    /// Punishment-related parameters.
+    /// Punishment params.
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.7.2.0 (Newtonsoft.Json v13.0.0.0)")]
-    [System.ComponentModel.DescriptionAttribute("Punishment-related parameters.")]
+    [System.ComponentModel.DescriptionAttribute("Punishment params.")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     [Bonsai.CombinatorAttribute(MethodName="Generate")]
     public partial class PunishmentConfig
@@ -481,10 +481,10 @@ namespace UclOpenAuditoryVrCorridorDataSchema
         }
     
         /// <summary>
-        /// Licks before punishment in stage 4
+        /// Punished lick in stage 4
         /// </summary>
         [Newtonsoft.Json.JsonPropertyAttribute("stage4PunishedLick")]
-        [System.ComponentModel.DescriptionAttribute("Licks before punishment in stage 4")]
+        [System.ComponentModel.DescriptionAttribute("Punished lick in stage 4")]
         public int Stage4PunishedLick
         {
             get
@@ -498,10 +498,10 @@ namespace UclOpenAuditoryVrCorridorDataSchema
         }
     
         /// <summary>
-        /// Licks before punishment in stage 5
+        /// Punished lick in stage 5
         /// </summary>
         [Newtonsoft.Json.JsonPropertyAttribute("stage5PunishedLick")]
-        [System.ComponentModel.DescriptionAttribute("Licks before punishment in stage 5")]
+        [System.ComponentModel.DescriptionAttribute("Punished lick in stage 5")]
         public int Stage5PunishedLick
         {
             get
@@ -515,10 +515,10 @@ namespace UclOpenAuditoryVrCorridorDataSchema
         }
     
         /// <summary>
-        /// Licks before punishment in stage 6
+        /// Punished lick in stage 6
         /// </summary>
         [Newtonsoft.Json.JsonPropertyAttribute("stage6PunishedLick")]
-        [System.ComponentModel.DescriptionAttribute("Licks before punishment in stage 6")]
+        [System.ComponentModel.DescriptionAttribute("Punished lick in stage 6")]
         public int Stage6PunishedLick
         {
             get
@@ -748,10 +748,10 @@ namespace UclOpenAuditoryVrCorridorDataSchema
 
 
     /// <summary>
-    /// Threshold and ceiling frequencies for each shaping stage.
+    /// Floor and ceiling frequencies of the reward zone for each shaping stage.
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.7.2.0 (Newtonsoft.Json v13.0.0.0)")]
-    [System.ComponentModel.DescriptionAttribute("Threshold and ceiling frequencies for each shaping stage.")]
+    [System.ComponentModel.DescriptionAttribute("Floor and ceiling frequencies of the reward zone for each shaping stage.")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     [Bonsai.CombinatorAttribute(MethodName="Generate")]
     public partial class ThresholdFrequencies
@@ -790,7 +790,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
         }
     
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("stage1")]
+        [Newtonsoft.Json.JsonPropertyAttribute("stage1", Required=Newtonsoft.Json.Required.Always)]
         public Stage Stage1
         {
             get
@@ -804,7 +804,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
         }
     
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("stage2")]
+        [Newtonsoft.Json.JsonPropertyAttribute("stage2", Required=Newtonsoft.Json.Required.Always)]
         public Stage Stage2
         {
             get
@@ -818,7 +818,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
         }
     
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("stage3")]
+        [Newtonsoft.Json.JsonPropertyAttribute("stage3", Required=Newtonsoft.Json.Required.Always)]
         public Stage Stage3
         {
             get
@@ -832,7 +832,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
         }
     
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("stage4")]
+        [Newtonsoft.Json.JsonPropertyAttribute("stage4", Required=Newtonsoft.Json.Required.Always)]
         public Stage Stage4
         {
             get
@@ -846,7 +846,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
         }
     
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("stage5")]
+        [Newtonsoft.Json.JsonPropertyAttribute("stage5", Required=Newtonsoft.Json.Required.Always)]
         public Stage Stage5
         {
             get
@@ -860,7 +860,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
         }
     
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("stage6")]
+        [Newtonsoft.Json.JsonPropertyAttribute("stage6", Required=Newtonsoft.Json.Required.Always)]
         public Stage Stage6
         {
             get
@@ -1053,10 +1053,10 @@ namespace UclOpenAuditoryVrCorridorDataSchema
         }
     
         /// <summary>
-        /// Name of the task logic
+        /// Name of the task
         /// </summary>
         [Newtonsoft.Json.JsonPropertyAttribute("name")]
-        [System.ComponentModel.DescriptionAttribute("Name of the task logic")]
+        [System.ComponentModel.DescriptionAttribute("Name of the task")]
         public string Name
         {
             get
@@ -1117,10 +1117,10 @@ namespace UclOpenAuditoryVrCorridorDataSchema
 
 
     /// <summary>
-    /// Task parameters that map to Bonsai BehaviorSubject nodes.
+    /// Task params.
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.7.2.0 (Newtonsoft.Json v13.0.0.0)")]
-    [System.ComponentModel.DescriptionAttribute("Task parameters that map to Bonsai BehaviorSubject nodes.")]
+    [System.ComponentModel.DescriptionAttribute("Task params.")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     [Bonsai.CombinatorAttribute(MethodName="Generate")]
     public partial class UclOpenAuditoryVrCorridorTaskParameters
@@ -1131,6 +1131,12 @@ namespace UclOpenAuditoryVrCorridorDataSchema
         private int _startFreq;
     
         private int _endFreq;
+    
+        private int _centerFreq;
+    
+        private int _stage5WindowSize;
+    
+        private int _stage6WindowSize;
     
         private ThresholdFrequencies _thresholdFrequencies;
     
@@ -1145,7 +1151,9 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             _shapingStage = 1;
             _startFreq = 2000;
             _endFreq = 25000;
-            _thresholdFrequencies = new ThresholdFrequencies();
+            _centerFreq = 18000;
+            _stage5WindowSize = 8000;
+            _stage6WindowSize = 4000;
             _punishment = new PunishmentConfig();
             _amplitude = 0.5D;
             _quantizeBinSize = 1;
@@ -1156,6 +1164,9 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             _shapingStage = other._shapingStage;
             _startFreq = other._startFreq;
             _endFreq = other._endFreq;
+            _centerFreq = other._centerFreq;
+            _stage5WindowSize = other._stage5WindowSize;
+            _stage6WindowSize = other._stage6WindowSize;
             _thresholdFrequencies = other._thresholdFrequencies;
             _punishment = other._punishment;
             _amplitude = other._amplitude;
@@ -1210,6 +1221,57 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             set
             {
                 _endFreq = value;
+            }
+        }
+    
+        /// <summary>
+        /// Center frequency of all reward windows (Hz)
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("centerFreq")]
+        [System.ComponentModel.DescriptionAttribute("Center frequency of all reward windows (Hz)")]
+        public int CenterFreq
+        {
+            get
+            {
+                return _centerFreq;
+            }
+            set
+            {
+                _centerFreq = value;
+            }
+        }
+    
+        /// <summary>
+        /// Window size around center_freq for stage 5 (Hz)
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("stage5WindowSize")]
+        [System.ComponentModel.DescriptionAttribute("Window size around center_freq for stage 5 (Hz)")]
+        public int Stage5WindowSize
+        {
+            get
+            {
+                return _stage5WindowSize;
+            }
+            set
+            {
+                _stage5WindowSize = value;
+            }
+        }
+    
+        /// <summary>
+        /// Window size around center_freq for stage 6 (Hz)
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("stage6WindowSize")]
+        [System.ComponentModel.DescriptionAttribute("Window size around center_freq for stage 6 (Hz)")]
+        public int Stage6WindowSize
+        {
+            get
+            {
+                return _stage6WindowSize;
+            }
+            set
+            {
+                _stage6WindowSize = value;
             }
         }
     
@@ -1290,6 +1352,9 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             stringBuilder.Append("ShapingStage = " + _shapingStage + ", ");
             stringBuilder.Append("StartFreq = " + _startFreq + ", ");
             stringBuilder.Append("EndFreq = " + _endFreq + ", ");
+            stringBuilder.Append("CenterFreq = " + _centerFreq + ", ");
+            stringBuilder.Append("Stage5WindowSize = " + _stage5WindowSize + ", ");
+            stringBuilder.Append("Stage6WindowSize = " + _stage6WindowSize + ", ");
             stringBuilder.Append("ThresholdFrequencies = " + _thresholdFrequencies + ", ");
             stringBuilder.Append("Punishment = " + _punishment + ", ");
             stringBuilder.Append("Amplitude = " + _amplitude + ", ");

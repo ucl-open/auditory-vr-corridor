@@ -1,4 +1,6 @@
 import os
+from helpers import determine_shaping_stage
+
 
 from ucl_open_auditory_vr_corridor.task import (
     UclOpenAuditoryVrCorridorTaskLogic,
@@ -7,7 +9,7 @@ from ucl_open_auditory_vr_corridor.task import (
 
 task_logic = UclOpenAuditoryVrCorridorTaskLogic(
     task_parameters=UclOpenAuditoryVrCorridorTaskParameters(
-        shaping_stage=1, # Change shaping stage here
+        shaping_stage=determine_shaping_stage(), 
     ),
 )
 

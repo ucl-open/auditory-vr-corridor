@@ -281,6 +281,23 @@
             <Expression xsi:type="rx:BehaviorSubject">
               <Name>ShapingStage</Name>
             </Expression>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="ExternalizedMapping">
+                <Property Name="Value" />
+              </Builder>
+            </Expression>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="Combinator">
+                <Combinator xsi:type="IntProperty">
+                  <Value>4</Value>
+                </Combinator>
+              </Builder>
+            </Expression>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="rx:BehaviorSubject">
+                <Name>ShapingStage</Name>
+              </Builder>
+            </Expression>
             <Expression xsi:type="SubscribeSubject">
               <Name>TaskParams</Name>
             </Expression>
@@ -574,6 +591,8 @@
             <Edge From="63" To="64" Label="Source1" />
             <Edge From="65" To="66" Label="Source1" />
             <Edge From="66" To="67" Label="Source1" />
+            <Edge From="68" To="69" Label="Source1" />
+            <Edge From="69" To="70" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -1194,7 +1213,7 @@ it.Item2 as WasRewarded
 )</scr:Expression>
             </Expression>
             <Expression xsi:type="io:CsvWriter">
-              <io:FileName>Logs/TrialLog.csv</io:FileName>
+              <io:FileName>Logs/TrialLogs/TrialLog.csv</io:FileName>
               <io:Append>false</io:Append>
               <io:Overwrite>true</io:Overwrite>
               <io:Suffix>Timestamp</io:Suffix>
@@ -1327,7 +1346,7 @@ it.Item2 as WasRewarded
 )</scr:Expression>
             </Expression>
             <Expression xsi:type="io:CsvWriter">
-              <io:FileName>Logs/IntervalLog.csv</io:FileName>
+              <io:FileName>Logs/IntervalLogs/IntervalLog.csv</io:FileName>
               <io:Append>false</io:Append>
               <io:Overwrite>true</io:Overwrite>
               <io:Suffix>Timestamp</io:Suffix>
@@ -1697,7 +1716,7 @@ it.Item2 as WasRewarded
             </Expression>
             <Expression xsi:type="Add">
               <Operand xsi:type="DoubleProperty">
-                <Value>70</Value>
+                <Value>180</Value>
               </Operand>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
@@ -1801,7 +1820,7 @@ it.Item2 as WasRewarded
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="dsp:FunctionGenerator">
                 <dsp:BufferLength>500</dsp:BufferLength>
-                <dsp:Frequency>13505.093322788374</dsp:Frequency>
+                <dsp:Frequency>2000</dsp:Frequency>
                 <dsp:Waveform>Sine</dsp:Waveform>
                 <dsp:SampleRate>50000</dsp:SampleRate>
                 <dsp:Depth>F32</dsp:Depth>

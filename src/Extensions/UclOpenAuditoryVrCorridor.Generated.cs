@@ -1151,7 +1151,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             _shapingStage = 1;
             _startFreq = 2000;
             _endFreq = 25000;
-            _centerFreq = 18000;
+            _centerFreq = 18222;
             _stage5WindowSize = 8000;
             _stage6WindowSize = 4000;
             _punishment = new PunishmentConfig();

@@ -2,7 +2,7 @@ from typing import Literal, Optional
 from pydantic import Field, model_validator
 
 from swc.aeon.schema import BaseSchema
-from helpers import calc_log_window, calc_floor
+from ucl_open_auditory_vr_corridor.helpers import calc_log_window, calc_floor
 
 from ucl_open_auditory_vr_corridor import __semver__
 
@@ -43,7 +43,7 @@ class UclOpenAuditoryVrCorridorTaskParameters(BaseSchema):
     start_freq: int = Field(default=2000, description='Start frequency of the sweep (Hz)', ge=1, le=25000)
     end_freq: int = Field(default=25000, description='End frequency of the sweep (Hz)', ge=1, le=25000)
 
-    center_freq: int = Field(default=18000, description="Center frequency of all reward windows (Hz)", ge=1, le=25000)
+    center_freq: int = Field(default=18222, description="Center frequency of all reward windows (Hz)", ge=1, le=25000)
     stage5_window_size: int = Field(default=8000, ge=1, le=25000, description="Window size around center_freq for stage 5 (Hz)")
     stage6_window_size: int = Field(default=4000, ge=1, le=25000, description="Window size around center_freq for stage 6 (Hz)")
 

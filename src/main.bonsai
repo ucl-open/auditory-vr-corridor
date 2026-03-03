@@ -206,7 +206,7 @@
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="p1:CreateMixerContext">
                 <p1:HostApi>Windows DirectSound</p1:HostApi>
-                <p1:DeviceName>DELL S2722DC (2- HD Audio Driver for Display Audio)</p1:DeviceName>
+                <p1:DeviceName>DELL S2722DC (5- HD Audio Driver for Display Audio)</p1:DeviceName>
                 <p1:SampleRate>50000</p1:SampleRate>
                 <p1:SuggestedLatency xsi:nil="true" />
               </Combinator>
@@ -251,7 +251,7 @@
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="io:ReadAllText">
-                <io:Path>C:\Users\CoenL\Documents\TomC\auditory-vr-corridor\local\UclOpenAuditoryVrCorridorTaskLogic.json</io:Path>
+                <io:Path>C:\Users\CoenL\Documents\TomC\auditory-vr-corridor\session-schemas\current-session\UclOpenAuditoryVrCorridorTaskLogic.json</io:Path>
               </Combinator>
             </Expression>
             <Expression xsi:type="p2:DeserializeFromJson">
@@ -1450,7 +1450,7 @@ it.Item2 as WasRewarded
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="rx:Timer">
-                      <rx:DueTime>PT1S</rx:DueTime>
+                      <rx:DueTime>PT2S</rx:DueTime>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
@@ -1716,7 +1716,7 @@ it.Item2 as WasRewarded
             </Expression>
             <Expression xsi:type="Add">
               <Operand xsi:type="DoubleProperty">
-                <Value>180</Value>
+                <Value>350</Value>
               </Operand>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
@@ -1820,11 +1820,11 @@ it.Item2 as WasRewarded
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="dsp:FunctionGenerator">
                 <dsp:BufferLength>500</dsp:BufferLength>
-                <dsp:Frequency>2000</dsp:Frequency>
+                <dsp:Frequency>3287.5036590344516</dsp:Frequency>
                 <dsp:Waveform>Sine</dsp:Waveform>
                 <dsp:SampleRate>50000</dsp:SampleRate>
                 <dsp:Depth>F32</dsp:Depth>
-                <dsp:Amplitude>0</dsp:Amplitude>
+                <dsp:Amplitude>0.5</dsp:Amplitude>
                 <dsp:Offset>0</dsp:Offset>
                 <dsp:Phase>0</dsp:Phase>
               </Combinator>

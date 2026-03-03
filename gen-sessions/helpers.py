@@ -42,7 +42,7 @@ def determine_shaping_stage():
 
         if success_rate >= 0.7:
             print("Success rate >= 70%. Advancing to next shaping stage.")
-            next_stage = end_stage + 1
+            next_stage = min(6, end_stage + 1) # NB: hard coding in 6 shaping stages here - if more stages added in future, update this
         elif success_rate < 0.7 and success_rate >= 0.5:
             print("Success rate between 50% and 70%. Staying in current shaping stage.")
             next_stage = end_stage 

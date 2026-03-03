@@ -1,0 +1,46 @@
+{
+  "version": "0.0.0-rc1",
+  "name": "UclOpenAuditoryVrCorridor",
+  "taskParameters": {
+    "shapingStage": 3,
+    "startFreq": 2000,
+    "endFreq": 25000,
+    "centerFreq": 18222,
+    "stage5WindowSize": 8000,
+    "stage6WindowSize": 4000,
+    "thresholdFrequencies": {
+      "stage1": {
+        "floor": 18222,
+        "ceiling": 25000
+      },
+      "stage2": {
+        "floor": 18222,
+        "ceiling": 25000
+      },
+      "stage3": {
+        "floor": 13281,
+        "ceiling": 25000
+      },
+      "stage4": {
+        "floor": 13281,
+        "ceiling": 25000
+      },
+      "stage5": {
+        "floor": 14655,
+        "ceiling": 22655
+      },
+      "stage6": {
+        "floor": 16331,
+        "ceiling": 20331
+      }
+    },
+    "punishment": {
+      "timeoutSec": 5,
+      "stage4PunishedLick": 5,
+      "stage5PunishedLick": 4,
+      "stage6PunishedLick": 3
+    },
+    "amplitude": 0.5,
+    "quantizeBinSize": 1
+  }
+}

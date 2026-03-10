@@ -1,33 +1,38 @@
 import os
 from datetime import datetime
 from helpers import determine_shaping_stage
+from pathlib import Path
 
 
 from ucl_open_auditory_vr_corridor.task import (
     UclOpenAuditoryVrCorridorTaskLogic,
     UclOpenAuditoryVrCorridorTaskParameters,
-)
-
-task_logic = UclOpenAuditoryVrCorridorTaskLogic(
-    task_parameters=UclOpenAuditoryVrCorridorTaskParameters(
-        shaping_stage=determine_shaping_stage(), 
-    ),
+    LogConfig
 )
 
 def main():
+    animal_id = input("\nEnter animal ID: ").strip() or "unknown_animal"
+    session_id = input("Enter session ID: ").strip()
+    logging_root_path = str(Path(__file__).parent.parent / "Logs") # Logs will be saved in a "Logs" folder at project root
+
+    task_logic = UclOpenAuditoryVrCorridorTaskLogic(
+        task_parameters=UclOpenAuditoryVrCorridorTaskParameters(
+            log_config=LogConfig(
+                session_id=session_id,
+                animal_id=animal_id,
+                logging_root_path=logging_root_path
+            ),
+            shaping_stage=determine_shaping_stage(animal_id=animal_id, session_id=session_id, logging_root_path=logging_root_path), # Determine shaping stage based on previous session logs for this animal
+        ),
+    )
+
     # Save generated task logic to json that will be read by Bonsai at the start of the session
     filename = task_logic.__class__.__name__
     bonsai_path = f"./session-schemas/current-session/{filename}.json"
     os.makedirs(os.path.dirname(bonsai_path), exist_ok=True)
     with open(bonsai_path, "w", encoding="utf-8") as f:
         f.write(task_logic.model_dump_json(indent=2, by_alias=True))
-    
-    # Also save a copy of the generated task logic with a timestamp in a separate folder for records
-    timestamp = datetime.now().strftime("%Y-%m-%dT%H_%M_%S")
-    log_path = f'./session-schemas/prev-sessions/{filename}_{timestamp}.json'
-    os.makedirs(os.path.dirname(log_path), exist_ok=True)
-    with open(log_path, "w", encoding="utf-8") as f:
-        f.write(task_logic.model_dump_json(indent=2, by_alias=True))
+
 
 if __name__ == "__main__":
     main()

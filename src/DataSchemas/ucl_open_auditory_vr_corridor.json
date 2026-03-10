@@ -81,6 +81,30 @@
       "title": "CameraController",
       "type": "object"
     },
+    "LogConfig": {
+      "description": "Logging params.",
+      "properties": {
+        "loggingRootPath": {
+          "default": ".\\logs",
+          "description": "Root path for logs",
+          "title": "LoggingRootPath",
+          "type": "string"
+        },
+        "sessionId": {
+          "description": "Unique session identifier, defaults to timestamp",
+          "title": "SessionId",
+          "type": "string"
+        },
+        "animalId": {
+          "default": "unknown_animal",
+          "description": "Animal identifier for the session",
+          "title": "AnimalId",
+          "type": "string"
+        }
+      },
+      "title": "LogConfig",
+      "type": "object"
+    },
     "PulseController": {
       "description": "Represents the PulseController module on the BehaviourBoard.\nMirrors the externalized properties of the Bonsai workflow of the same name,\nexcluding subject name properties.",
       "properties": {
@@ -332,6 +356,11 @@
               "stage6PunishedLick": 3,
               "timeoutSec": 5
             },
+            "logConfig": {
+              "animalId": "unknown_animal",
+              "loggingRootPath": ".\\logs",
+              "sessionId": "2026-03-10T15_40_48"
+            },
             "amplitude": 0.5,
             "quantizeBinSize": 1
           },
@@ -413,6 +442,14 @@
             "stage6PunishedLick": 3
           },
           "title": "Punishment"
+        },
+        "logConfig": {
+          "$ref": "#/$defs/LogConfig",
+          "default": {
+            "loggingRootPath": ".\\logs",
+            "sessionId": "2026-03-10T15_40_48",
+            "animalId": "unknown_animal"
+          }
         },
         "amplitude": {
           "default": 0.5,

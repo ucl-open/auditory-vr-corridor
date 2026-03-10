@@ -88,3 +88,6 @@ temp_data/
 
 *.editor
 *.layout
+
+# Logs
+Logs/

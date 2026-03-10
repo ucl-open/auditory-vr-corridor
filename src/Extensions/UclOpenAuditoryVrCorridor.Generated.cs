@@ -237,6 +237,119 @@ namespace UclOpenAuditoryVrCorridorDataSchema
 
 
     /// <summary>
+    /// Logging params.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.7.2.0 (Newtonsoft.Json v13.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute("Logging params.")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class LogConfig
+    {
+    
+        private string _loggingRootPath;
+    
+        private string _sessionId;
+    
+        private string _animalId;
+    
+        public LogConfig()
+        {
+            _loggingRootPath = ".\\logs";
+            _animalId = "unknown_animal";
+        }
+    
+        protected LogConfig(LogConfig other)
+        {
+            _loggingRootPath = other._loggingRootPath;
+            _sessionId = other._sessionId;
+            _animalId = other._animalId;
+        }
+    
+        /// <summary>
+        /// Root path for logs
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("loggingRootPath")]
+        [System.ComponentModel.DescriptionAttribute("Root path for logs")]
+        public string LoggingRootPath
+        {
+            get
+            {
+                return _loggingRootPath;
+            }
+            set
+            {
+                _loggingRootPath = value;
+            }
+        }
+    
+        /// <summary>
+        /// Unique session identifier, defaults to timestamp
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("sessionId")]
+        [System.ComponentModel.DescriptionAttribute("Unique session identifier, defaults to timestamp")]
+        public string SessionId
+        {
+            get
+            {
+                return _sessionId;
+            }
+            set
+            {
+                _sessionId = value;
+            }
+        }
+    
+        /// <summary>
+        /// Animal identifier for the session
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("animalId")]
+        [System.ComponentModel.DescriptionAttribute("Animal identifier for the session")]
+        public string AnimalId
+        {
+            get
+            {
+                return _animalId;
+            }
+            set
+            {
+                _animalId = value;
+            }
+        }
+    
+        public System.IObservable<LogConfig> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new LogConfig(this)));
+        }
+    
+        public System.IObservable<LogConfig> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new LogConfig(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("LoggingRootPath = " + _loggingRootPath + ", ");
+            stringBuilder.Append("SessionId = " + _sessionId + ", ");
+            stringBuilder.Append("AnimalId = " + _animalId);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    /// <summary>
     /// Represents the PulseController module on the BehaviourBoard.
     ///Mirrors the externalized properties of the Bonsai workflow of the same name,
     ///excluding subject name properties.
@@ -1142,6 +1255,8 @@ namespace UclOpenAuditoryVrCorridorDataSchema
     
         private PunishmentConfig _punishment;
     
+        private LogConfig _logConfig;
+    
         private double _amplitude;
     
         private int _quantizeBinSize;
@@ -1155,6 +1270,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             _stage5WindowSize = 8000;
             _stage6WindowSize = 4000;
             _punishment = new PunishmentConfig();
+            _logConfig = new LogConfig();
             _amplitude = 0.5D;
             _quantizeBinSize = 1;
         }
@@ -1169,6 +1285,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             _stage6WindowSize = other._stage6WindowSize;
             _thresholdFrequencies = other._thresholdFrequencies;
             _punishment = other._punishment;
+            _logConfig = other._logConfig;
             _amplitude = other._amplitude;
             _quantizeBinSize = other._quantizeBinSize;
         }
@@ -1303,6 +1420,20 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             }
         }
     
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("logConfig")]
+        public LogConfig LogConfig
+        {
+            get
+            {
+                return _logConfig;
+            }
+            set
+            {
+                _logConfig = value;
+            }
+        }
+    
         /// <summary>
         /// Audio amplitude (0.0 to 1.0)
         /// </summary>
@@ -1357,6 +1488,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             stringBuilder.Append("Stage6WindowSize = " + _stage6WindowSize + ", ");
             stringBuilder.Append("ThresholdFrequencies = " + _thresholdFrequencies + ", ");
             stringBuilder.Append("Punishment = " + _punishment + ", ");
+            stringBuilder.Append("LogConfig = " + _logConfig + ", ");
             stringBuilder.Append("Amplitude = " + _amplitude + ", ");
             stringBuilder.Append("QuantizeBinSize = " + _quantizeBinSize);
             return true;
@@ -1403,6 +1535,11 @@ namespace UclOpenAuditoryVrCorridorDataSchema
         public System.IObservable<string> Process(System.IObservable<CameraController> source)
         {
             return Process<CameraController>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<LogConfig> source)
+        {
+            return Process<LogConfig>(source);
         }
 
         public System.IObservable<string> Process(System.IObservable<PulseController> source)
@@ -1461,6 +1598,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Transform)]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BehaviorBoard>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<CameraController>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<LogConfig>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PulseController>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PulseWidths>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PunishmentConfig>))]

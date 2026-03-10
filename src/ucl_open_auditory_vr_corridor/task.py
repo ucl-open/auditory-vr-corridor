@@ -1,5 +1,6 @@
 from typing import Literal, Optional
 from pydantic import Field, model_validator
+from datetime import datetime
 
 from swc.aeon.schema import BaseSchema
 from ucl_open_auditory_vr_corridor.helpers import calc_log_window, calc_floor
@@ -37,6 +38,13 @@ class PunishmentConfig(BaseSchema):
     stage6_punished_lick: int = Field(default=3, description='Punished lick in stage 6', ge=1)
 
 
+class LogConfig(BaseSchema):
+    '''Logging params.'''
+    logging_root_path: str = Field(default=".\logs", description="Root path for logs")
+    session_id: str = Field(default_factory=lambda: datetime.now().strftime("%Y-%m-%dT%H_%M_%S"), description="Unique session identifier, defaults to timestamp")
+    animal_id: str = Field(default="unknown_animal", description="Animal identifier for the session")
+
+
 class UclOpenAuditoryVrCorridorTaskParameters(BaseSchema):
     '''Task params.'''
     shaping_stage: int = Field(default=1, description='Shaping stage (1-6)', ge=1, le=6)
@@ -50,6 +58,7 @@ class UclOpenAuditoryVrCorridorTaskParameters(BaseSchema):
     threshold_frequencies: Optional[ThresholdFrequencies] = None
 
     punishment: PunishmentConfig = PunishmentConfig()
+    log_config: LogConfig = LogConfig()
     amplitude: float = Field(default=0.5, description='Audio amplitude (0.0 to 1.0)', ge=0.0, le=1.0)
     quantize_bin_size: int = Field(default=1, description='Bin size for frequency quantization (Hz)', ge=1)
 

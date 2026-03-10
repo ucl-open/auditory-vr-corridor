@@ -11,6 +11,9 @@
                  xmlns:io="clr-namespace:Bonsai.IO;assembly=Bonsai.System"
                  xmlns:p2="clr-namespace:UclOpenAuditoryVrCorridorDataSchema;assembly=Extensions"
                  xmlns:wie="clr-namespace:Bonsai.Windows.Input;assembly=Bonsai.Windows.Input"
+                 xmlns:p3="clr-namespace:UclOpen.Core;assembly=UclOpen.Core"
+                 xmlns:p4="clr-namespace:UclOpen.Logging;assembly=UclOpen.Logging"
+                 xmlns:p5="clr-namespace:UclOpen.Loggingv2;assembly=Extensions"
                  xmlns:num="clr-namespace:Bonsai.Numerics;assembly=Bonsai.Numerics"
                  xmlns:al="clr-namespace:Bonsai.Audio;assembly=Bonsai.Audio"
                  xmlns="https://bonsai-rx.org/2018/workflow">
@@ -532,6 +535,14 @@
                   <Expression xsi:type="rx:BehaviorSubject">
                     <Name>TrialStartWheelDistance</Name>
                   </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="DoubleProperty">
+                      <Value>0</Value>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="rx:BehaviorSubject">
+                    <Name>CurrAmp</Name>
+                  </Expression>
                 </Nodes>
                 <Edges>
                   <Edge From="7" To="8" Label="Source1" />
@@ -540,6 +551,7 @@
                   <Edge From="11" To="12" Label="Source1" />
                   <Edge From="13" To="14" Label="Source1" />
                   <Edge From="15" To="16" Label="Source1" />
+                  <Edge From="17" To="18" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -1124,81 +1136,82 @@
           </Edges>
         </Workflow>
       </Expression>
-      <Expression xsi:type="GroupWorkflow">
-        <Name>TrialLogger</Name>
-        <Description>Logs trial data at trial end (triggered by TrialEnded signal)</Description>
-        <Workflow>
-          <Nodes>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>TrialEnded</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:Timestamp" />
-            </Expression>
-            <Expression xsi:type="MemberSelector">
-              <Selector>Timestamp.TimeOfDay.TotalMilliseconds</Selector>
-            </Expression>
-            <Expression xsi:type="Format">
-              <Format>{0:F2}</Format>
-              <Selector />
-            </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>TrialNumber</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:WithLatestFrom" />
-            </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>ShapingStage</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:WithLatestFrom" />
-            </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>RewardFloorFreq</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:WithLatestFrom" />
-            </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>RewardCeilFreq</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:WithLatestFrom" />
-            </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>TrialEndFreq</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:WithLatestFrom" />
-            </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>TrackLength</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:WithLatestFrom" />
-            </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>WheelDistanceCm</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:WithLatestFrom" />
-            </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>LickCount</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:WithLatestFrom" />
-            </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>WasRewarded</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:WithLatestFrom" />
-            </Expression>
-            <Expression xsi:type="scr:ExpressionTransform">
-              <scr:Name>FormatTrialData</scr:Name>
-              <scr:Expression>new 
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="GroupWorkflow">
+          <Name>TrialLogger</Name>
+          <Description>Logs trial data at trial end (triggered by TrialEnded signal)</Description>
+          <Workflow>
+            <Nodes>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>TrialEnded</Name>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="rx:Timestamp" />
+              </Expression>
+              <Expression xsi:type="MemberSelector">
+                <Selector>Timestamp.TimeOfDay.TotalMilliseconds</Selector>
+              </Expression>
+              <Expression xsi:type="Format">
+                <Format>{0:F2}</Format>
+                <Selector />
+              </Expression>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>TrialNumber</Name>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="rx:WithLatestFrom" />
+              </Expression>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>ShapingStage</Name>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="rx:WithLatestFrom" />
+              </Expression>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>RewardFloorFreq</Name>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="rx:WithLatestFrom" />
+              </Expression>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>RewardCeilFreq</Name>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="rx:WithLatestFrom" />
+              </Expression>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>TrialEndFreq</Name>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="rx:WithLatestFrom" />
+              </Expression>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>TrackLength</Name>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="rx:WithLatestFrom" />
+              </Expression>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>WheelDistanceCm</Name>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="rx:WithLatestFrom" />
+              </Expression>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>LickCount</Name>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="rx:WithLatestFrom" />
+              </Expression>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>WasRewarded</Name>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="rx:WithLatestFrom" />
+              </Expression>
+              <Expression xsi:type="scr:ExpressionTransform">
+                <scr:Name>FormatTrialData</scr:Name>
+                <scr:Expression>new 
 (
 it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1 as BonsaiTime,
 it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as Trial,
@@ -1211,127 +1224,129 @@ it.Item1.Item1.Item2 as TrialEndPosCm,
 it.Item1.Item2 as LickCount,
 it.Item2 as WasRewarded
 )</scr:Expression>
-            </Expression>
-            <Expression xsi:type="io:CsvWriter">
-              <io:FileName>Logs/TrialLogs/TrialLog.csv</io:FileName>
-              <io:Append>false</io:Append>
-              <io:Overwrite>true</io:Overwrite>
-              <io:Suffix>Timestamp</io:Suffix>
-              <io:IncludeHeader>true</io:IncludeHeader>
-            </Expression>
-          </Nodes>
-          <Edges>
-            <Edge From="0" To="1" Label="Source1" />
-            <Edge From="1" To="2" Label="Source1" />
-            <Edge From="2" To="3" Label="Source1" />
-            <Edge From="3" To="5" Label="Source1" />
-            <Edge From="4" To="5" Label="Source2" />
-            <Edge From="5" To="7" Label="Source1" />
-            <Edge From="6" To="7" Label="Source2" />
-            <Edge From="7" To="9" Label="Source1" />
-            <Edge From="8" To="9" Label="Source2" />
-            <Edge From="9" To="11" Label="Source1" />
-            <Edge From="10" To="11" Label="Source2" />
-            <Edge From="11" To="13" Label="Source1" />
-            <Edge From="12" To="13" Label="Source2" />
-            <Edge From="13" To="15" Label="Source1" />
-            <Edge From="14" To="15" Label="Source2" />
-            <Edge From="15" To="17" Label="Source1" />
-            <Edge From="16" To="17" Label="Source2" />
-            <Edge From="17" To="19" Label="Source1" />
-            <Edge From="18" To="19" Label="Source2" />
-            <Edge From="19" To="21" Label="Source1" />
-            <Edge From="20" To="21" Label="Source2" />
-            <Edge From="21" To="22" Label="Source1" />
-            <Edge From="22" To="23" Label="Source1" />
-          </Edges>
-        </Workflow>
+              </Expression>
+              <Expression xsi:type="io:CsvWriter">
+                <io:FileName>Logs/TrialLogs/TrialLog.csv</io:FileName>
+                <io:Append>false</io:Append>
+                <io:Overwrite>true</io:Overwrite>
+                <io:Suffix>Timestamp</io:Suffix>
+                <io:IncludeHeader>true</io:IncludeHeader>
+              </Expression>
+            </Nodes>
+            <Edges>
+              <Edge From="0" To="1" Label="Source1" />
+              <Edge From="1" To="2" Label="Source1" />
+              <Edge From="2" To="3" Label="Source1" />
+              <Edge From="3" To="5" Label="Source1" />
+              <Edge From="4" To="5" Label="Source2" />
+              <Edge From="5" To="7" Label="Source1" />
+              <Edge From="6" To="7" Label="Source2" />
+              <Edge From="7" To="9" Label="Source1" />
+              <Edge From="8" To="9" Label="Source2" />
+              <Edge From="9" To="11" Label="Source1" />
+              <Edge From="10" To="11" Label="Source2" />
+              <Edge From="11" To="13" Label="Source1" />
+              <Edge From="12" To="13" Label="Source2" />
+              <Edge From="13" To="15" Label="Source1" />
+              <Edge From="14" To="15" Label="Source2" />
+              <Edge From="15" To="17" Label="Source1" />
+              <Edge From="16" To="17" Label="Source2" />
+              <Edge From="17" To="19" Label="Source1" />
+              <Edge From="18" To="19" Label="Source2" />
+              <Edge From="19" To="21" Label="Source1" />
+              <Edge From="20" To="21" Label="Source2" />
+              <Edge From="21" To="22" Label="Source1" />
+              <Edge From="22" To="23" Label="Source1" />
+            </Edges>
+          </Workflow>
+        </Builder>
       </Expression>
-      <Expression xsi:type="GroupWorkflow">
-        <Name>IntervalLogger</Name>
-        <Description>Logs state at each 50ms interval</Description>
-        <Workflow>
-          <Nodes>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>WheelDistanceCm</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:Timestamp" />
-            </Expression>
-            <Expression xsi:type="MemberSelector">
-              <Selector>Timestamp.TimeOfDay.TotalMilliseconds</Selector>
-            </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>StartTime</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:WithLatestFrom" />
-            </Expression>
-            <Expression xsi:type="scr:ExpressionTransform">
-              <scr:Name>ElapsedMs</scr:Name>
-              <scr:Expression>it.Item1 - it.Item2</scr:Expression>
-            </Expression>
-            <Expression xsi:type="Format">
-              <Format>{0:F2}</Format>
-              <Selector />
-            </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>TrialNumber</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:WithLatestFrom" />
-            </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>ShapingStage</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:WithLatestFrom" />
-            </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>RewardFloorFreq</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:WithLatestFrom" />
-            </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>RewardCeilFreq</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:WithLatestFrom" />
-            </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>TrackLength</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:WithLatestFrom" />
-            </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>CurrFreq</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:WithLatestFrom" />
-            </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>WheelDistanceCm</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:WithLatestFrom" />
-            </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>LickCount</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:WithLatestFrom" />
-            </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>WasRewarded</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:WithLatestFrom" />
-            </Expression>
-            <Expression xsi:type="scr:ExpressionTransform">
-              <scr:Name>FormatTrialData</scr:Name>
-              <scr:Expression>new 
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="GroupWorkflow">
+          <Name>IntervalLogger</Name>
+          <Description>Logs state at each 50ms interval</Description>
+          <Workflow>
+            <Nodes>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>WheelDistanceCm</Name>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="rx:Timestamp" />
+              </Expression>
+              <Expression xsi:type="MemberSelector">
+                <Selector>Timestamp.TimeOfDay.TotalMilliseconds</Selector>
+              </Expression>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>StartTime</Name>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="rx:WithLatestFrom" />
+              </Expression>
+              <Expression xsi:type="scr:ExpressionTransform">
+                <scr:Name>ElapsedMs</scr:Name>
+                <scr:Expression>it.Item1 - it.Item2</scr:Expression>
+              </Expression>
+              <Expression xsi:type="Format">
+                <Format>{0:F2}</Format>
+                <Selector />
+              </Expression>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>TrialNumber</Name>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="rx:WithLatestFrom" />
+              </Expression>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>ShapingStage</Name>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="rx:WithLatestFrom" />
+              </Expression>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>RewardFloorFreq</Name>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="rx:WithLatestFrom" />
+              </Expression>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>RewardCeilFreq</Name>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="rx:WithLatestFrom" />
+              </Expression>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>TrackLength</Name>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="rx:WithLatestFrom" />
+              </Expression>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>CurrFreq</Name>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="rx:WithLatestFrom" />
+              </Expression>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>WheelDistanceCm</Name>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="rx:WithLatestFrom" />
+              </Expression>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>LickCount</Name>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="rx:WithLatestFrom" />
+              </Expression>
+              <Expression xsi:type="SubscribeSubject">
+                <Name>WasRewarded</Name>
+              </Expression>
+              <Expression xsi:type="Combinator">
+                <Combinator xsi:type="rx:WithLatestFrom" />
+              </Expression>
+              <Expression xsi:type="scr:ExpressionTransform">
+                <scr:Name>FormatTrialData</scr:Name>
+                <scr:Expression>new 
 (
 Convert.ToDouble(it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1) as BonsaiTime,
 it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as Trial,
@@ -1344,61 +1359,884 @@ it.Item1.Item1.Item2 as PosCm,
 it.Item1.Item2 as LickCount,
 it.Item2 as WasRewarded
 )</scr:Expression>
+              </Expression>
+              <Expression xsi:type="io:CsvWriter">
+                <io:FileName>Logs/IntervalLogs/IntervalLog.csv</io:FileName>
+                <io:Append>false</io:Append>
+                <io:Overwrite>true</io:Overwrite>
+                <io:Suffix>Timestamp</io:Suffix>
+                <io:IncludeHeader>true</io:IncludeHeader>
+              </Expression>
+              <Expression xsi:type="Disable">
+                <Builder xsi:type="IncludeWorkflow" Path="UclOpen.Logging:LogHarpDevice.bonsai">
+                  <LogName />
+                </Builder>
+              </Expression>
+              <Expression xsi:type="Disable">
+                <Builder xsi:type="IncludeWorkflow" Path="UclOpen.Logging:LogController.bonsai">
+                  <SubjectId>Algernon</SubjectId>
+                  <SessionId>001</SessionId>
+                  <Path>D:\LocalData</Path>
+                </Builder>
+              </Expression>
+              <Expression xsi:type="Disable">
+                <Builder xsi:type="IncludeWorkflow" Path="UclOpen.Logging:LogData.bonsai">
+                  <LogName />
+                  <Selector>Seconds</Selector>
+                  <Extension>csv</Extension>
+                </Builder>
+              </Expression>
+            </Nodes>
+            <Edges>
+              <Edge From="0" To="1" Label="Source1" />
+              <Edge From="1" To="2" Label="Source1" />
+              <Edge From="2" To="4" Label="Source1" />
+              <Edge From="3" To="4" Label="Source2" />
+              <Edge From="4" To="5" Label="Source1" />
+              <Edge From="5" To="6" Label="Source1" />
+              <Edge From="6" To="8" Label="Source1" />
+              <Edge From="7" To="8" Label="Source2" />
+              <Edge From="8" To="10" Label="Source1" />
+              <Edge From="9" To="10" Label="Source2" />
+              <Edge From="10" To="12" Label="Source1" />
+              <Edge From="11" To="12" Label="Source2" />
+              <Edge From="12" To="14" Label="Source1" />
+              <Edge From="13" To="14" Label="Source2" />
+              <Edge From="14" To="16" Label="Source1" />
+              <Edge From="15" To="16" Label="Source2" />
+              <Edge From="16" To="18" Label="Source1" />
+              <Edge From="17" To="18" Label="Source2" />
+              <Edge From="18" To="20" Label="Source1" />
+              <Edge From="19" To="20" Label="Source2" />
+              <Edge From="20" To="22" Label="Source1" />
+              <Edge From="21" To="22" Label="Source2" />
+              <Edge From="22" To="24" Label="Source1" />
+              <Edge From="23" To="24" Label="Source2" />
+              <Edge From="24" To="25" Label="Source1" />
+              <Edge From="25" To="26" Label="Source1" />
+            </Edges>
+          </Workflow>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>Logging</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="GroupWorkflow">
+              <Name>TrialLogger</Name>
+              <Description />
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>TrialEnded</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Timestamp" />
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Timestamp.TimeOfDay.TotalMilliseconds</Selector>
+                  </Expression>
+                  <Expression xsi:type="Format">
+                    <Format>{0:F2}</Format>
+                    <Selector />
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>TrialNumber</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>ShapingStage</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>RewardFloorFreq</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>RewardCeilFreq</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>TrialEndFreq</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>TrackLength</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>WheelDistanceCm</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>LickCount</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>WasRewarded</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="scr:ExpressionTransform">
+                    <scr:Name>FormatTrialData</scr:Name>
+                    <scr:Expression>new 
+(
+it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1 as BonsaiTime,
+it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as Trial,
+it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as ShapingStage,
+it.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as RewFreqFloor,
+it.Item1.Item1.Item1.Item1.Item1.Item2 as RewFreqCeil,
+it.Item1.Item1.Item1.Item1.Item2 as TrialEndFreq,
+it.Item1.Item1.Item1.Item2 as TrackLength,
+it.Item1.Item1.Item2 as TrialEndPosCm,
+it.Item1.Item2 as LickCount,
+it.Item2 as WasRewarded
+)</scr:Expression>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="Name" />
+                    <Property Name="Extension" />
+                  </Expression>
+                  <Expression xsi:type="GroupWorkflow">
+                    <Name>FormatFileName</Name>
+                    <Description>Generates a log filename based on the input timestamp.</Description>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>PathPrefix</Name>
+                        </Expression>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="ExternalizedMapping">
+                          <Property Name="Value" DisplayName="Name" Description="The base name of the log file." />
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="StringProperty">
+                            <Value>TrialLog</Value>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>AnimalAndSessionID</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Zip" />
+                        </Expression>
+                        <Expression xsi:type="Format">
+                          <Format>{0}_{1}_</Format>
+                          <Selector>Item1, Item2</Selector>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Take">
+                            <rx:Count>1</rx:Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="p3:StripSubstring" />
+                        </Expression>
+                        <Expression xsi:type="ExternalizedMapping">
+                          <Property Name="Value" DisplayName="Extension" Description="The file extension" />
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="StringProperty">
+                            <Value>csv</Value>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Take">
+                            <rx:Count>1</rx:Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Zip" />
+                        </Expression>
+                        <Expression xsi:type="Format">
+                          <Format>{0}\{1}\{2}.{3}</Format>
+                          <Selector>Item1,Item2,Item3,Item4</Selector>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                      </Nodes>
+                      <Edges>
+                        <Edge From="0" To="12" Label="Source1" />
+                        <Edge From="1" To="3" Label="Source1" />
+                        <Edge From="2" To="3" Label="Source2" />
+                        <Edge From="3" To="5" Label="Source1" />
+                        <Edge From="4" To="5" Label="Source2" />
+                        <Edge From="5" To="6" Label="Source1" />
+                        <Edge From="6" To="7" Label="Source1" />
+                        <Edge From="7" To="8" Label="Source1" />
+                        <Edge From="7" To="12" Label="Source3" />
+                        <Edge From="8" To="12" Label="Source2" />
+                        <Edge From="9" To="10" Label="Source1" />
+                        <Edge From="10" To="11" Label="Source1" />
+                        <Edge From="11" To="12" Label="Source4" />
+                        <Edge From="12" To="13" Label="Source1" />
+                        <Edge From="13" To="14" Label="Source1" />
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                  <Expression xsi:type="PropertyMapping">
+                    <PropertyMappings>
+                      <Property Name="FileName" />
+                    </PropertyMappings>
+                  </Expression>
+                  <Expression xsi:type="io:CsvWriter">
+                    <io:FileName>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-algernon\ses-2_date-2026-03-10T16-53-49\TrialLog_2_algernon_\TrialLog_2_algernon_.csv</io:FileName>
+                    <io:Append>false</io:Append>
+                    <io:Overwrite>true</io:Overwrite>
+                    <io:Suffix>Timestamp</io:Suffix>
+                    <io:IncludeHeader>true</io:IncludeHeader>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="1" Label="Source1" />
+                  <Edge From="1" To="2" Label="Source1" />
+                  <Edge From="2" To="3" Label="Source1" />
+                  <Edge From="3" To="5" Label="Source1" />
+                  <Edge From="4" To="5" Label="Source2" />
+                  <Edge From="5" To="7" Label="Source1" />
+                  <Edge From="6" To="7" Label="Source2" />
+                  <Edge From="7" To="9" Label="Source1" />
+                  <Edge From="8" To="9" Label="Source2" />
+                  <Edge From="9" To="11" Label="Source1" />
+                  <Edge From="10" To="11" Label="Source2" />
+                  <Edge From="11" To="13" Label="Source1" />
+                  <Edge From="12" To="13" Label="Source2" />
+                  <Edge From="13" To="15" Label="Source1" />
+                  <Edge From="14" To="15" Label="Source2" />
+                  <Edge From="15" To="17" Label="Source1" />
+                  <Edge From="16" To="17" Label="Source2" />
+                  <Edge From="17" To="19" Label="Source1" />
+                  <Edge From="18" To="19" Label="Source2" />
+                  <Edge From="19" To="21" Label="Source1" />
+                  <Edge From="20" To="21" Label="Source2" />
+                  <Edge From="21" To="22" Label="Source1" />
+                  <Edge From="22" To="26" Label="Source1" />
+                  <Edge From="23" To="24" Label="Source1" />
+                  <Edge From="24" To="25" Label="Source1" />
+                  <Edge From="25" To="26" Label="Source2" />
+                </Edges>
+              </Workflow>
             </Expression>
-            <Expression xsi:type="io:CsvWriter">
-              <io:FileName>Logs/IntervalLogs/IntervalLog.csv</io:FileName>
-              <io:Append>false</io:Append>
-              <io:Overwrite>true</io:Overwrite>
-              <io:Suffix>Timestamp</io:Suffix>
-              <io:IncludeHeader>true</io:IncludeHeader>
+            <Expression xsi:type="GroupWorkflow">
+              <Name>IntervalLogger</Name>
+              <Description />
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>WheelDistanceCm</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:DistinctUntilChanged" />
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>LickCount</Name>
+                  </Expression>
+                  <Expression xsi:type="scr:ExpressionTransform">
+                    <scr:Expression>convert.ToDouble(it)</scr:Expression>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:DistinctUntilChanged" />
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>CurrFreq</Name>
+                  </Expression>
+                  <Expression xsi:type="scr:ExpressionTransform">
+                    <scr:Expression>convert.ToDouble(it)</scr:Expression>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:DistinctUntilChanged" />
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>CurrAmp</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:DistinctUntilChanged" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Merge" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Timestamp" />
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Timestamp.TimeOfDay.TotalMilliseconds</Selector>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>StartTime</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="scr:ExpressionTransform">
+                    <scr:Name>ElapsedMs</scr:Name>
+                    <scr:Expression>it.Item1 - it.Item2</scr:Expression>
+                  </Expression>
+                  <Expression xsi:type="Format">
+                    <Format>{0:F2}</Format>
+                    <Selector />
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>TrialNumber</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>WheelDistanceCm</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>CurrFreq</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>CurrAmp</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>LickCount</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>WasRewarded</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="scr:ExpressionTransform">
+                    <scr:Name>FormatTrialData</scr:Name>
+                    <scr:Expression>new 
+(
+Convert.ToInt32(Convert.ToDouble(it.Item1.Item1.Item1.Item1.Item1.Item1)) as BonsaiTime,
+it.Item1.Item1.Item1.Item1.Item1.Item2 as Trial,
+it.Item1.Item1.Item1.Item1.Item2 as WheelDistanceCm,
+it.Item1.Item1.Item1.Item2 as CurrFreq,
+it.Item1.Item1.Item2 as CurrAmp,
+it.Item1.Item2 as LickCount,
+it.Item2 as WasRewarded
+)</scr:Expression>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="Name" />
+                    <Property Name="Extension" />
+                  </Expression>
+                  <Expression xsi:type="GroupWorkflow">
+                    <Name>FormatFileName</Name>
+                    <Description>Generates a log filename based on the input timestamp.</Description>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>PathPrefix</Name>
+                        </Expression>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="ExternalizedMapping">
+                          <Property Name="Value" DisplayName="Name" Description="The base name of the log file." />
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="StringProperty">
+                            <Value>IntervalLog</Value>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>AnimalAndSessionID</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Zip" />
+                        </Expression>
+                        <Expression xsi:type="Format">
+                          <Format>{0}_{1}_</Format>
+                          <Selector>Item1, Item2</Selector>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Take">
+                            <rx:Count>1</rx:Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="p3:StripSubstring" />
+                        </Expression>
+                        <Expression xsi:type="ExternalizedMapping">
+                          <Property Name="Value" DisplayName="Extension" Description="The file extension" />
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="StringProperty">
+                            <Value>csv</Value>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Take">
+                            <rx:Count>1</rx:Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Zip" />
+                        </Expression>
+                        <Expression xsi:type="Format">
+                          <Format>{0}\{1}\{2}.{3}</Format>
+                          <Selector>Item1,Item2,Item3,Item4</Selector>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                      </Nodes>
+                      <Edges>
+                        <Edge From="0" To="12" Label="Source1" />
+                        <Edge From="1" To="3" Label="Source1" />
+                        <Edge From="2" To="3" Label="Source2" />
+                        <Edge From="3" To="5" Label="Source1" />
+                        <Edge From="4" To="5" Label="Source2" />
+                        <Edge From="5" To="6" Label="Source1" />
+                        <Edge From="6" To="7" Label="Source1" />
+                        <Edge From="7" To="8" Label="Source1" />
+                        <Edge From="7" To="12" Label="Source3" />
+                        <Edge From="8" To="12" Label="Source2" />
+                        <Edge From="9" To="10" Label="Source1" />
+                        <Edge From="10" To="11" Label="Source1" />
+                        <Edge From="11" To="12" Label="Source4" />
+                        <Edge From="12" To="13" Label="Source1" />
+                        <Edge From="13" To="14" Label="Source1" />
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                  <Expression xsi:type="PropertyMapping">
+                    <PropertyMappings>
+                      <Property Name="FileName" />
+                    </PropertyMappings>
+                  </Expression>
+                  <Expression xsi:type="io:CsvWriter">
+                    <io:FileName>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-algernon\ses-2_date-2026-03-10T16-53-49\IntervalLog_2_algernon_\IntervalLog_2_algernon_.csv</io:FileName>
+                    <io:Append>false</io:Append>
+                    <io:Overwrite>true</io:Overwrite>
+                    <io:Suffix>Timestamp</io:Suffix>
+                    <io:IncludeHeader>true</io:IncludeHeader>
+                  </Expression>
+                  <Expression xsi:type="Disable">
+                    <Builder xsi:type="IncludeWorkflow" Path="UclOpen.Logging:LogHarpDevice.bonsai">
+                      <LogName />
+                    </Builder>
+                  </Expression>
+                  <Expression xsi:type="Disable">
+                    <Builder xsi:type="IncludeWorkflow" Path="UclOpen.Logging:LogController.bonsai">
+                      <SubjectId>Algernon</SubjectId>
+                      <SessionId>001</SessionId>
+                      <Path>D:\LocalData</Path>
+                    </Builder>
+                  </Expression>
+                  <Expression xsi:type="Disable">
+                    <Builder xsi:type="IncludeWorkflow" Path="UclOpen.Logging:LogData.bonsai">
+                      <LogName />
+                      <Selector>Seconds</Selector>
+                      <Extension>csv</Extension>
+                    </Builder>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>CurrAmp</Name>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="1" Label="Source1" />
+                  <Edge From="1" To="10" Label="Source1" />
+                  <Edge From="2" To="3" Label="Source1" />
+                  <Edge From="3" To="4" Label="Source1" />
+                  <Edge From="4" To="10" Label="Source2" />
+                  <Edge From="5" To="6" Label="Source1" />
+                  <Edge From="6" To="7" Label="Source1" />
+                  <Edge From="7" To="10" Label="Source3" />
+                  <Edge From="8" To="9" Label="Source1" />
+                  <Edge From="9" To="10" Label="Source4" />
+                  <Edge From="10" To="11" Label="Source1" />
+                  <Edge From="11" To="12" Label="Source1" />
+                  <Edge From="12" To="14" Label="Source1" />
+                  <Edge From="13" To="14" Label="Source2" />
+                  <Edge From="14" To="15" Label="Source1" />
+                  <Edge From="15" To="16" Label="Source1" />
+                  <Edge From="16" To="18" Label="Source1" />
+                  <Edge From="17" To="18" Label="Source2" />
+                  <Edge From="18" To="20" Label="Source1" />
+                  <Edge From="19" To="20" Label="Source2" />
+                  <Edge From="20" To="22" Label="Source1" />
+                  <Edge From="21" To="22" Label="Source2" />
+                  <Edge From="22" To="24" Label="Source1" />
+                  <Edge From="23" To="24" Label="Source2" />
+                  <Edge From="24" To="26" Label="Source1" />
+                  <Edge From="25" To="26" Label="Source2" />
+                  <Edge From="26" To="28" Label="Source1" />
+                  <Edge From="27" To="28" Label="Source2" />
+                  <Edge From="28" To="29" Label="Source1" />
+                  <Edge From="29" To="33" Label="Source1" />
+                  <Edge From="30" To="31" Label="Source1" />
+                  <Edge From="31" To="32" Label="Source1" />
+                  <Edge From="32" To="33" Label="Source2" />
+                </Edges>
+              </Workflow>
             </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="IncludeWorkflow" Path="UclOpen.Logging:LogHarpDevice.bonsai">
-                <LogName />
-              </Builder>
+            <Expression xsi:type="GroupWorkflow">
+              <Name>TaskSchemaLogger</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>TaskParams</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="p2:SerializeToJson">
+                      <p2:Formatting>None</p2:Formatting>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Delay">
+                      <rx:DueTime>PT1S</rx:DueTime>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="GroupWorkflow">
+                    <Name>TaskSchemaLog</Name>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="Disable">
+                          <Builder xsi:type="WorkflowInput">
+                            <Name>Source2</Name>
+                          </Builder>
+                        </Expression>
+                        <Expression xsi:type="Disable">
+                          <Builder xsi:type="ExternalizedMapping">
+                            <Property Name="Name" />
+                          </Builder>
+                        </Expression>
+                        <Expression xsi:type="Disable">
+                          <Builder xsi:type="GroupWorkflow">
+                            <Name>FormatFileName</Name>
+                            <Description />
+                            <Workflow>
+                              <Nodes>
+                                <Expression xsi:type="SubscribeSubject">
+                                  <Name>PathPrefix</Name>
+                                </Expression>
+                                <Expression xsi:type="WorkflowInput">
+                                  <Name>Source1</Name>
+                                </Expression>
+                                <Expression xsi:type="ExternalizedMapping">
+                                  <Property Name="Value" DisplayName="Name" Description="The base name of the log file." />
+                                </Expression>
+                                <Expression xsi:type="Combinator">
+                                  <Combinator xsi:type="StringProperty">
+                                    <Value>TaskSchemaLog</Value>
+                                  </Combinator>
+                                </Expression>
+                                <Expression xsi:type="SubscribeSubject">
+                                  <Name>AnimalAndSessionID</Name>
+                                </Expression>
+                                <Expression xsi:type="Combinator">
+                                  <Combinator xsi:type="rx:Zip" />
+                                </Expression>
+                                <Expression xsi:type="Format">
+                                  <Format>{0}_{1}_</Format>
+                                  <Selector>Item1, Item2</Selector>
+                                </Expression>
+                                <Expression xsi:type="Combinator">
+                                  <Combinator xsi:type="rx:Take">
+                                    <rx:Count>1</rx:Count>
+                                  </Combinator>
+                                </Expression>
+                                <Expression xsi:type="Combinator">
+                                  <Combinator xsi:type="p3:StripSubstring" />
+                                </Expression>
+                                <Expression xsi:type="Combinator">
+                                  <Combinator xsi:type="StringProperty">
+                                    <Value>json</Value>
+                                  </Combinator>
+                                </Expression>
+                                <Expression xsi:type="Combinator">
+                                  <Combinator xsi:type="rx:Take">
+                                    <rx:Count>1</rx:Count>
+                                  </Combinator>
+                                </Expression>
+                                <Expression xsi:type="Combinator">
+                                  <Combinator xsi:type="rx:Zip" />
+                                </Expression>
+                                <Expression xsi:type="Format">
+                                  <Format>{0}\{1}\{2}.{3}</Format>
+                                  <Selector>Item1,Item2,Item3,Item4</Selector>
+                                </Expression>
+                                <Expression xsi:type="WorkflowOutput" />
+                              </Nodes>
+                              <Edges>
+                                <Edge From="0" To="11" Label="Source1" />
+                                <Edge From="1" To="3" Label="Source1" />
+                                <Edge From="2" To="3" Label="Source2" />
+                                <Edge From="3" To="5" Label="Source1" />
+                                <Edge From="4" To="5" Label="Source2" />
+                                <Edge From="5" To="6" Label="Source1" />
+                                <Edge From="6" To="7" Label="Source1" />
+                                <Edge From="7" To="8" Label="Source1" />
+                                <Edge From="7" To="11" Label="Source3" />
+                                <Edge From="8" To="11" Label="Source2" />
+                                <Edge From="9" To="10" Label="Source1" />
+                                <Edge From="10" To="11" Label="Source4" />
+                                <Edge From="11" To="12" Label="Source1" />
+                                <Edge From="12" To="13" Label="Source1" />
+                              </Edges>
+                            </Workflow>
+                          </Builder>
+                        </Expression>
+                        <Expression xsi:type="Disable">
+                          <Builder xsi:type="PropertyMapping">
+                            <PropertyMappings>
+                              <Property Name="Path" />
+                            </PropertyMappings>
+                          </Builder>
+                        </Expression>
+                        <Expression xsi:type="Disable">
+                          <Builder xsi:type="Combinator">
+                            <Combinator xsi:type="p4:JsonWriter">
+                              <p4:Path>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-r2d2\ses-newest_date-2026-03-05T17-50-13\TaskSchemaLog_newest_r2d2_\TaskSchemaLog_newest_r2d2_.json</p4:Path>
+                              <p4:Suffix>Timestamp</p4:Suffix>
+                              <p4:Overwrite>false</p4:Overwrite>
+                            </Combinator>
+                          </Builder>
+                        </Expression>
+                        <Expression xsi:type="Disable">
+                          <Builder xsi:type="WorkflowOutput" />
+                        </Expression>
+                        <Expression xsi:type="ExternalizedMapping">
+                          <Property Name="Name" />
+                        </Expression>
+                        <Expression xsi:type="GroupWorkflow">
+                          <Name>FormatFileName</Name>
+                          <Description />
+                          <Workflow>
+                            <Nodes>
+                              <Expression xsi:type="SubscribeSubject">
+                                <Name>PathPrefix</Name>
+                              </Expression>
+                              <Expression xsi:type="WorkflowInput">
+                                <Name>Source1</Name>
+                              </Expression>
+                              <Expression xsi:type="ExternalizedMapping">
+                                <Property Name="Value" DisplayName="Name" Description="The base name of the log file." />
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="StringProperty">
+                                  <Value>TaskSchemaLog</Value>
+                                </Combinator>
+                              </Expression>
+                              <Expression xsi:type="SubscribeSubject">
+                                <Name>AnimalAndSessionID</Name>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="rx:Zip" />
+                              </Expression>
+                              <Expression xsi:type="Format">
+                                <Format>{0}_{1}_</Format>
+                                <Selector>Item1, Item2</Selector>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="rx:Take">
+                                  <rx:Count>1</rx:Count>
+                                </Combinator>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="p3:StripSubstring" />
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="StringProperty">
+                                  <Value>json</Value>
+                                </Combinator>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="rx:Take">
+                                  <rx:Count>1</rx:Count>
+                                </Combinator>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="rx:Zip" />
+                              </Expression>
+                              <Expression xsi:type="Format">
+                                <Format>{0}\{1}\{2}.{3}</Format>
+                                <Selector>Item1,Item2,Item3,Item4</Selector>
+                              </Expression>
+                              <Expression xsi:type="WorkflowOutput" />
+                            </Nodes>
+                            <Edges>
+                              <Edge From="0" To="11" Label="Source1" />
+                              <Edge From="1" To="3" Label="Source1" />
+                              <Edge From="2" To="3" Label="Source2" />
+                              <Edge From="3" To="5" Label="Source1" />
+                              <Edge From="4" To="5" Label="Source2" />
+                              <Edge From="5" To="6" Label="Source1" />
+                              <Edge From="6" To="7" Label="Source1" />
+                              <Edge From="7" To="8" Label="Source1" />
+                              <Edge From="7" To="11" Label="Source3" />
+                              <Edge From="8" To="11" Label="Source2" />
+                              <Edge From="9" To="10" Label="Source1" />
+                              <Edge From="10" To="11" Label="Source4" />
+                              <Edge From="11" To="12" Label="Source1" />
+                              <Edge From="12" To="13" Label="Source1" />
+                            </Edges>
+                          </Workflow>
+                        </Expression>
+                        <Expression xsi:type="PropertyMapping">
+                          <PropertyMappings>
+                            <Property Name="Path" />
+                          </PropertyMappings>
+                        </Expression>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="p5:JsonWriter">
+                            <p5:Path>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-algernon\ses-2_date-2026-03-10T16-53-49\TaskSchemaLog_2_algernon_\TaskSchemaLog_2_algernon_.json</p5:Path>
+                            <p5:Suffix>None</p5:Suffix>
+                            <p5:Overwrite>false</p5:Overwrite>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                      </Nodes>
+                      <Edges>
+                        <Edge From="0" To="4" Label="Source1" />
+                        <Edge From="1" To="2" Label="Source1" />
+                        <Edge From="2" To="3" Label="Source1" />
+                        <Edge From="3" To="4" Label="Source2" />
+                        <Edge From="4" To="5" Label="Source1" />
+                        <Edge From="6" To="7" Label="Source1" />
+                        <Edge From="7" To="8" Label="Source1" />
+                        <Edge From="8" To="10" Label="Source1" />
+                        <Edge From="9" To="10" Label="Source2" />
+                        <Edge From="10" To="11" Label="Source1" />
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="1" Label="Source1" />
+                  <Edge From="1" To="2" Label="Source1" />
+                  <Edge From="2" To="3" Label="Source1" />
+                </Edges>
+              </Workflow>
             </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="IncludeWorkflow" Path="UclOpen.Logging:LogController.bonsai">
-                <SubjectId>Algernon</SubjectId>
-                <SessionId>001</SessionId>
-                <Path>D:\LocalData</Path>
-              </Builder>
+            <Expression xsi:type="GroupWorkflow">
+              <Name>LogParams</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>TaskParams</Name>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>LogConfig.LoggingRootPath</Selector>
+                  </Expression>
+                  <Expression xsi:type="rx:BehaviorSubject">
+                    <Name>LoggingRootPath</Name>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>TaskParams</Name>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>LogConfig.AnimalId</Selector>
+                  </Expression>
+                  <Expression xsi:type="rx:BehaviorSubject">
+                    <Name>AnimalID</Name>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>TaskParams</Name>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>LogConfig.SessionId</Selector>
+                  </Expression>
+                  <Expression xsi:type="rx:BehaviorSubject">
+                    <Name>SessionID</Name>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>SessionID</Name>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>AnimalID</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Zip" />
+                  </Expression>
+                  <Expression xsi:type="Format">
+                    <Format>{0}_{1}</Format>
+                    <Selector>Item1,Item2</Selector>
+                  </Expression>
+                  <Expression xsi:type="rx:BehaviorSubject">
+                    <Name>AnimalAndSessionID</Name>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="1" Label="Source1" />
+                  <Edge From="1" To="2" Label="Source1" />
+                  <Edge From="3" To="4" Label="Source1" />
+                  <Edge From="4" To="5" Label="Source1" />
+                  <Edge From="6" To="7" Label="Source1" />
+                  <Edge From="7" To="8" Label="Source1" />
+                  <Edge From="9" To="11" Label="Source1" />
+                  <Edge From="10" To="11" Label="Source2" />
+                  <Edge From="11" To="12" Label="Source1" />
+                  <Edge From="12" To="13" Label="Source1" />
+                </Edges>
+              </Workflow>
             </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="IncludeWorkflow" Path="UclOpen.Logging:LogData.bonsai">
-                <LogName />
-                <Selector>Seconds</Selector>
-                <Extension>csv</Extension>
-              </Builder>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>LoggingRootPath</Name>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="Path" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>SessionID</Name>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="SessionId" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>AnimalID</Name>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="SubjectId" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="UclOpen.Logging:LogController.bonsai">
+              <SubjectId>algernon</SubjectId>
+              <SessionId>2</SessionId>
+              <Path>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs</Path>
             </Expression>
           </Nodes>
           <Edges>
-            <Edge From="0" To="1" Label="Source1" />
-            <Edge From="1" To="2" Label="Source1" />
-            <Edge From="2" To="4" Label="Source1" />
-            <Edge From="3" To="4" Label="Source2" />
             <Edge From="4" To="5" Label="Source1" />
-            <Edge From="5" To="6" Label="Source1" />
-            <Edge From="6" To="8" Label="Source1" />
-            <Edge From="7" To="8" Label="Source2" />
-            <Edge From="8" To="10" Label="Source1" />
-            <Edge From="9" To="10" Label="Source2" />
-            <Edge From="10" To="12" Label="Source1" />
-            <Edge From="11" To="12" Label="Source2" />
-            <Edge From="12" To="14" Label="Source1" />
-            <Edge From="13" To="14" Label="Source2" />
-            <Edge From="14" To="16" Label="Source1" />
-            <Edge From="15" To="16" Label="Source2" />
-            <Edge From="16" To="18" Label="Source1" />
-            <Edge From="17" To="18" Label="Source2" />
-            <Edge From="18" To="20" Label="Source1" />
-            <Edge From="19" To="20" Label="Source2" />
-            <Edge From="20" To="22" Label="Source1" />
-            <Edge From="21" To="22" Label="Source2" />
-            <Edge From="22" To="24" Label="Source1" />
-            <Edge From="23" To="24" Label="Source2" />
-            <Edge From="24" To="25" Label="Source1" />
-            <Edge From="25" To="26" Label="Source1" />
+            <Edge From="5" To="10" Label="Source1" />
+            <Edge From="6" To="7" Label="Source1" />
+            <Edge From="7" To="10" Label="Source2" />
+            <Edge From="8" To="9" Label="Source1" />
+            <Edge From="9" To="10" Label="Source3" />
           </Edges>
         </Workflow>
       </Expression>
@@ -1450,7 +2288,7 @@ it.Item2 as WasRewarded
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="rx:Timer">
-                      <rx:DueTime>PT2S</rx:DueTime>
+                      <rx:DueTime>PT1S</rx:DueTime>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
@@ -1716,7 +2554,7 @@ it.Item2 as WasRewarded
             </Expression>
             <Expression xsi:type="Add">
               <Operand xsi:type="DoubleProperty">
-                <Value>350</Value>
+                <Value>315</Value>
               </Operand>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
@@ -1789,6 +2627,9 @@ it.Item2 as WasRewarded
           <Value>0.5</Value>
         </Operand>
       </Expression>
+      <Expression xsi:type="MulticastSubject">
+        <Name>CurrAmp</Name>
+      </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="rx:Zip" />
       </Expression>
@@ -1820,7 +2661,7 @@ it.Item2 as WasRewarded
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="dsp:FunctionGenerator">
                 <dsp:BufferLength>500</dsp:BufferLength>
-                <dsp:Frequency>3287.5036590344516</dsp:Frequency>
+                <dsp:Frequency>2000</dsp:Frequency>
                 <dsp:Waveform>Sine</dsp:Waveform>
                 <dsp:SampleRate>50000</dsp:SampleRate>
                 <dsp:Depth>F32</dsp:Depth>
@@ -2679,40 +3520,41 @@ it.Item2 as WasRewarded
       </Expression>
     </Nodes>
     <Edges>
-      <Edge From="9" To="11" Label="Source1" />
-      <Edge From="10" To="11" Label="Source2" />
-      <Edge From="11" To="12" Label="Source1" />
+      <Edge From="10" To="12" Label="Source1" />
+      <Edge From="11" To="12" Label="Source2" />
       <Edge From="12" To="13" Label="Source1" />
-      <Edge From="13" To="15" Label="Source1" />
-      <Edge From="14" To="15" Label="Source2" />
-      <Edge From="15" To="16" Label="Source1" />
-      <Edge From="16" To="21" Label="Source1" />
-      <Edge From="17" To="20" Label="Source1" />
-      <Edge From="18" To="20" Label="Source2" />
-      <Edge From="19" To="20" Label="Source3" />
-      <Edge From="20" To="21" Label="Source2" />
-      <Edge From="21" To="22" Label="Source1" />
+      <Edge From="13" To="14" Label="Source1" />
+      <Edge From="14" To="16" Label="Source1" />
+      <Edge From="15" To="16" Label="Source2" />
+      <Edge From="16" To="17" Label="Source1" />
+      <Edge From="17" To="22" Label="Source1" />
+      <Edge From="18" To="21" Label="Source1" />
+      <Edge From="19" To="21" Label="Source2" />
+      <Edge From="20" To="21" Label="Source3" />
+      <Edge From="21" To="22" Label="Source2" />
       <Edge From="22" To="23" Label="Source1" />
-      <Edge From="22" To="25" Label="Source1" />
       <Edge From="23" To="24" Label="Source1" />
-      <Edge From="24" To="26" Label="Source1" />
-      <Edge From="25" To="26" Label="Source2" />
-      <Edge From="26" To="27" Label="Source1" />
-      <Edge From="27" To="33" Label="Source1" />
-      <Edge From="28" To="29" Label="Source1" />
-      <Edge From="29" To="32" Label="Source1" />
-      <Edge From="30" To="31" Label="Source1" />
-      <Edge From="31" To="32" Label="Source2" />
+      <Edge From="23" To="26" Label="Source1" />
+      <Edge From="24" To="25" Label="Source1" />
+      <Edge From="25" To="27" Label="Source1" />
+      <Edge From="26" To="27" Label="Source2" />
+      <Edge From="27" To="28" Label="Source1" />
+      <Edge From="28" To="35" Label="Source1" />
+      <Edge From="29" To="30" Label="Source1" />
+      <Edge From="30" To="33" Label="Source1" />
+      <Edge From="31" To="32" Label="Source1" />
       <Edge From="32" To="33" Label="Source2" />
       <Edge From="33" To="34" Label="Source1" />
-      <Edge From="34" To="35" Label="Source1" />
+      <Edge From="34" To="35" Label="Source2" />
       <Edge From="35" To="36" Label="Source1" />
       <Edge From="36" To="37" Label="Source1" />
       <Edge From="37" To="38" Label="Source1" />
-      <Edge From="38" To="40" Label="Source1" />
-      <Edge From="39" To="40" Label="Source2" />
-      <Edge From="40" To="41" Label="Source1" />
-      <Edge From="41" To="42" Label="Source1" />
+      <Edge From="38" To="39" Label="Source1" />
+      <Edge From="39" To="40" Label="Source1" />
+      <Edge From="40" To="42" Label="Source1" />
+      <Edge From="41" To="42" Label="Source2" />
+      <Edge From="42" To="43" Label="Source1" />
+      <Edge From="43" To="44" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>

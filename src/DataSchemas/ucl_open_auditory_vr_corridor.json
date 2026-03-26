@@ -321,6 +321,7 @@
             "shapingStage": 1,
             "startFreq": 2000,
             "endFreq": 25000,
+            "nFreqBins": 100,
             "centerFreq": 18000,
             "stage5WindowSize": 8000,
             "stage6WindowSize": 4000,
@@ -359,7 +360,7 @@
             "logConfig": {
               "animalId": "unknown_animal",
               "loggingRootPath": ".\\logs",
-              "sessionId": "2026-03-10T15_40_48"
+              "sessionId": "2026-03-25T14_23_56"
             },
             "amplitude": 0.5,
             "quantizeBinSize": 1
@@ -395,6 +396,13 @@
           "maximum": 25000,
           "minimum": 1,
           "title": "EndFreq",
+          "type": "integer"
+        },
+        "nFreqBins": {
+          "default": 100,
+          "description": "Number of frequency bins for quantization",
+          "minimum": 10,
+          "title": "NFreqBins",
           "type": "integer"
         },
         "centerFreq": {
@@ -447,7 +455,7 @@
           "$ref": "#/$defs/LogConfig",
           "default": {
             "loggingRootPath": ".\\logs",
-            "sessionId": "2026-03-10T15_40_48",
+            "sessionId": "2026-03-25T14_23_56",
             "animalId": "unknown_animal"
           }
         },

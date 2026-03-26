@@ -91,3 +91,9 @@ temp_data/
 
 # Logs
 Logs/
+
+# Claude
+.claude*
+
+# Stimuli
+*.wav

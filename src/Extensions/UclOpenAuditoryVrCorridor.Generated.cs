@@ -1245,6 +1245,8 @@ namespace UclOpenAuditoryVrCorridorDataSchema
     
         private int _endFreq;
     
+        private int _nFreqBins;
+    
         private int _centerFreq;
     
         private int _stage5WindowSize;
@@ -1266,6 +1268,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             _shapingStage = 1;
             _startFreq = 2000;
             _endFreq = 25000;
+            _nFreqBins = 100;
             _centerFreq = 18000;
             _stage5WindowSize = 8000;
             _stage6WindowSize = 4000;
@@ -1280,6 +1283,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             _shapingStage = other._shapingStage;
             _startFreq = other._startFreq;
             _endFreq = other._endFreq;
+            _nFreqBins = other._nFreqBins;
             _centerFreq = other._centerFreq;
             _stage5WindowSize = other._stage5WindowSize;
             _stage6WindowSize = other._stage6WindowSize;
@@ -1338,6 +1342,23 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             set
             {
                 _endFreq = value;
+            }
+        }
+    
+        /// <summary>
+        /// Number of frequency bins for quantization
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("nFreqBins")]
+        [System.ComponentModel.DescriptionAttribute("Number of frequency bins for quantization")]
+        public int NFreqBins
+        {
+            get
+            {
+                return _nFreqBins;
+            }
+            set
+            {
+                _nFreqBins = value;
             }
         }
     
@@ -1483,6 +1504,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             stringBuilder.Append("ShapingStage = " + _shapingStage + ", ");
             stringBuilder.Append("StartFreq = " + _startFreq + ", ");
             stringBuilder.Append("EndFreq = " + _endFreq + ", ");
+            stringBuilder.Append("NFreqBins = " + _nFreqBins + ", ");
             stringBuilder.Append("CenterFreq = " + _centerFreq + ", ");
             stringBuilder.Append("Stage5WindowSize = " + _stage5WindowSize + ", ");
             stringBuilder.Append("Stage6WindowSize = " + _stage6WindowSize + ", ");

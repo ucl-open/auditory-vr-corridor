@@ -1,6 +1,6 @@
 import os
 from datetime import datetime
-from helpers import determine_shaping_stage
+from helpers import determine_shaping_stage, generate_waveforms
 from pathlib import Path
 
 
@@ -32,6 +32,19 @@ def main():
     os.makedirs(os.path.dirname(bonsai_path), exist_ok=True)
     with open(bonsai_path, "w", encoding="utf-8") as f:
         f.write(task_logic.model_dump_json(indent=2, by_alias=True))
+    
+    # Generate waveforms for the session based on task parameters
+    params = task_logic.task_parameters
+    
+    log = generate_waveforms(
+        start_freq=params.start_freq,
+        end_freq=params.end_freq,
+        n_freq_bins=params.n_freq_bins,
+        amplitude=params.amplitude,
+        out_dir=Path("./src/waveforms"),
+    )
+
+    print(log, '\n')
 
 
 if __name__ == "__main__":

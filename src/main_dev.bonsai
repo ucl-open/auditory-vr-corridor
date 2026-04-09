@@ -601,7 +601,7 @@ it.Item2 as WasRewarded
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-algernon\ses-pepepepe_date-2026-04-08T10-04-40\TrialLog_pepepepe_algernon_\TrialLog_pepepepe_algernon_.csv</io:FileName>
+                    <io:FileName>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-algernon\ses-pepepepe_date-2026-04-09T10-45-10\TrialLog_pepepepe_algernon_\TrialLog_pepepepe_algernon_.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>true</io:Overwrite>
                     <io:Suffix>Timestamp</io:Suffix>
@@ -851,7 +851,7 @@ it.Item2 as WasRewarded
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="p4:JsonWriter">
-                            <p4:Path>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-algernon\ses-pepepepe_date-2026-04-08T10-04-40\TaskSchemaLog_pepepepe_algernon_\TaskSchemaLog_pepepepe_algernon_.json</p4:Path>
+                            <p4:Path>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-algernon\ses-pepepepe_date-2026-04-09T10-45-10\TaskSchemaLog_pepepepe_algernon_\TaskSchemaLog_pepepepe_algernon_.json</p4:Path>
                             <p4:Suffix>None</p4:Suffix>
                             <p4:Overwrite>false</p4:Overwrite>
                           </Combinator>
@@ -1137,7 +1137,7 @@ it.Item2 as WasRewarded
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-algernon\ses-pepepepe_date-2026-04-08T10-04-40\IntervalLog_pepepepe_algernon_\IntervalLog_pepepepe_algernon_.csv</io:FileName>
+                    <io:FileName>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-algernon\ses-pepepepe_date-2026-04-09T10-45-10\IntervalLog_pepepepe_algernon_\IntervalLog_pepepepe_algernon_.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>true</io:Overwrite>
                     <io:Suffix>Timestamp</io:Suffix>
@@ -1300,11 +1300,15 @@ it.Item2 as WasRewarded
               <SessionId>pepepepe</SessionId>
               <Path>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs</Path>
             </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>BehaviorEvents</Name>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="SubscribeSubject">
+                <Name>BehaviorEvents</Name>
+              </Builder>
             </Expression>
-            <Expression xsi:type="IncludeWorkflow" Path="UclOpen.Logging:LogHarpDevice.bonsai">
-              <LogName />
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="IncludeWorkflow" Path="UclOpen.Logging:LogHarpDevice.bonsai">
+                <LogName>HarpLog</LogName>
+              </Builder>
             </Expression>
           </Nodes>
           <Edges>
@@ -2568,7 +2572,7 @@ it.Item2 as WasRewarded
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="rx:Timer">
-                      <rx:DueTime>PT1S</rx:DueTime>
+                      <rx:DueTime>PT2S</rx:DueTime>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
@@ -2871,7 +2875,7 @@ it.Item2 as WasRewarded
             </Expression>
             <Expression xsi:type="Add">
               <Operand xsi:type="DoubleProperty">
-                <Value>101171.2656807709</Value>
+                <Value>2075.9539444573556</Value>
               </Operand>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
@@ -3005,7 +3009,7 @@ it.Item2 as WasRewarded
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="al:AudioReader">
-                <al:FileName>./waveforms/21452Hz.wav</al:FileName>
+                <al:FileName>./waveforms/2000Hz.wav</al:FileName>
                 <al:BufferLength>0</al:BufferLength>
                 <al:SampleRate>0</al:SampleRate>
               </Combinator>
@@ -3851,7 +3855,7 @@ it.Item2 as WasRewarded
             </Expression>
             <Expression xsi:type="Add">
               <Operand xsi:type="DoubleProperty">
-                <Value>35.703658314401636</Value>
+                <Value>4.0840485028287761</Value>
               </Operand>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
@@ -4008,9 +4012,9 @@ it.Item2 as WasRewarded
               <Layer>1</Layer>
               <ExtentX>2</ExtentX>
               <ExtentY>2</ExtentY>
-              <SpatialFrequency>14.9285278</SpatialFrequency>
+              <SpatialFrequency>4</SpatialFrequency>
               <TemporalFrequency>0</TemporalFrequency>
-              <Phase>-10081.165</Phase>
+              <Phase>10265.9365</Phase>
               <Angle>90</Angle>
               <SquareWave>false</SquareWave>
               <Contrast>1</Contrast>

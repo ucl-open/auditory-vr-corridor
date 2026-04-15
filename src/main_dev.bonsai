@@ -17,8 +17,8 @@
                  xmlns:gl="clr-namespace:Bonsai.Shaders;assembly=Bonsai.Shaders"
                  xmlns:res="clr-namespace:Bonsai.Resources;assembly=Bonsai.System"
                  xmlns:num="clr-namespace:Bonsai.Numerics;assembly=Bonsai.Numerics"
-                 xmlns:al="clr-namespace:Bonsai.Audio;assembly=Bonsai.Audio"
                  xmlns:p6="clr-namespace:Bonsai.Numerics.Distributions;assembly=Bonsai.Numerics"
+                 xmlns:al="clr-namespace:Bonsai.Audio;assembly=Bonsai.Audio"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Workflow>
     <Nodes>
@@ -601,7 +601,7 @@ it.Item2 as WasRewarded
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-algernon\ses-pepepepe_date-2026-04-09T10-45-10\TrialLog_pepepepe_algernon_\TrialLog_pepepepe_algernon_.csv</io:FileName>
+                    <io:FileName>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-ainiah\ses-stage2_date-2026-04-15T16-25-42\TrialLog_stage2_ainiah_\TrialLog_stage2_ainiah_.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>true</io:Overwrite>
                     <io:Suffix>Timestamp</io:Suffix>
@@ -851,7 +851,7 @@ it.Item2 as WasRewarded
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="p4:JsonWriter">
-                            <p4:Path>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-algernon\ses-pepepepe_date-2026-04-09T10-45-10\TaskSchemaLog_pepepepe_algernon_\TaskSchemaLog_pepepepe_algernon_.json</p4:Path>
+                            <p4:Path>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-ainiah\ses-stage2_date-2026-04-15T16-25-42\TaskSchemaLog_stage2_ainiah_\TaskSchemaLog_stage2_ainiah_.json</p4:Path>
                             <p4:Suffix>None</p4:Suffix>
                             <p4:Overwrite>false</p4:Overwrite>
                           </Combinator>
@@ -1137,7 +1137,7 @@ it.Item2 as WasRewarded
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-algernon\ses-pepepepe_date-2026-04-09T10-45-10\IntervalLog_pepepepe_algernon_\IntervalLog_pepepepe_algernon_.csv</io:FileName>
+                    <io:FileName>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-ainiah\ses-stage2_date-2026-04-15T16-25-42\IntervalLog_stage2_ainiah_\IntervalLog_stage2_ainiah_.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>true</io:Overwrite>
                     <io:Suffix>Timestamp</io:Suffix>
@@ -1296,8 +1296,8 @@ it.Item2 as WasRewarded
               </PropertyMappings>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="UclOpen.Logging:LogController.bonsai">
-              <SubjectId>algernon</SubjectId>
-              <SessionId>pepepepe</SessionId>
+              <SubjectId>ainiah</SubjectId>
+              <SessionId>stage2</SessionId>
               <Path>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs</Path>
             </Expression>
             <Expression xsi:type="Disable">
@@ -1831,6 +1831,34 @@ it.Item2 as WasRewarded
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="res:LoadResources" />
                   </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="dsp:MatrixReader">
+                      <dsp:Path>./waveforms/all_waveforms.bin</dsp:Path>
+                      <dsp:Offset>0</dsp:Offset>
+                      <dsp:SampleRate>50000</dsp:SampleRate>
+                      <dsp:ChannelCount>1</dsp:ChannelCount>
+                      <dsp:BufferLength>2500</dsp:BufferLength>
+                      <dsp:Depth>F32</dsp:Depth>
+                      <dsp:Layout>RowMajor</dsp:Layout>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Take">
+                      <rx:Count>100</rx:Count>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="dsp:Tile">
+                      <dsp:RowTiles>2</dsp:RowTiles>
+                      <dsp:ColumnTiles>1</dsp:ColumnTiles>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:ToList" />
+                  </Expression>
+                  <Expression xsi:type="rx:AsyncSubject">
+                    <Name>WaveformDict</Name>
+                  </Expression>
                 </Nodes>
                 <Edges>
                   <Edge From="7" To="8" Label="Source1" />
@@ -1842,6 +1870,10 @@ it.Item2 as WasRewarded
                   <Edge From="17" To="18" Label="Source1" />
                   <Edge From="19" To="20" Label="Source1" />
                   <Edge From="20" To="21" Label="Source1" />
+                  <Edge From="22" To="23" Label="Source1" />
+                  <Edge From="23" To="24" Label="Source1" />
+                  <Edge From="24" To="25" Label="Source1" />
+                  <Edge From="25" To="26" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -2875,7 +2907,7 @@ it.Item2 as WasRewarded
             </Expression>
             <Expression xsi:type="Add">
               <Operand xsi:type="DoubleProperty">
-                <Value>2075.9539444573556</Value>
+                <Value>302674.69446119771</Value>
               </Operand>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
@@ -2967,14 +2999,6 @@ it.Item2 as WasRewarded
             <Expression xsi:type="WorkflowInput">
               <Name>Source1</Name>
             </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:Take">
-                <rx:Count>1</rx:Count>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="rx:AsyncSubject">
-              <Name>settings</Name>
-            </Expression>
             <Expression xsi:type="SubscribeSubject">
               <Name>StartFreq</Name>
             </Expression>
@@ -2989,237 +3013,38 @@ it.Item2 as WasRewarded
             </Expression>
             <Expression xsi:type="scr:ExpressionTransform">
               <scr:Name>GetPercentProgress</scr:Name>
-              <scr:Expression>Math.Round(Math.Log(Convert.ToDouble(it.Item1.Item1) / Convert.ToDouble(it.Item2)) / Math.Log(Convert.ToDouble(it.Item3)  / Convert.ToDouble(it.Item2)) * (Convert.ToDouble(it.Item4) - 1.0))</scr:Expression>
+              <scr:Expression>Convert.ToInt32(Math.Round(Math.Log(Convert.ToDouble(it.Item1.Item1) / Convert.ToDouble(it.Item2)) / Math.Log(Convert.ToDouble(it.Item3)  / Convert.ToDouble(it.Item2)) * (Convert.ToDouble(it.Item4) - 1.0)))</scr:Expression>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>WaveformDict</Name>
             </Expression>
             <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:Zip" />
+              <Combinator xsi:type="rx:WithLatestFrom" />
             </Expression>
-            <Expression xsi:type="scr:ExpressionTransform">
-              <scr:Name>GetClosestFreq</scr:Name>
-              <scr:Expression>Convert.ToInt32(Convert.ToDouble(it.Item2) * Math.Pow(Convert.ToDouble(it.Item3) / Convert.ToDouble(it.Item2), it.Item1 / (Convert.ToDouble(it.Item4) - 1.0)))</scr:Expression>
-            </Expression>
-            <Expression xsi:type="scr:ExpressionTransform">
-              <scr:Name>CreateFileName</scr:Name>
-              <scr:Expression>String.Concat("./waveforms/", Convert.ToString(it), "Hz.wav")</scr:Expression>
-            </Expression>
-            <Expression xsi:type="PropertyMapping">
+            <Expression xsi:type="InputMapping">
               <PropertyMappings>
-                <Property Name="FileName" />
+                <Property Name="Value" Selector="Item1" />
               </PropertyMappings>
+              <Selector>Item2</Selector>
             </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="al:AudioReader">
-                <al:FileName>./waveforms/2000Hz.wav</al:FileName>
-                <al:BufferLength>0</al:BufferLength>
-                <al:SampleRate>0</al:SampleRate>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="DoubleProperty">
-                <Value>32767</Value>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="scr:ExpressionTransform">
-              <scr:Name>S16 to F32</scr:Name>
-              <scr:Expression>1/it</scr:Expression>
-            </Expression>
-            <Expression xsi:type="PropertyMapping">
-              <PropertyMappings>
-                <Property Name="Scale" />
-              </PropertyMappings>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="dsp:ConvertScale">
-                <dsp:Depth>F32</dsp:Depth>
-                <dsp:Scale>3.0518509475997192E-05</dsp:Scale>
-                <dsp:Shift>0</dsp:Shift>
-              </Combinator>
+            <Expression xsi:type="Index">
+              <Operand xsi:type="IntProperty">
+                <Value>45</Value>
+              </Operand>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="SubscribeSubject">
-                <Name>settings</Name>
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="InputMapping">
-                <PropertyMappings>
-                  <Property Name="Frequency" Selector="Item1" />
-                  <Property Name="Amplitude" Selector="Item2" />
-                </PropertyMappings>
-                <Selector>Item1</Selector>
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="Combinator">
-                <Combinator xsi:type="dsp:FunctionGenerator">
-                  <dsp:BufferLength>500</dsp:BufferLength>
-                  <dsp:Frequency>4666.92477402651</dsp:Frequency>
-                  <dsp:Waveform>Sine</dsp:Waveform>
-                  <dsp:SampleRate>50000</dsp:SampleRate>
-                  <dsp:Depth>F32</dsp:Depth>
-                  <dsp:Amplitude>0</dsp:Amplitude>
-                  <dsp:Offset>0</dsp:Offset>
-                  <dsp:Phase>0</dsp:Phase>
-                </Combinator>
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="Combinator">
-                <Combinator xsi:type="dsp:Tile">
-                  <dsp:RowTiles>2</dsp:RowTiles>
-                  <dsp:ColumnTiles>1</dsp:ColumnTiles>
-                </Combinator>
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="WorkflowOutput" />
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="Annotation">
-                <Name>sampling_rate</Name>
-                <Text><![CDATA[sampling_rate]]></Text>
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="Combinator">
-                <Combinator xsi:type="IntProperty">
-                  <Value>50000</Value>
-                </Combinator>
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="Annotation">
-                <Name>buffer_length</Name>
-                <Text><![CDATA[buffer_length]]></Text>
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="Combinator">
-                <Combinator xsi:type="IntProperty">
-                  <Value>500</Value>
-                </Combinator>
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="Combinator">
-                <Combinator xsi:type="rx:Zip" />
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="PropertyMapping">
-                <PropertyMappings>
-                  <Property Name="SampleRate" Selector="Item1" />
-                  <Property Name="BufferLength" Selector="Item2" />
-                </PropertyMappings>
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="Combinator">
-                <Combinator xsi:type="rx:Zip" />
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="Divide" />
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="Divide">
-                <Operand xsi:type="IntProperty">
-                  <Value>10</Value>
-                </Operand>
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="Add">
-                <Operand xsi:type="IntProperty">
-                  <Value>0</Value>
-                </Operand>
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="PropertyMapping">
-                <PropertyMappings>
-                  <Property Name="Frequency" />
-                </PropertyMappings>
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="Combinator">
-                <Combinator xsi:type="dsp:FunctionGenerator">
-                  <dsp:BufferLength>500</dsp:BufferLength>
-                  <dsp:Frequency>10</dsp:Frequency>
-                  <dsp:Waveform>Sine</dsp:Waveform>
-                  <dsp:SampleRate>50000</dsp:SampleRate>
-                  <dsp:Depth>F32</dsp:Depth>
-                  <dsp:Amplitude>1</dsp:Amplitude>
-                  <dsp:Offset>0</dsp:Offset>
-                  <dsp:Phase>0</dsp:Phase>
-                </Combinator>
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="Combinator">
-                <Combinator xsi:type="rx:Zip" />
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="Multiply" />
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="Combinator">
-                <Combinator xsi:type="dsp:Tile">
-                  <dsp:RowTiles>2</dsp:RowTiles>
-                  <dsp:ColumnTiles>1</dsp:ColumnTiles>
-                </Combinator>
-              </Builder>
-            </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="WorkflowOutput" />
-            </Expression>
           </Nodes>
           <Edges>
-            <Edge From="0" To="1" Label="Source1" />
-            <Edge From="0" To="6" Label="Source1" />
-            <Edge From="1" To="2" Label="Source1" />
-            <Edge From="3" To="6" Label="Source2" />
-            <Edge From="3" To="8" Label="Source2" />
-            <Edge From="4" To="6" Label="Source3" />
-            <Edge From="4" To="8" Label="Source3" />
-            <Edge From="5" To="6" Label="Source4" />
-            <Edge From="5" To="8" Label="Source4" />
-            <Edge From="6" To="7" Label="Source1" />
+            <Edge From="0" To="4" Label="Source1" />
+            <Edge From="1" To="4" Label="Source2" />
+            <Edge From="2" To="4" Label="Source3" />
+            <Edge From="3" To="4" Label="Source4" />
+            <Edge From="4" To="5" Label="Source1" />
+            <Edge From="5" To="7" Label="Source1" />
+            <Edge From="6" To="7" Label="Source2" />
             <Edge From="7" To="8" Label="Source1" />
             <Edge From="8" To="9" Label="Source1" />
             <Edge From="9" To="10" Label="Source1" />
-            <Edge From="10" To="11" Label="Source1" />
-            <Edge From="11" To="12" Label="Source1" />
-            <Edge From="12" To="16" Label="Source1" />
-            <Edge From="13" To="14" Label="Source1" />
-            <Edge From="14" To="15" Label="Source1" />
-            <Edge From="15" To="16" Label="Source2" />
-            <Edge From="16" To="17" Label="Source1" />
-            <Edge From="18" To="19" Label="Source1" />
-            <Edge From="19" To="20" Label="Source1" />
-            <Edge From="20" To="21" Label="Source1" />
-            <Edge From="20" To="35" Label="Source1" />
-            <Edge From="21" To="22" Label="Source1" />
-            <Edge From="23" To="24" Label="Source1" />
-            <Edge From="24" To="27" Label="Source1" />
-            <Edge From="24" To="29" Label="Source1" />
-            <Edge From="25" To="26" Label="Source1" />
-            <Edge From="26" To="27" Label="Source2" />
-            <Edge From="26" To="29" Label="Source2" />
-            <Edge From="27" To="28" Label="Source1" />
-            <Edge From="28" To="34" Label="Source1" />
-            <Edge From="29" To="30" Label="Source1" />
-            <Edge From="30" To="31" Label="Source1" />
-            <Edge From="31" To="32" Label="Source1" />
-            <Edge From="32" To="33" Label="Source1" />
-            <Edge From="33" To="34" Label="Source2" />
-            <Edge From="34" To="35" Label="Source2" />
-            <Edge From="35" To="36" Label="Source1" />
-            <Edge From="36" To="37" Label="Source1" />
-            <Edge From="37" To="38" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -3855,7 +3680,7 @@ it.Item2 as WasRewarded
             </Expression>
             <Expression xsi:type="Add">
               <Operand xsi:type="DoubleProperty">
-                <Value>4.0840485028287761</Value>
+                <Value>65.79928490599481</Value>
               </Operand>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
@@ -4012,9 +3837,9 @@ it.Item2 as WasRewarded
               <Layer>1</Layer>
               <ExtentX>2</ExtentX>
               <ExtentY>2</ExtentY>
-              <SpatialFrequency>4</SpatialFrequency>
+              <SpatialFrequency>7.594737</SpatialFrequency>
               <TemporalFrequency>0</TemporalFrequency>
-              <Phase>10265.9365</Phase>
+              <Phase>8532.755</Phase>
               <Angle>90</Angle>
               <SquareWave>false</SquareWave>
               <Contrast>1</Contrast>

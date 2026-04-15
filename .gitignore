@@ -97,3 +97,8 @@ Logs/
 
 # Stimuli
 *.wav
+
+# Misc
+src/Archive
+src/random-freqs-1900
+src/waveforms

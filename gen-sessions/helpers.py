@@ -96,6 +96,8 @@ def generate_waveforms(
     '''
     Generates pure tone waveforms for each frequency bin between start_freq and end_freq, as well as an error tone consisting of band-limited white noise between start_freq and end_freq. 
     Saves waveforms as 16-bit stereo wav files in out_dir, and also saves a text file listing the frequencies of each tone.
+
+    TESTING: also saves a combined matrix .bin of all waveforms and individual .bin for each freq.
     '''
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -115,7 +117,15 @@ def generate_waveforms(
         stereo = np.column_stack([signal_i16, signal_i16])
         wavfile.write(out_dir / f"{int(freq)}Hz.wav", sample_rate, stereo)
 
+        # Per-frequency F32 raw binary (mono, no header) for Bonsai MatrixReader - TESTING
+        signal_f32.tofile(out_dir / f"{int(freq)}Hz.bin")
+
         all_waveforms.append(signal_f32)
+
+    # Save combined F32 matrix for Bonsai MatrixReader (one file, random-access by byte offset) - TESTING 
+    matrix_f32 = np.stack(all_waveforms)  # shape (n_freq_bins, samples_per_waveform), dtype float32
+    assert matrix_f32.dtype == np.float32
+    matrix_f32.tofile(out_dir / "all_waveforms.bin")
 
     with open(out_dir / "frequencies.txt", "w", encoding="utf-8") as f:
         for freq in frequencies:
@@ -137,5 +147,6 @@ def generate_waveforms(
         "n_freqs": int(len(frequencies)),
         "sample_rate": int(sample_rate),
         "duration_ms": int(duration_ms),
+        "samples_per_waveform": int(matrix_f32.shape[1]),
         "out_dir": str(out_dir),
     }

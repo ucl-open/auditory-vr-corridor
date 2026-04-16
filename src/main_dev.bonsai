@@ -99,11 +99,9 @@
                       <dsp:Order>1</dsp:Order>
                     </Combinator>
                   </Expression>
-                  <Expression xsi:type="Disable">
-                    <Builder xsi:type="scr:ExpressionTransform">
-                      <scr:Name>ConvertSigned</scr:Name>
-                      <scr:Expression>it &gt; 32768.0 ? it - 65536.0 : (it &lt; -32768.0 ? it + 65536.0 : it)</scr:Expression>
-                    </Builder>
+                  <Expression xsi:type="scr:ExpressionTransform">
+                    <scr:Name>ConvertSigned</scr:Name>
+                    <scr:Expression>it &gt; 32768.0 ? it - 65536.0 : (it &lt; -32768.0 ? it + 65536.0 : it)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="rx:Accumulate" />
                   <Expression xsi:type="ExternalizedMapping">
@@ -195,6 +193,15 @@
             <Expression xsi:type="IncludeWorkflow" Path="UclOpen.Devices:DeviceBehaviorBoard.Timestamps.bonsai">
               <EventsSubjectName>BehaviorEvents</EventsSubjectName>
               <CommandsSubjectName>BehaviorCommands</CommandsSubjectName>
+            </Expression>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="IncludeWorkflow" Path="UclOpen.Devices:DeviceBehaviorBoard.RunningWheel.bonsai">
+                <CommandsSubjectName>BehaviorCommands</CommandsSubjectName>
+                <EventsSubjectName>BehaviorEvents</EventsSubjectName>
+                <CountsPerRev>4096</CountsPerRev>
+                <WheelDiameterMm>170</WheelDiameterMm>
+                <WheelDistanceSubjectName>WheelDistanceCm</WheelDistanceSubjectName>
+              </Builder>
             </Expression>
           </Nodes>
           <Edges />
@@ -1051,6 +1058,12 @@
               <Combinator xsi:type="rx:WithLatestFrom" />
             </Expression>
             <Expression xsi:type="SubscribeSubject">
+              <Name>TrialDistance</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:WithLatestFrom" />
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
               <Name>CurrFreq</Name>
             </Expression>
             <Expression xsi:type="Combinator">
@@ -1075,10 +1088,10 @@
               <Combinator xsi:type="rx:WithLatestFrom" />
             </Expression>
             <Expression xsi:type="scr:ExpressionTransform">
-              <scr:Expression>"Stage:" + it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2.ToString() +
-" Trial:" + it.Item1.Item1.Item1.Item1.Item1.Item1.Item2.ToString() +
-" ITI:" + it.Item1.Item1.Item1.Item1.Item1.Item2.TotalSeconds.ToString("F0") + "s" +
-" Dist:" + Convert.ToInt32(it.Item1.Item1.Item1.Item1.Item2).ToString() + "cm" +
+              <scr:Expression>"Stage:" + it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2.ToString() +
+" Trial:" + it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2.ToString() +
+" ITI:" + it.Item1.Item1.Item1.Item1.Item1.Item1.Item2.TotalSeconds.ToString("F0") + "s" + " TotDist:" + Convert.ToInt32(it.Item1.Item1.Item1.Item1.Item1.Item2).ToString() + "cm" +
+" TrialDist:" + Convert.ToInt32(it.Item1.Item1.Item1.Item1.Item2).ToString() + "cm" +
 " Freq:" + Convert.ToInt32(it.Item1.Item1.Item1.Item2).ToString() + "Hz" +
 " Track:" + Convert.ToInt32(it.Item1.Item1.Item2).ToString() + "cm" +
 " Zone:" + Convert.ToInt32(it.Item1.Item2).ToString() + "-" + Convert.ToInt32(it.Item2).ToString() + "Hz"</scr:Expression>
@@ -1102,8 +1115,10 @@
             <Edge From="13" To="14" Label="Source2" />
             <Edge From="14" To="16" Label="Source1" />
             <Edge From="15" To="16" Label="Source2" />
-            <Edge From="16" To="17" Label="Source1" />
-            <Edge From="17" To="18" Label="Source1" />
+            <Edge From="16" To="18" Label="Source1" />
+            <Edge From="17" To="18" Label="Source2" />
+            <Edge From="18" To="19" Label="Source1" />
+            <Edge From="19" To="20" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -1166,7 +1181,7 @@
                     <Combinator xsi:type="rx:WithLatestFrom" />
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
-                    <Name>WheelDistanceCm</Name>
+                    <Name>TrialDistance</Name>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="rx:WithLatestFrom" />
@@ -1287,7 +1302,7 @@ it.Item2 as WasRewarded
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-ALGERNON\ses-FIRST_date-2026-04-16T12-37-23\TrialLog_FIRST_ALGERNON_\TrialLog_FIRST_ALGERNON_.csv</io:FileName>
+                    <io:FileName>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-ALGERNON\ses-hhh_date-2026-04-16T16-12-01\TrialLog_hhh_ALGERNON_\TrialLog_hhh_ALGERNON_.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>true</io:Overwrite>
                     <io:Suffix>Timestamp</io:Suffix>
@@ -1537,7 +1552,7 @@ it.Item2 as WasRewarded
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="p4:JsonWriter">
-                            <p4:Path>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-ALGERNON\ses-FIRST_date-2026-04-16T12-37-23\TaskSchemaLog_FIRST_ALGERNON_\TaskSchemaLog_FIRST_ALGERNON_.json</p4:Path>
+                            <p4:Path>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-ALGERNON\ses-hhh_date-2026-04-16T16-12-01\TaskSchemaLog_hhh_ALGERNON_\TaskSchemaLog_hhh_ALGERNON_.json</p4:Path>
                             <p4:Suffix>None</p4:Suffix>
                             <p4:Overwrite>false</p4:Overwrite>
                           </Combinator>
@@ -1693,7 +1708,7 @@ it.Item2 as WasRewarded
                     <Combinator xsi:type="rx:WithLatestFrom" />
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
-                    <Name>WheelDistanceCm</Name>
+                    <Name>TrialDistance</Name>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="rx:WithLatestFrom" />
@@ -1823,89 +1838,15 @@ it.Item2 as WasRewarded
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-ALGERNON\ses-FIRST_date-2026-04-16T12-37-23\IntervalLog_FIRST_ALGERNON_\IntervalLog_FIRST_ALGERNON_.csv</io:FileName>
+                    <io:FileName>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-ALGERNON\ses-hhh_date-2026-04-16T16-12-01\IntervalLog_hhh_ALGERNON_\IntervalLog_hhh_ALGERNON_.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>true</io:Overwrite>
                     <io:Suffix>Timestamp</io:Suffix>
                     <io:IncludeHeader>true</io:IncludeHeader>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
-                  <Expression xsi:type="Disable">
-                    <Builder xsi:type="IncludeWorkflow" Path="UclOpen.Logging:LogHarpDevice.bonsai">
-                      <LogName />
-                    </Builder>
-                  </Expression>
-                  <Expression xsi:type="Disable">
-                    <Builder xsi:type="IncludeWorkflow" Path="UclOpen.Logging:LogController.bonsai">
-                      <SubjectId>Algernon</SubjectId>
-                      <SessionId>001</SessionId>
-                      <Path>D:\LocalData</Path>
-                    </Builder>
-                  </Expression>
-                  <Expression xsi:type="Disable">
-                    <Builder xsi:type="IncludeWorkflow" Path="UclOpen.Logging:LogData.bonsai">
-                      <LogName />
-                      <Selector>Seconds</Selector>
-                      <Extension>csv</Extension>
-                    </Builder>
-                  </Expression>
                   <Expression xsi:type="SubscribeSubject">
                     <Name>CurrAmp</Name>
-                  </Expression>
-                  <Expression xsi:type="Disable">
-                    <Builder xsi:type="SubscribeSubject">
-                      <Name>WheelDistanceCm</Name>
-                    </Builder>
-                  </Expression>
-                  <Expression xsi:type="Disable">
-                    <Builder xsi:type="Combinator">
-                      <Combinator xsi:type="rx:DistinctUntilChanged" />
-                    </Builder>
-                  </Expression>
-                  <Expression xsi:type="Disable">
-                    <Builder xsi:type="SubscribeSubject">
-                      <Name>LickCount</Name>
-                    </Builder>
-                  </Expression>
-                  <Expression xsi:type="Disable">
-                    <Builder xsi:type="scr:ExpressionTransform">
-                      <scr:Expression>convert.ToDouble(it)</scr:Expression>
-                    </Builder>
-                  </Expression>
-                  <Expression xsi:type="Disable">
-                    <Builder xsi:type="Combinator">
-                      <Combinator xsi:type="rx:DistinctUntilChanged" />
-                    </Builder>
-                  </Expression>
-                  <Expression xsi:type="Disable">
-                    <Builder xsi:type="SubscribeSubject">
-                      <Name>CurrFreq</Name>
-                    </Builder>
-                  </Expression>
-                  <Expression xsi:type="Disable">
-                    <Builder xsi:type="scr:ExpressionTransform">
-                      <scr:Expression>convert.ToDouble(it)</scr:Expression>
-                    </Builder>
-                  </Expression>
-                  <Expression xsi:type="Disable">
-                    <Builder xsi:type="Combinator">
-                      <Combinator xsi:type="rx:DistinctUntilChanged" />
-                    </Builder>
-                  </Expression>
-                  <Expression xsi:type="Disable">
-                    <Builder xsi:type="SubscribeSubject">
-                      <Name>CurrAmp</Name>
-                    </Builder>
-                  </Expression>
-                  <Expression xsi:type="Disable">
-                    <Builder xsi:type="Combinator">
-                      <Combinator xsi:type="rx:DistinctUntilChanged" />
-                    </Builder>
-                  </Expression>
-                  <Expression xsi:type="Disable">
-                    <Builder xsi:type="Combinator">
-                      <Combinator xsi:type="rx:CombineLatest" />
-                    </Builder>
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -1943,16 +1884,6 @@ it.Item2 as WasRewarded
                   <Edge From="31" To="32" Label="Source1" />
                   <Edge From="32" To="33" Label="Source2" />
                   <Edge From="33" To="34" Label="Source1" />
-                  <Edge From="39" To="40" Label="Source1" />
-                  <Edge From="40" To="49" Label="Source1" />
-                  <Edge From="41" To="42" Label="Source1" />
-                  <Edge From="42" To="43" Label="Source1" />
-                  <Edge From="43" To="49" Label="Source2" />
-                  <Edge From="44" To="45" Label="Source1" />
-                  <Edge From="45" To="46" Label="Source1" />
-                  <Edge From="46" To="49" Label="Source3" />
-                  <Edge From="47" To="48" Label="Source1" />
-                  <Edge From="48" To="49" Label="Source4" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -1983,7 +1914,7 @@ it.Item2 as WasRewarded
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="UclOpen.Logging:LogController.bonsai">
               <SubjectId>ALGERNON</SubjectId>
-              <SessionId>FIRST</SessionId>
+              <SessionId>hhh</SessionId>
               <Path>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs</Path>
             </Expression>
             <Expression xsi:type="Disable">
@@ -2127,9 +2058,6 @@ it.Item2 as WasRewarded
               <Name>BeepTimer</Name>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
-            <Expression xsi:type="MulticastSubject">
-              <Name>BehaviorCommands</Name>
-            </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="rx:Timestamp" />
             </Expression>
@@ -2143,6 +2071,23 @@ it.Item2 as WasRewarded
             </Expression>
             <Expression xsi:type="MulticastSubject">
               <Name>StartTime</Name>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>WheelDistanceCm</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:WithLatestFrom" />
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Item2</Selector>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Take">
+                <rx:Count>1</rx:Count>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="MulticastSubject">
+              <Name>TrialStartWheelDistance</Name>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
               <Name>TrialNumber</Name>
@@ -2184,15 +2129,6 @@ it.Item2 as WasRewarded
             <Expression xsi:type="MulticastSubject">
               <Name>LickCount</Name>
             </Expression>
-            <Expression xsi:type="beh:CreateMessage">
-              <harp:MessageType>Write</harp:MessageType>
-              <harp:Payload xsi:type="beh:CreateEncoderResetPayload">
-                <beh:EncoderReset>EncoderPort2</beh:EncoderReset>
-              </harp:Payload>
-            </Expression>
-            <Expression xsi:type="MulticastSubject">
-              <Name>BehaviorCommands</Name>
-            </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="DoubleProperty">
                 <Value>0</Value>
@@ -2224,23 +2160,26 @@ it.Item2 as WasRewarded
             <Edge From="6" To="7" Label="Source1" />
             <Edge From="7" To="8" Label="Source1" />
             <Edge From="8" To="9" Label="Source1" />
-            <Edge From="8" To="14" Label="Source1" />
+            <Edge From="8" To="13" Label="Source1" />
+            <Edge From="8" To="18" Label="Source1" />
             <Edge From="9" To="10" Label="Source2" />
-            <Edge From="9" To="13" Label="Source1" />
             <Edge From="10" To="11" Label="Source1" />
             <Edge From="11" To="12" Label="Source1" />
+            <Edge From="13" To="14" Label="Source1" />
             <Edge From="14" To="15" Label="Source1" />
             <Edge From="15" To="16" Label="Source1" />
-            <Edge From="16" To="17" Label="Source1" />
+            <Edge From="17" To="18" Label="Source2" />
             <Edge From="18" To="19" Label="Source1" />
             <Edge From="19" To="20" Label="Source1" />
             <Edge From="20" To="21" Label="Source1" />
             <Edge From="22" To="23" Label="Source1" />
+            <Edge From="23" To="24" Label="Source1" />
             <Edge From="24" To="25" Label="Source1" />
             <Edge From="26" To="27" Label="Source1" />
             <Edge From="28" To="29" Label="Source1" />
             <Edge From="30" To="31" Label="Source1" />
             <Edge From="32" To="33" Label="Source1" />
+            <Edge From="34" To="35" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -2251,7 +2190,7 @@ it.Item2 as WasRewarded
         <Combinator xsi:type="rx:SubscribeWhen" />
       </Expression>
       <Expression xsi:type="SubscribeSubject">
-        <Name>WheelDistanceCm</Name>
+        <Name>TrialDistance</Name>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="rx:WithLatestFrom" />
@@ -2420,7 +2359,7 @@ it.Item2 as WasRewarded
             </Expression>
             <Expression xsi:type="Add">
               <Operand xsi:type="DoubleProperty">
-                <Value>2225.536847968759</Value>
+                <Value>2040.1563228294456</Value>
               </Operand>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
@@ -2568,7 +2507,7 @@ it.Item2 as WasRewarded
             </Expression>
             <Expression xsi:type="Index">
               <Operand xsi:type="IntProperty">
-                <Value>4</Value>
+                <Value>0</Value>
               </Operand>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
@@ -3253,7 +3192,7 @@ it.Item2 as WasRewarded
             </Expression>
             <Expression xsi:type="Add">
               <Operand xsi:type="DoubleProperty">
-                <Value>4.2456928357991872</Value>
+                <Value>4.0446083234052184</Value>
               </Operand>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
@@ -3448,9 +3387,9 @@ it.Item2 as WasRewarded
               <Layer>1</Layer>
               <ExtentX>2</ExtentX>
               <ExtentY>2</ExtentY>
-              <SpatialFrequency>4.24569273</SpatialFrequency>
+              <SpatialFrequency>4</SpatialFrequency>
               <TemporalFrequency>0</TemporalFrequency>
-              <Phase>-1933.43835</Phase>
+              <Phase>-7327.77441</Phase>
               <Angle>90</Angle>
               <SquareWave>false</SquareWave>
               <Contrast>1</Contrast>
@@ -3897,6 +3836,22 @@ it.Item2 as WasRewarded
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="rx:Repeat" />
       </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>WheelDistanceCm</Name>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>TrialStartWheelDistance</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:WithLatestFrom" />
+      </Expression>
+      <Expression xsi:type="scr:ExpressionTransform">
+        <scr:Name>TrialDistance</scr:Name>
+        <scr:Expression>it.Item1 - it.Item2</scr:Expression>
+      </Expression>
+      <Expression xsi:type="rx:PublishSubject">
+        <Name>TrialDistance</Name>
+      </Expression>
     </Nodes>
     <Edges>
       <Edge From="7" To="9" Label="Source1" />
@@ -3956,6 +3911,10 @@ it.Item2 as WasRewarded
       <Edge From="53" To="54" Label="Source1" />
       <Edge From="54" To="55" Label="Source1" />
       <Edge From="55" To="56" Label="Source1" />
+      <Edge From="57" To="59" Label="Source1" />
+      <Edge From="58" To="59" Label="Source2" />
+      <Edge From="59" To="60" Label="Source1" />
+      <Edge From="60" To="61" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>

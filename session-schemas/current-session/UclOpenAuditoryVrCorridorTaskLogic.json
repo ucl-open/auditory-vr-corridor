@@ -2,7 +2,7 @@
   "version": "0.0.0-rc1",
   "name": "UclOpenAuditoryVrCorridor",
   "taskParameters": {
-    "shapingStage": 1,
+    "shapingStage": 2,
     "startFreq": 2000,
     "endFreq": 25000,
     "nFreqBins": 100,
@@ -43,7 +43,7 @@
     },
     "logConfig": {
       "loggingRootPath": "c:\\Users\\CoenL\\Documents\\TomC\\auditory-vr-corridor\\Logs",
-      "sessionId": "FIRST",
+      "sessionId": "hhh",
       "animalId": "ALGERNON"
     },
     "amplitude": 0.5,

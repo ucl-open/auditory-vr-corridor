@@ -1320,7 +1320,7 @@ it.Item2 as WasRewarded
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-ALGERNON\ses-hhh_date-2026-04-22T12-29-46\TrialLog_hhh_ALGERNON_\TrialLog_hhh_ALGERNON_.csv</io:FileName>
+                    <io:FileName>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-ALGERNON\ses-hhh_date-2026-04-22T13-31-08\TrialLog_hhh_ALGERNON_\TrialLog_hhh_ALGERNON_.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>true</io:Overwrite>
                     <io:Suffix>Timestamp</io:Suffix>
@@ -1570,7 +1570,7 @@ it.Item2 as WasRewarded
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="p4:JsonWriter">
-                            <p4:Path>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-ALGERNON\ses-hhh_date-2026-04-22T12-29-46\TaskSchemaLog_hhh_ALGERNON_\TaskSchemaLog_hhh_ALGERNON_.json</p4:Path>
+                            <p4:Path>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-ALGERNON\ses-hhh_date-2026-04-22T13-31-08\TaskSchemaLog_hhh_ALGERNON_\TaskSchemaLog_hhh_ALGERNON_.json</p4:Path>
                             <p4:Suffix>None</p4:Suffix>
                             <p4:Overwrite>false</p4:Overwrite>
                           </Combinator>
@@ -1877,7 +1877,7 @@ it.Item2 as WasRewarded
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-ALGERNON\ses-hhh_date-2026-04-22T12-29-46\IntervalLog_hhh_ALGERNON_\IntervalLog_hhh_ALGERNON_.csv</io:FileName>
+                    <io:FileName>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-ALGERNON\ses-hhh_date-2026-04-22T13-31-08\IntervalLog_hhh_ALGERNON_\IntervalLog_hhh_ALGERNON_.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>true</io:Overwrite>
                     <io:Suffix>Timestamp</io:Suffix>
@@ -2075,8 +2075,53 @@ it.Item2 as WasRewarded
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="rx:Timer">
-                      <rx:DueTime>PT2S</rx:DueTime>
+                      <rx:DueTime>PT1S</rx:DueTime>
                     </Combinator>
+                  </Expression>
+                  <Expression xsi:type="rx:SelectMany">
+                    <Name>WaitForQuiescence</Name>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>WheelDistanceCm</Name>
+                        </Expression>
+                        <Expression xsi:type="scr:ExpressionTransform">
+                          <scr:Name>BinDist</scr:Name>
+                          <scr:Expression>Math.Floor(it / 0.1)</scr:Expression>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:DistinctUntilChanged" />
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="DoubleProperty">
+                            <Value>0</Value>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Merge" />
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Throttle">
+                            <rx:DueTime>PT0.5S</rx:DueTime>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Take">
+                            <rx:Count>1</rx:Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                      </Nodes>
+                      <Edges>
+                        <Edge From="0" To="1" Label="Source1" />
+                        <Edge From="1" To="2" Label="Source1" />
+                        <Edge From="2" To="4" Label="Source1" />
+                        <Edge From="3" To="4" Label="Source2" />
+                        <Edge From="4" To="5" Label="Source1" />
+                        <Edge From="5" To="6" Label="Source1" />
+                        <Edge From="6" To="7" Label="Source1" />
+                      </Edges>
+                    </Workflow>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
                 </Nodes>
@@ -2084,6 +2129,7 @@ it.Item2 as WasRewarded
                   <Edge From="0" To="1" Label="Source1" />
                   <Edge From="1" To="2" Label="Source1" />
                   <Edge From="2" To="3" Label="Source1" />
+                  <Edge From="3" To="4" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -2426,7 +2472,7 @@ it.Item2 as WasRewarded
             </Expression>
             <Expression xsi:type="Add">
               <Operand xsi:type="DoubleProperty">
-                <Value>2040.1563228294456</Value>
+                <Value>2519.9611859154934</Value>
               </Operand>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
@@ -3259,7 +3305,7 @@ it.Item2 as WasRewarded
             </Expression>
             <Expression xsi:type="Add">
               <Operand xsi:type="DoubleProperty">
-                <Value>4.0446083234052184</Value>
+                <Value>4.55042091149004</Value>
               </Operand>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
@@ -3456,14 +3502,14 @@ it.Item2 as WasRewarded
               <ExtentY>2</ExtentY>
               <SpatialFrequency>4</SpatialFrequency>
               <TemporalFrequency>0</TemporalFrequency>
-              <Phase>1417.985</Phase>
+              <Phase>-642.8829</Phase>
               <Angle>90</Angle>
               <SquareWave>false</SquareWave>
               <Contrast>1</Contrast>
               <DutyCycle xsi:nil="true" />
               <Radius>1</Radius>
               <Aperture>1</Aperture>
-              <Opacity>0</Opacity>
+              <Opacity>1</Opacity>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
           </Nodes>

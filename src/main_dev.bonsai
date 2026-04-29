@@ -1152,6 +1152,20 @@
                   <Expression xsi:type="SubscribeSubject">
                     <Name>TrialEnded</Name>
                   </Expression>
+                  <Expression xsi:type="rx:Condition">
+                    <Name>IsTrialEnded?</Name>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                      </Nodes>
+                      <Edges>
+                        <Edge From="0" To="1" Label="Source1" />
+                      </Edges>
+                    </Workflow>
+                  </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="rx:Timestamp" />
                   </Expression>
@@ -1320,7 +1334,7 @@ it.Item2 as WasRewarded
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-ALGERNON\ses-hhh_date-2026-04-22T13-31-08\TrialLog_hhh_ALGERNON_\TrialLog_hhh_ALGERNON_.csv</io:FileName>
+                    <io:FileName>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-ALGERNON\ses-1_date-2026-04-29T10-52-14\TrialLog_1_ALGERNON_\TrialLog_1_ALGERNON_.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>true</io:Overwrite>
                     <io:Suffix>Timestamp</io:Suffix>
@@ -1331,29 +1345,30 @@ it.Item2 as WasRewarded
                   <Edge From="0" To="1" Label="Source1" />
                   <Edge From="1" To="2" Label="Source1" />
                   <Edge From="2" To="3" Label="Source1" />
-                  <Edge From="3" To="5" Label="Source1" />
-                  <Edge From="4" To="5" Label="Source2" />
-                  <Edge From="5" To="7" Label="Source1" />
-                  <Edge From="6" To="7" Label="Source2" />
-                  <Edge From="7" To="9" Label="Source1" />
-                  <Edge From="8" To="9" Label="Source2" />
-                  <Edge From="9" To="11" Label="Source1" />
-                  <Edge From="10" To="11" Label="Source2" />
-                  <Edge From="11" To="13" Label="Source1" />
-                  <Edge From="12" To="13" Label="Source2" />
-                  <Edge From="13" To="15" Label="Source1" />
-                  <Edge From="14" To="15" Label="Source2" />
-                  <Edge From="15" To="17" Label="Source1" />
-                  <Edge From="16" To="17" Label="Source2" />
-                  <Edge From="17" To="19" Label="Source1" />
-                  <Edge From="18" To="19" Label="Source2" />
-                  <Edge From="19" To="21" Label="Source1" />
-                  <Edge From="20" To="21" Label="Source2" />
-                  <Edge From="21" To="22" Label="Source1" />
-                  <Edge From="22" To="26" Label="Source1" />
-                  <Edge From="23" To="24" Label="Source1" />
+                  <Edge From="3" To="4" Label="Source1" />
+                  <Edge From="4" To="6" Label="Source1" />
+                  <Edge From="5" To="6" Label="Source2" />
+                  <Edge From="6" To="8" Label="Source1" />
+                  <Edge From="7" To="8" Label="Source2" />
+                  <Edge From="8" To="10" Label="Source1" />
+                  <Edge From="9" To="10" Label="Source2" />
+                  <Edge From="10" To="12" Label="Source1" />
+                  <Edge From="11" To="12" Label="Source2" />
+                  <Edge From="12" To="14" Label="Source1" />
+                  <Edge From="13" To="14" Label="Source2" />
+                  <Edge From="14" To="16" Label="Source1" />
+                  <Edge From="15" To="16" Label="Source2" />
+                  <Edge From="16" To="18" Label="Source1" />
+                  <Edge From="17" To="18" Label="Source2" />
+                  <Edge From="18" To="20" Label="Source1" />
+                  <Edge From="19" To="20" Label="Source2" />
+                  <Edge From="20" To="22" Label="Source1" />
+                  <Edge From="21" To="22" Label="Source2" />
+                  <Edge From="22" To="23" Label="Source1" />
+                  <Edge From="23" To="27" Label="Source1" />
                   <Edge From="24" To="25" Label="Source1" />
-                  <Edge From="25" To="26" Label="Source2" />
+                  <Edge From="25" To="26" Label="Source1" />
+                  <Edge From="26" To="27" Label="Source2" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -1570,7 +1585,7 @@ it.Item2 as WasRewarded
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="p4:JsonWriter">
-                            <p4:Path>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-ALGERNON\ses-hhh_date-2026-04-22T13-31-08\TaskSchemaLog_hhh_ALGERNON_\TaskSchemaLog_hhh_ALGERNON_.json</p4:Path>
+                            <p4:Path>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-ALGERNON\ses-1_date-2026-04-29T10-52-14\TaskSchemaLog_1_ALGERNON_\TaskSchemaLog_1_ALGERNON_.json</p4:Path>
                             <p4:Suffix>None</p4:Suffix>
                             <p4:Overwrite>false</p4:Overwrite>
                           </Combinator>
@@ -1877,7 +1892,7 @@ it.Item2 as WasRewarded
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-ALGERNON\ses-hhh_date-2026-04-22T13-31-08\IntervalLog_hhh_ALGERNON_\IntervalLog_hhh_ALGERNON_.csv</io:FileName>
+                    <io:FileName>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-ALGERNON\ses-1_date-2026-04-29T10-52-14\IntervalLog_1_ALGERNON_\IntervalLog_1_ALGERNON_.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>true</io:Overwrite>
                     <io:Suffix>Timestamp</io:Suffix>
@@ -1956,7 +1971,7 @@ it.Item2 as WasRewarded
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="UclOpen.Logging:LogController.bonsai">
               <SubjectId>ALGERNON</SubjectId>
-              <SessionId>hhh</SessionId>
+              <SessionId>1</SessionId>
               <Path>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs</Path>
             </Expression>
             <Expression xsi:type="Disable">
@@ -1969,6 +1984,92 @@ it.Item2 as WasRewarded
                 <LogName>HarpLog</LogName>
               </Builder>
             </Expression>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="ExternalizedMapping">
+                <Property Name="Name" />
+                <Property Name="Extension" />
+              </Builder>
+            </Expression>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="GroupWorkflow">
+                <Name>FormatFileName</Name>
+                <Description>Generates a log filename based on the input timestamp.</Description>
+                <Workflow>
+                  <Nodes>
+                    <Expression xsi:type="SubscribeSubject">
+                      <Name>PathPrefix</Name>
+                    </Expression>
+                    <Expression xsi:type="WorkflowInput">
+                      <Name>Source1</Name>
+                    </Expression>
+                    <Expression xsi:type="ExternalizedMapping">
+                      <Property Name="Value" DisplayName="Name" Description="The base name of the log file." />
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="StringProperty">
+                        <Value>IntervalLog</Value>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="SubscribeSubject">
+                      <Name>AnimalAndSessionID</Name>
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="rx:Zip" />
+                    </Expression>
+                    <Expression xsi:type="Format">
+                      <Format>{0}_{1}_</Format>
+                      <Selector>Item1, Item2</Selector>
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="rx:Take">
+                        <rx:Count>1</rx:Count>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="p2:StripSubstring" />
+                    </Expression>
+                    <Expression xsi:type="ExternalizedMapping">
+                      <Property Name="Value" DisplayName="Extension" Description="The file extension" />
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="StringProperty">
+                        <Value>csv</Value>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="rx:Take">
+                        <rx:Count>1</rx:Count>
+                      </Combinator>
+                    </Expression>
+                    <Expression xsi:type="Combinator">
+                      <Combinator xsi:type="rx:Zip" />
+                    </Expression>
+                    <Expression xsi:type="Format">
+                      <Format>{0}\{1}\{2}.{3}</Format>
+                      <Selector>Item1,Item2,Item3,Item4</Selector>
+                    </Expression>
+                    <Expression xsi:type="WorkflowOutput" />
+                  </Nodes>
+                  <Edges>
+                    <Edge From="0" To="12" Label="Source1" />
+                    <Edge From="1" To="3" Label="Source1" />
+                    <Edge From="2" To="3" Label="Source2" />
+                    <Edge From="3" To="5" Label="Source1" />
+                    <Edge From="4" To="5" Label="Source2" />
+                    <Edge From="5" To="6" Label="Source1" />
+                    <Edge From="6" To="7" Label="Source1" />
+                    <Edge From="7" To="8" Label="Source1" />
+                    <Edge From="7" To="12" Label="Source3" />
+                    <Edge From="8" To="12" Label="Source2" />
+                    <Edge From="9" To="10" Label="Source1" />
+                    <Edge From="10" To="11" Label="Source1" />
+                    <Edge From="11" To="12" Label="Source4" />
+                    <Edge From="12" To="13" Label="Source1" />
+                    <Edge From="13" To="14" Label="Source1" />
+                  </Edges>
+                </Workflow>
+              </Builder>
+            </Expression>
           </Nodes>
           <Edges>
             <Edge From="3" To="4" Label="Source1" />
@@ -1979,6 +2080,7 @@ it.Item2 as WasRewarded
             <Edge From="9" To="10" Label="Source1" />
             <Edge From="10" To="11" Label="Source3" />
             <Edge From="12" To="13" Label="Source1" />
+            <Edge From="14" To="15" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -2472,7 +2574,7 @@ it.Item2 as WasRewarded
             </Expression>
             <Expression xsi:type="Add">
               <Operand xsi:type="DoubleProperty">
-                <Value>2519.9611859154934</Value>
+                <Value>2065.6624355563163</Value>
               </Operand>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
@@ -3305,7 +3407,7 @@ it.Item2 as WasRewarded
             </Expression>
             <Expression xsi:type="Add">
               <Operand xsi:type="DoubleProperty">
-                <Value>4.55042091149004</Value>
+                <Value>4.0727407990584856</Value>
               </Operand>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
@@ -3502,7 +3604,7 @@ it.Item2 as WasRewarded
               <ExtentY>2</ExtentY>
               <SpatialFrequency>4</SpatialFrequency>
               <TemporalFrequency>0</TemporalFrequency>
-              <Phase>-642.8829</Phase>
+              <Phase>6219.25342</Phase>
               <Angle>90</Angle>
               <SquareWave>false</SquareWave>
               <Contrast>1</Contrast>

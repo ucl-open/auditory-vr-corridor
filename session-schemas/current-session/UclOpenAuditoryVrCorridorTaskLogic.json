@@ -43,7 +43,7 @@
     },
     "logConfig": {
       "loggingRootPath": "c:\\Users\\CoenL\\Documents\\TomC\\auditory-vr-corridor\\Logs",
-      "sessionId": "hhh",
+      "sessionId": "1",
       "animalId": "ALGERNON"
     },
     "amplitude": 0.5,

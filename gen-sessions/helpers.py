@@ -41,14 +41,17 @@ def determine_shaping_stage(
         print(f"\nNo trial log CSV found in {latest_session_dir}, defaulting to shaping stage 1.\n")
         return 1
 
+    # If empty log, raise error
     latest_log = max(trial_logs, key=lambda p: p.stat().st_ctime)
-    df = pd.read_csv(latest_log)
+    try:
+        df = pd.read_csv(latest_log)
+    except pd.errors.EmptyDataError:
+        raise ValueError('No trials found in latest log. Please delete empty TrialLog files then run again.\n')
     print(f"Trial log: {latest_log.name}")
 
-    # If empty log, raise error
     total_trials = len(df)
     if total_trials == 0:
-        raise ValueError('No trials found in latest log. Please delete empty TrialLog files then run again.\n')
+        raise ValueError('\nNo trials found in latest log. Please delete empty TrialLog files then run again.\n')
 
     # Check stage was consistent throughout previous session
     start_stage = df['ShapingStage'].iloc[0]

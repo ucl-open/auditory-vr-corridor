@@ -1,0 +1,52 @@
+{
+  "version": "0.0.0-rc1",
+  "name": "UclOpenAuditoryVrCorridor",
+  "taskParameters": {
+    "shapingStage": 2,
+    "startFreq": 2000,
+    "endFreq": 25000,
+    "nFreqBins": 100,
+    "centerFreq": 18000,
+    "stage5WindowSize": 8000,
+    "stage6WindowSize": 4000,
+    "thresholdFrequencies": {
+      "stage1": {
+        "floor": 18000,
+        "ceiling": 25000
+      },
+      "stage2": {
+        "floor": 18000,
+        "ceiling": 25000
+      },
+      "stage3": {
+        "floor": 12960,
+        "ceiling": 25000
+      },
+      "stage4": {
+        "floor": 12960,
+        "ceiling": 25000
+      },
+      "stage5": {
+        "floor": 14439,
+        "ceiling": 22439
+      },
+      "stage6": {
+        "floor": 16110,
+        "ceiling": 20110
+      }
+    },
+    "punishment": {
+      "timeoutSec": 5,
+      "stage4PunishedLick": 5,
+      "stage5PunishedLick": 4,
+      "stage6PunishedLick": 3
+    },
+    "logConfig": {
+      "loggingRootPath": "c:\\Users\\CoenL\\Documents\\TomC\\auditory-vr-corridor\\Logs",
+      "sessionId": "1",
+      "animalId": "ALGERNON"
+    },
+    "amplitude": 0.5,
+    "quantizeBinSize": 1
+  }
+}

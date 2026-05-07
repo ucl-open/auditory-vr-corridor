@@ -360,7 +360,7 @@
             "logConfig": {
               "animalId": "unknown_animal",
               "loggingRootPath": ".\\logs",
-              "sessionId": "2026-04-09T13_49_03"
+              "sessionId": "2026-05-06T16_53_26"
             },
             "amplitude": 0.5,
             "quantizeBinSize": 1
@@ -455,7 +455,7 @@
           "$ref": "#/$defs/LogConfig",
           "default": {
             "loggingRootPath": ".\\logs",
-            "sessionId": "2026-04-09T13_49_03",
+            "sessionId": "2026-05-06T16_53_26",
             "animalId": "unknown_animal"
           }
         },

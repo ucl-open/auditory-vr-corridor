@@ -35,7 +35,7 @@
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="UclOpen.Devices:DeviceBehaviorBoard.BehaviorBoard.bonsai">
               <CommandsSubjectName>BehaviorCommands</CommandsSubjectName>
-              <PortName>COM3</PortName>
+              <PortName>COM11</PortName>
               <DumpRegisters>true</DumpRegisters>
               <Heartbeat>Disabled</Heartbeat>
               <EventsSubjectName>BehaviorEvents</EventsSubjectName>
@@ -53,7 +53,7 @@
                   <Expression xsi:type="beh:CreateMessage">
                     <harp:MessageType>Write</harp:MessageType>
                     <harp:Payload xsi:type="beh:CreateEncoderModePayload">
-                      <beh:EncoderMode>Displacement</beh:EncoderMode>
+                      <beh:EncoderMode>Position</beh:EncoderMode>
                     </harp:Payload>
                   </Expression>
                   <Expression xsi:type="beh:CreateMessage">
@@ -129,7 +129,7 @@
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="IntProperty">
-                            <Value>170</Value>
+                            <Value>75</Value>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="scr:ExpressionTransform">
@@ -143,7 +143,7 @@
                         </Expression>
                         <Expression xsi:type="Multiply">
                           <Operand xsi:type="FloatProperty">
-                            <Value>53.407074</Value>
+                            <Value>23.561945</Value>
                           </Operand>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
@@ -217,7 +217,7 @@
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="io:ReadAllText">
-                <io:Path>C:\Users\CoenL\Documents\TomC\auditory-vr-corridor\session-schemas\current-session\UclOpenAuditoryVrCorridorTaskLogic.json</io:Path>
+                <io:Path>C:\Users\CoenLabUsers\Desktop\auditory-vr-corridor\auditory-vr-corridor\session-schemas\current-session\UclOpenAuditoryVrCorridorTaskLogic.json</io:Path>
               </Combinator>
             </Expression>
             <Expression xsi:type="p1:DeserializeFromJson">
@@ -440,6 +440,15 @@
                       <dsp:Layout>RowMajor</dsp:Layout>
                     </Combinator>
                   </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="dsp:Rescale">
+                      <dsp:Min>0</dsp:Min>
+                      <dsp:Max>1</dsp:Max>
+                      <dsp:RangeMin>0</dsp:RangeMin>
+                      <dsp:RangeMax>0.05</dsp:RangeMax>
+                      <dsp:RescaleType>Linear</dsp:RescaleType>
+                    </Combinator>
+                  </Expression>
                   <Expression xsi:type="SubscribeSubject">
                     <Name>TaskParams</Name>
                   </Expression>
@@ -458,7 +467,7 @@
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="dsp:Tile">
-                      <dsp:RowTiles>2</dsp:RowTiles>
+                      <dsp:RowTiles>32</dsp:RowTiles>
                       <dsp:ColumnTiles>1</dsp:ColumnTiles>
                     </Combinator>
                   </Expression>
@@ -532,22 +541,23 @@
                   </Expression>
                 </Nodes>
                 <Edges>
-                  <Edge From="7" To="11" Label="Source1" />
-                  <Edge From="8" To="9" Label="Source1" />
+                  <Edge From="7" To="8" Label="Source1" />
+                  <Edge From="8" To="12" Label="Source1" />
                   <Edge From="9" To="10" Label="Source1" />
-                  <Edge From="10" To="11" Label="Source2" />
-                  <Edge From="11" To="12" Label="Source1" />
+                  <Edge From="10" To="11" Label="Source1" />
+                  <Edge From="11" To="12" Label="Source2" />
                   <Edge From="12" To="13" Label="Source1" />
                   <Edge From="13" To="14" Label="Source1" />
-                  <Edge From="15" To="16" Label="Source1" />
-                  <Edge From="15" To="17" Label="Source1" />
-                  <Edge From="15" To="18" Label="Source1" />
-                  <Edge From="19" To="20" Label="Source1" />
-                  <Edge From="21" To="22" Label="Source1" />
-                  <Edge From="23" To="24" Label="Source1" />
-                  <Edge From="25" To="26" Label="Source1" />
-                  <Edge From="27" To="28" Label="Source1" />
-                  <Edge From="29" To="30" Label="Source1" />
+                  <Edge From="14" To="15" Label="Source1" />
+                  <Edge From="16" To="17" Label="Source1" />
+                  <Edge From="16" To="18" Label="Source1" />
+                  <Edge From="16" To="19" Label="Source1" />
+                  <Edge From="20" To="21" Label="Source1" />
+                  <Edge From="22" To="23" Label="Source1" />
+                  <Edge From="24" To="25" Label="Source1" />
+                  <Edge From="26" To="27" Label="Source1" />
+                  <Edge From="28" To="29" Label="Source1" />
+                  <Edge From="30" To="31" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -1334,7 +1344,7 @@ it.Item2 as WasRewarded
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-ALGERNON\ses-1_date-2026-04-29T10-52-14\TrialLog_1_ALGERNON_\TrialLog_1_ALGERNON_.csv</io:FileName>
+                    <io:FileName>c:\Users\CoenLabUsers\Desktop\auditory-vr-corridor\auditory-vr-corridor\Logs\sub-Algernon\ses-two_date-2026-05-07T13-21-35\TrialLog_two_Algernon_\TrialLog_two_Algernon_.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>true</io:Overwrite>
                     <io:Suffix>Timestamp</io:Suffix>
@@ -1585,7 +1595,7 @@ it.Item2 as WasRewarded
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="p4:JsonWriter">
-                            <p4:Path>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-ALGERNON\ses-1_date-2026-04-29T10-52-14\TaskSchemaLog_1_ALGERNON_\TaskSchemaLog_1_ALGERNON_.json</p4:Path>
+                            <p4:Path>c:\Users\CoenLabUsers\Desktop\auditory-vr-corridor\auditory-vr-corridor\Logs\sub-Algernon\ses-two_date-2026-05-07T13-21-35\TaskSchemaLog_two_Algernon_\TaskSchemaLog_two_Algernon_.json</p4:Path>
                             <p4:Suffix>None</p4:Suffix>
                             <p4:Overwrite>false</p4:Overwrite>
                           </Combinator>
@@ -1892,7 +1902,7 @@ it.Item2 as WasRewarded
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs\sub-ALGERNON\ses-1_date-2026-04-29T10-52-14\IntervalLog_1_ALGERNON_\IntervalLog_1_ALGERNON_.csv</io:FileName>
+                    <io:FileName>c:\Users\CoenLabUsers\Desktop\auditory-vr-corridor\auditory-vr-corridor\Logs\sub-Algernon\ses-two_date-2026-05-07T13-21-35\IntervalLog_two_Algernon_\IntervalLog_two_Algernon_.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>true</io:Overwrite>
                     <io:Suffix>Timestamp</io:Suffix>
@@ -1970,19 +1980,15 @@ it.Item2 as WasRewarded
               </PropertyMappings>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="UclOpen.Logging:LogController.bonsai">
-              <SubjectId>ALGERNON</SubjectId>
-              <SessionId>1</SessionId>
-              <Path>c:\Users\CoenL\Documents\TomC\auditory-vr-corridor\Logs</Path>
+              <SubjectId>Algernon</SubjectId>
+              <SessionId>two</SessionId>
+              <Path>c:\Users\CoenLabUsers\Desktop\auditory-vr-corridor\auditory-vr-corridor\Logs</Path>
             </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="SubscribeSubject">
-                <Name>BehaviorEvents</Name>
-              </Builder>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>BehaviorEvents</Name>
             </Expression>
-            <Expression xsi:type="Disable">
-              <Builder xsi:type="IncludeWorkflow" Path="UclOpen.Logging:LogHarpDevice.bonsai">
-                <LogName>HarpLog</LogName>
-              </Builder>
+            <Expression xsi:type="IncludeWorkflow" Path="UclOpen.Logging:LogHarpDevice.bonsai">
+              <LogName>Behavior</LogName>
             </Expression>
             <Expression xsi:type="Disable">
               <Builder xsi:type="ExternalizedMapping">
@@ -2091,7 +2097,7 @@ it.Item2 as WasRewarded
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="p5:CreateMixerContext">
                 <p5:HostApi>Windows DirectSound</p5:HostApi>
-                <p5:DeviceName>DELL S2722DC (5- HD Audio Driver for Display Audio)</p5:DeviceName>
+                <p5:DeviceName>Speakers (3- XMOS xCORE-200 MC (UAC2.0))</p5:DeviceName>
                 <p5:SampleRate>50000</p5:SampleRate>
                 <p5:SuggestedLatency xsi:nil="true" />
               </Combinator>
@@ -2574,7 +2580,7 @@ it.Item2 as WasRewarded
             </Expression>
             <Expression xsi:type="Add">
               <Operand xsi:type="DoubleProperty">
-                <Value>2065.6624355563163</Value>
+                <Value>2470.3608813864007</Value>
               </Operand>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
@@ -2722,7 +2728,7 @@ it.Item2 as WasRewarded
             </Expression>
             <Expression xsi:type="Index">
               <Operand xsi:type="IntProperty">
-                <Value>0</Value>
+                <Value>84</Value>
               </Operand>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
@@ -3407,7 +3413,7 @@ it.Item2 as WasRewarded
             </Expression>
             <Expression xsi:type="Add">
               <Operand xsi:type="DoubleProperty">
-                <Value>4.0727407990584856</Value>
+                <Value>4.5002339387552563</Value>
               </Operand>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
@@ -3602,16 +3608,16 @@ it.Item2 as WasRewarded
               <Layer>1</Layer>
               <ExtentX>2</ExtentX>
               <ExtentY>2</ExtentY>
-              <SpatialFrequency>4</SpatialFrequency>
+              <SpatialFrequency>13.1470451</SpatialFrequency>
               <TemporalFrequency>0</TemporalFrequency>
-              <Phase>6219.25342</Phase>
+              <Phase>-4337.225</Phase>
               <Angle>90</Angle>
               <SquareWave>false</SquareWave>
               <Contrast>1</Contrast>
               <DutyCycle xsi:nil="true" />
               <Radius>1</Radius>
               <Aperture>1</Aperture>
-              <Opacity>1</Opacity>
+              <Opacity>0</Opacity>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
           </Nodes>
@@ -3731,6 +3737,15 @@ it.Item2 as WasRewarded
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="dsp:Rescale">
+                      <dsp:Min>0</dsp:Min>
+                      <dsp:Max>1</dsp:Max>
+                      <dsp:RangeMin>0</dsp:RangeMin>
+                      <dsp:RangeMax>0.05</dsp:RangeMax>
+                      <dsp:RescaleType>Linear</dsp:RescaleType>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
                     <Combinator xsi:type="rx:Take">
                       <rx:Count>25</rx:Count>
                     </Combinator>
@@ -3753,6 +3768,15 @@ it.Item2 as WasRewarded
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="dsp:Rescale">
+                      <dsp:Min>0</dsp:Min>
+                      <dsp:Max>1</dsp:Max>
+                      <dsp:RangeMin>0</dsp:RangeMin>
+                      <dsp:RangeMax>0.05</dsp:RangeMax>
+                      <dsp:RescaleType>Linear</dsp:RescaleType>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
                     <Combinator xsi:type="rx:Take">
                       <rx:Count>25</rx:Count>
                     </Combinator>
@@ -3762,7 +3786,7 @@ it.Item2 as WasRewarded
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="dsp:Tile">
-                      <dsp:RowTiles>2</dsp:RowTiles>
+                      <dsp:RowTiles>32</dsp:RowTiles>
                       <dsp:ColumnTiles>1</dsp:ColumnTiles>
                     </Combinator>
                   </Expression>
@@ -3801,21 +3825,23 @@ it.Item2 as WasRewarded
                 <Edges>
                   <Edge From="0" To="1" Label="Source1" />
                   <Edge From="1" To="2" Label="Source1" />
-                  <Edge From="1" To="5" Label="Source1" />
+                  <Edge From="1" To="6" Label="Source1" />
                   <Edge From="2" To="3" Label="Source1" />
                   <Edge From="3" To="4" Label="Source1" />
-                  <Edge From="4" To="8" Label="Source1" />
-                  <Edge From="5" To="6" Label="Source1" />
+                  <Edge From="4" To="5" Label="Source1" />
+                  <Edge From="5" To="10" Label="Source1" />
                   <Edge From="6" To="7" Label="Source1" />
-                  <Edge From="7" To="8" Label="Source2" />
+                  <Edge From="7" To="8" Label="Source1" />
                   <Edge From="8" To="9" Label="Source1" />
-                  <Edge From="9" To="12" Label="Source1" />
+                  <Edge From="9" To="10" Label="Source2" />
                   <Edge From="10" To="11" Label="Source1" />
-                  <Edge From="11" To="12" Label="Source2" />
+                  <Edge From="11" To="14" Label="Source1" />
                   <Edge From="12" To="13" Label="Source1" />
-                  <Edge From="13" To="14" Label="Source1" />
+                  <Edge From="13" To="14" Label="Source2" />
                   <Edge From="14" To="15" Label="Source1" />
                   <Edge From="15" To="16" Label="Source1" />
+                  <Edge From="16" To="17" Label="Source1" />
+                  <Edge From="17" To="18" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>

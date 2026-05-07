@@ -42,9 +42,9 @@
       "stage6PunishedLick": 3
     },
     "logConfig": {
-      "loggingRootPath": "c:\\Users\\CoenL\\Documents\\TomC\\auditory-vr-corridor\\Logs",
-      "sessionId": "1",
-      "animalId": "ALGERNON"
+      "loggingRootPath": "c:\\Users\\CoenLabUsers\\Desktop\\auditory-vr-corridor\\auditory-vr-corridor\\Logs",
+      "sessionId": "two",
+      "animalId": "Algernon"
     },
     "amplitude": 0.5,
     "quantizeBinSize": 1

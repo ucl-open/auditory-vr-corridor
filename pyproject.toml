@@ -19,7 +19,8 @@ dependencies = [
   "swc-aeon>=0.1.0",
   "ucl-open-rigs",
   "pydantic-settings",
-  "aind_behavior_services>=0.12, <0.13"
+  "aind_behavior_services>=0.12, <0.13",
+  "scipy>=1.17.1",
 ]
 
 # [project.urls]
@@ -48,5 +49,5 @@ ignore-words-list = 'nd'
 required-version = '>=0.8.4'
 
 [tool.uv.sources]
-ucl-open-rigs = {git = "https://github.com/ucl-open/ucl_open_rigs/", branch = "test_build"}
-swc-aeon = { git = "https://github.com/SainsburyWellcomeCentre/aeon_api.git", branch = "pydantic-schema" }
+ucl-open-rigs = {git = "https://github.com/ucl-open/ucl_open_rigs/", branch = "main"}
+swc-aeon = { git = "https://github.com/SainsburyWellcomeCentre/aeon_api.git", branch = "main" }

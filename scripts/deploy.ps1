@@ -19,20 +19,12 @@ if (Test-Path -Path ./.venv) {
 Write-Output "Synchronizing environment..."
 &uv sync 
 
-Write-Output "Creating a Bonsai environment and installing packages..."
-if (Test-Path -Path "bonsai") {
-    Set-Location "bonsai"
-    .\setup.ps1
-} elseif (Test-Path -Path ".bonsai") {
-    Set-Location ".bonsai"
-    .\setup.ps1
-} else {
-    throw "Neither 'bonsai' nor '.bonsai' directory found."
+if (-not (Test-Path -Path src\Extensions)) {
+    Write-Output "Creating bonsai extensions folder..."
+    New-Item -ItemType Directory -Path src\Extensions | Out-Null
 }
-Set-Location ..
 
-Write-Output "Creating bonsai extensions folder..."
-mkdir src\Extensions
-
-Write-Output "Creating sgen output folder"
-mkdir src\DataSchemas
+if (-not (Test-Path -Path src\DataSchemas)) {
+    Write-Output "Creating sgen output folder..."
+    New-Item -ItemType Directory -Path src\DataSchemas | Out-Null
+}

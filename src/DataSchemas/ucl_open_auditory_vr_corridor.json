@@ -1,5 +1,54 @@
 {
   "$defs": {
+    "ArduinoDevice": {
+      "description": "Represents an Arduino serial device used in Bonsai workflows.",
+      "properties": {
+        "deviceType": {
+          "const": "Arduino",
+          "default": "Arduino",
+          "title": "DeviceType",
+          "type": "string"
+        },
+        "portName": {
+          "description": "The name of the device serial port.",
+          "examples": [
+            "COMx"
+          ],
+          "title": "PortName",
+          "type": "string"
+        },
+        "baudRate": {
+          "default": 9600,
+          "description": "Baud rate for serial communication.",
+          "title": "BaudRate",
+          "type": "integer"
+        },
+        "samplingInterval": {
+          "description": "Sampling interval, in milliseconds, between analog and I2C measurements.",
+          "title": "SamplingInterval",
+          "type": "integer"
+        },
+        "ledDriver": {
+          "default": null,
+          "description": "Optional LedDriver module for generating digital output pulses.",
+          "oneOf": [
+            {
+              "$ref": "#/$defs/LedDriver"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "LedDriver"
+        }
+      },
+      "required": [
+        "portName",
+        "samplingInterval"
+      ],
+      "title": "ArduinoDevice",
+      "type": "object"
+    },
     "BehaviorBoard": {
       "description": "Represents a Harp Behavior Board device.",
       "properties": {
@@ -79,6 +128,44 @@
         "triggerFrequency"
       ],
       "title": "CameraController",
+      "type": "object"
+    },
+    "LedDriver": {
+      "properties": {
+        "digitalOutPin": {
+          "description": "The digital output pin for this LED driver",
+          "title": "DigitalOutPin",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "digitalOutPin"
+      ],
+      "title": "LedDriver",
+      "type": "object"
+    },
+    "LicketySplit": {
+      "description": "Represents a Harp LicketySplit device.",
+      "properties": {
+        "deviceType": {
+          "const": "LicketySplit",
+          "default": "LicketySplit",
+          "title": "DeviceType",
+          "type": "string"
+        },
+        "portName": {
+          "description": "The name of the device serial port.",
+          "examples": [
+            "COM"
+          ],
+          "title": "PortName",
+          "type": "string"
+        }
+      },
+      "required": [
+        "portName"
+      ],
+      "title": "LicketySplit",
       "type": "object"
     },
     "LogConfig": {
@@ -211,6 +298,60 @@
       "title": "RunningWheelModule",
       "type": "object"
     },
+    "SpinnakerCamera": {
+      "properties": {
+        "cameraType": {
+          "const": "Spinnaker",
+          "default": "Spinnaker",
+          "description": "Camera type discriminator for Spinnaker devices.",
+          "title": "CameraType",
+          "type": "string"
+        },
+        "triggerFrequency": {
+          "default": 50,
+          "description": "The frequency at which the camera is triggered (in Hz).",
+          "minimum": 1,
+          "title": "TriggerFrequency",
+          "type": "number"
+        },
+        "exposureTime": {
+          "default": 15000,
+          "description": "The exposure time for the camera (in microseconds).",
+          "minimum": 0,
+          "title": "ExposureTime",
+          "type": "number"
+        },
+        "serialNumber": {
+          "default": "00000",
+          "description": "The serial number of the camera.",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "SerialNumber"
+        },
+        "gain": {
+          "default": 1,
+          "description": "The camera gain.",
+          "minimum": 0,
+          "title": "Gain",
+          "type": "number"
+        },
+        "binning": {
+          "default": 1,
+          "description": "The binning setting for the camera.",
+          "minimum": 1,
+          "title": "Binning",
+          "type": "integer"
+        }
+      },
+      "title": "SpinnakerCamera",
+      "type": "object"
+    },
     "Stage": {
       "description": "Frequency boundaries for a single shaping stage.",
       "properties": {
@@ -290,11 +431,26 @@
         "runningwheel": {
           "$ref": "#/$defs/RunningWheelModule",
           "title": "Runningwheel"
+        },
+        "licketySplits": {
+          "$ref": "#/$defs/LicketySplit",
+          "title": "LicketySplits"
+        },
+        "cameras": {
+          "$ref": "#/$defs/SpinnakerCamera",
+          "title": "Cameras"
+        },
+        "ledDriver": {
+          "$ref": "#/$defs/ArduinoDevice",
+          "title": "LedDriver"
         }
       },
       "required": [
         "behaviorboard",
-        "runningwheel"
+        "runningwheel",
+        "licketySplits",
+        "cameras",
+        "ledDriver"
       ],
       "title": "UclOpenAuditoryVrCorridorRig",
       "type": "object"
@@ -360,7 +516,7 @@
             "logConfig": {
               "animalId": "unknown_animal",
               "loggingRootPath": ".\\logs",
-              "sessionId": "2026-05-06T16_53_26"
+              "sessionId": "2026-05-13T12_42_30"
             },
             "amplitude": 0.5,
             "quantizeBinSize": 1
@@ -455,7 +611,7 @@
           "$ref": "#/$defs/LogConfig",
           "default": {
             "loggingRootPath": ".\\logs",
-            "sessionId": "2026-05-06T16_53_26",
+            "sessionId": "2026-05-13T12_42_30",
             "animalId": "unknown_animal"
           }
         },

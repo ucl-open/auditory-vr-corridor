@@ -9,6 +9,7 @@
     <PackageReference Include="Bonsai.System" Version="2.9.0" />
     <PackageReference Include="YamlDotNet" Version="16.3.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Harp.StepperDriver" Version="0.4.0" />
   </ItemGroup>
 
 </Project>

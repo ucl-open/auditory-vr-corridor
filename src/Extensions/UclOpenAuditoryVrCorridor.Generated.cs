@@ -10,6 +10,158 @@ namespace UclOpenAuditoryVrCorridorDataSchema
     #pragma warning disable // Disable all warnings
 
     /// <summary>
+    /// Represents an Arduino serial device used in Bonsai workflows.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.7.2.0 (Newtonsoft.Json v13.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute("Represents an Arduino serial device used in Bonsai workflows.")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class ArduinoDevice
+    {
+    
+        private string _deviceType;
+    
+        private string _portName;
+    
+        private int _baudRate;
+    
+        private int _samplingInterval;
+    
+        private LedDriver _ledDriver;
+    
+        public ArduinoDevice()
+        {
+            _deviceType = "Arduino";
+            _baudRate = 9600;
+        }
+    
+        protected ArduinoDevice(ArduinoDevice other)
+        {
+            _deviceType = other._deviceType;
+            _portName = other._portName;
+            _baudRate = other._baudRate;
+            _samplingInterval = other._samplingInterval;
+            _ledDriver = other._ledDriver;
+        }
+    
+        [Newtonsoft.Json.JsonPropertyAttribute("deviceType")]
+        public string DeviceType
+        {
+            get
+            {
+                return _deviceType;
+            }
+            set
+            {
+                _deviceType = value;
+            }
+        }
+    
+        /// <summary>
+        /// The name of the device serial port.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("portName", Required=Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DescriptionAttribute("The name of the device serial port.")]
+        public string PortName
+        {
+            get
+            {
+                return _portName;
+            }
+            set
+            {
+                _portName = value;
+            }
+        }
+    
+        /// <summary>
+        /// Baud rate for serial communication.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("baudRate")]
+        [System.ComponentModel.DescriptionAttribute("Baud rate for serial communication.")]
+        public int BaudRate
+        {
+            get
+            {
+                return _baudRate;
+            }
+            set
+            {
+                _baudRate = value;
+            }
+        }
+    
+        /// <summary>
+        /// Sampling interval, in milliseconds, between analog and I2C measurements.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("samplingInterval", Required=Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DescriptionAttribute("Sampling interval, in milliseconds, between analog and I2C measurements.")]
+        public int SamplingInterval
+        {
+            get
+            {
+                return _samplingInterval;
+            }
+            set
+            {
+                _samplingInterval = value;
+            }
+        }
+    
+        /// <summary>
+        /// Optional LedDriver module for generating digital output pulses.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("ledDriver")]
+        [System.ComponentModel.DescriptionAttribute("Optional LedDriver module for generating digital output pulses.")]
+        public LedDriver LedDriver
+        {
+            get
+            {
+                return _ledDriver;
+            }
+            set
+            {
+                _ledDriver = value;
+            }
+        }
+    
+        public System.IObservable<ArduinoDevice> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new ArduinoDevice(this)));
+        }
+    
+        public System.IObservable<ArduinoDevice> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new ArduinoDevice(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("DeviceType = " + _deviceType + ", ");
+            stringBuilder.Append("PortName = " + _portName + ", ");
+            stringBuilder.Append("BaudRate = " + _baudRate + ", ");
+            stringBuilder.Append("SamplingInterval = " + _samplingInterval + ", ");
+            stringBuilder.Append("LedDriver = " + _ledDriver);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    /// <summary>
     /// Represents a Harp Behavior Board device.
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.7.2.0 (Newtonsoft.Json v13.0.0.0)")]
@@ -218,6 +370,158 @@ namespace UclOpenAuditoryVrCorridorDataSchema
         protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
         {
             stringBuilder.Append("TriggerFrequency = " + _triggerFrequency);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.7.2.0 (Newtonsoft.Json v13.0.0.0)")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class LedDriver
+    {
+    
+        private int _digitalOutPin;
+    
+        public LedDriver()
+        {
+        }
+    
+        protected LedDriver(LedDriver other)
+        {
+            _digitalOutPin = other._digitalOutPin;
+        }
+    
+        /// <summary>
+        /// The digital output pin for this LED driver
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("digitalOutPin", Required=Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DescriptionAttribute("The digital output pin for this LED driver")]
+        public int DigitalOutPin
+        {
+            get
+            {
+                return _digitalOutPin;
+            }
+            set
+            {
+                _digitalOutPin = value;
+            }
+        }
+    
+        public System.IObservable<LedDriver> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new LedDriver(this)));
+        }
+    
+        public System.IObservable<LedDriver> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new LedDriver(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("DigitalOutPin = " + _digitalOutPin);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    /// <summary>
+    /// Represents a Harp LicketySplit device.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.7.2.0 (Newtonsoft.Json v13.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute("Represents a Harp LicketySplit device.")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class LicketySplit
+    {
+    
+        private string _deviceType;
+    
+        private string _portName;
+    
+        public LicketySplit()
+        {
+            _deviceType = "LicketySplit";
+        }
+    
+        protected LicketySplit(LicketySplit other)
+        {
+            _deviceType = other._deviceType;
+            _portName = other._portName;
+        }
+    
+        [Newtonsoft.Json.JsonPropertyAttribute("deviceType")]
+        public string DeviceType
+        {
+            get
+            {
+                return _deviceType;
+            }
+            set
+            {
+                _deviceType = value;
+            }
+        }
+    
+        /// <summary>
+        /// The name of the device serial port.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("portName", Required=Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DescriptionAttribute("The name of the device serial port.")]
+        public string PortName
+        {
+            get
+            {
+                return _portName;
+            }
+            set
+            {
+                _portName = value;
+            }
+        }
+    
+        public System.IObservable<LicketySplit> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new LicketySplit(this)));
+        }
+    
+        public System.IObservable<LicketySplit> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new LicketySplit(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("DeviceType = " + _deviceType + ", ");
+            stringBuilder.Append("PortName = " + _portName);
             return true;
         }
     
@@ -770,6 +1074,181 @@ namespace UclOpenAuditoryVrCorridorDataSchema
     }
 
 
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.7.2.0 (Newtonsoft.Json v13.0.0.0)")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class SpinnakerCamera
+    {
+    
+        private string _cameraType;
+    
+        private double _triggerFrequency;
+    
+        private double _exposureTime;
+    
+        private string _serialNumber;
+    
+        private double _gain;
+    
+        private int _binning;
+    
+        public SpinnakerCamera()
+        {
+            _cameraType = "Spinnaker";
+            _triggerFrequency = 50D;
+            _exposureTime = 15000D;
+            _gain = 1D;
+            _binning = 1;
+        }
+    
+        protected SpinnakerCamera(SpinnakerCamera other)
+        {
+            _cameraType = other._cameraType;
+            _triggerFrequency = other._triggerFrequency;
+            _exposureTime = other._exposureTime;
+            _serialNumber = other._serialNumber;
+            _gain = other._gain;
+            _binning = other._binning;
+        }
+    
+        /// <summary>
+        /// Camera type discriminator for Spinnaker devices.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("cameraType")]
+        [System.ComponentModel.DescriptionAttribute("Camera type discriminator for Spinnaker devices.")]
+        public string CameraType
+        {
+            get
+            {
+                return _cameraType;
+            }
+            set
+            {
+                _cameraType = value;
+            }
+        }
+    
+        /// <summary>
+        /// The frequency at which the camera is triggered (in Hz).
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("triggerFrequency")]
+        [System.ComponentModel.DescriptionAttribute("The frequency at which the camera is triggered (in Hz).")]
+        public double TriggerFrequency
+        {
+            get
+            {
+                return _triggerFrequency;
+            }
+            set
+            {
+                _triggerFrequency = value;
+            }
+        }
+    
+        /// <summary>
+        /// The exposure time for the camera (in microseconds).
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("exposureTime")]
+        [System.ComponentModel.DescriptionAttribute("The exposure time for the camera (in microseconds).")]
+        public double ExposureTime
+        {
+            get
+            {
+                return _exposureTime;
+            }
+            set
+            {
+                _exposureTime = value;
+            }
+        }
+    
+        /// <summary>
+        /// The serial number of the camera.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("serialNumber")]
+        [System.ComponentModel.DescriptionAttribute("The serial number of the camera.")]
+        public string SerialNumber
+        {
+            get
+            {
+                return _serialNumber;
+            }
+            set
+            {
+                _serialNumber = value;
+            }
+        }
+    
+        /// <summary>
+        /// The camera gain.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("gain")]
+        [System.ComponentModel.DescriptionAttribute("The camera gain.")]
+        public double Gain
+        {
+            get
+            {
+                return _gain;
+            }
+            set
+            {
+                _gain = value;
+            }
+        }
+    
+        /// <summary>
+        /// The binning setting for the camera.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("binning")]
+        [System.ComponentModel.DescriptionAttribute("The binning setting for the camera.")]
+        public int Binning
+        {
+            get
+            {
+                return _binning;
+            }
+            set
+            {
+                _binning = value;
+            }
+        }
+    
+        public System.IObservable<SpinnakerCamera> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new SpinnakerCamera(this)));
+        }
+    
+        public System.IObservable<SpinnakerCamera> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new SpinnakerCamera(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("CameraType = " + _cameraType + ", ");
+            stringBuilder.Append("TriggerFrequency = " + _triggerFrequency + ", ");
+            stringBuilder.Append("ExposureTime = " + _exposureTime + ", ");
+            stringBuilder.Append("SerialNumber = " + _serialNumber + ", ");
+            stringBuilder.Append("Gain = " + _gain + ", ");
+            stringBuilder.Append("Binning = " + _binning);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
     /// <summary>
     /// Frequency boundaries for a single shaping stage.
     /// </summary>
@@ -1034,11 +1513,20 @@ namespace UclOpenAuditoryVrCorridorDataSchema
     
         private RunningWheelModule _runningwheel;
     
+        private LicketySplit _licketySplits;
+    
+        private SpinnakerCamera _cameras;
+    
+        private ArduinoDevice _ledDriver;
+    
         public UclOpenAuditoryVrCorridorRig()
         {
             _version = "0.0.0-rc1";
             _behaviorboard = new BehaviorBoard();
             _runningwheel = new RunningWheelModule();
+            _licketySplits = new LicketySplit();
+            _cameras = new SpinnakerCamera();
+            _ledDriver = new ArduinoDevice();
         }
     
         protected UclOpenAuditoryVrCorridorRig(UclOpenAuditoryVrCorridorRig other)
@@ -1046,6 +1534,9 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             _version = other._version;
             _behaviorboard = other._behaviorboard;
             _runningwheel = other._runningwheel;
+            _licketySplits = other._licketySplits;
+            _cameras = other._cameras;
+            _ledDriver = other._ledDriver;
         }
     
         [Newtonsoft.Json.JsonPropertyAttribute("version")]
@@ -1089,6 +1580,48 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             }
         }
     
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("licketySplits", Required=Newtonsoft.Json.Required.Always)]
+        public LicketySplit LicketySplits
+        {
+            get
+            {
+                return _licketySplits;
+            }
+            set
+            {
+                _licketySplits = value;
+            }
+        }
+    
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("cameras", Required=Newtonsoft.Json.Required.Always)]
+        public SpinnakerCamera Cameras
+        {
+            get
+            {
+                return _cameras;
+            }
+            set
+            {
+                _cameras = value;
+            }
+        }
+    
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("ledDriver", Required=Newtonsoft.Json.Required.Always)]
+        public ArduinoDevice LedDriver
+        {
+            get
+            {
+                return _ledDriver;
+            }
+            set
+            {
+                _ledDriver = value;
+            }
+        }
+    
         public System.IObservable<UclOpenAuditoryVrCorridorRig> Generate()
         {
             return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new UclOpenAuditoryVrCorridorRig(this)));
@@ -1103,7 +1636,10 @@ namespace UclOpenAuditoryVrCorridorDataSchema
         {
             stringBuilder.Append("Version = " + _version + ", ");
             stringBuilder.Append("Behaviorboard = " + _behaviorboard + ", ");
-            stringBuilder.Append("Runningwheel = " + _runningwheel);
+            stringBuilder.Append("Runningwheel = " + _runningwheel + ", ");
+            stringBuilder.Append("LicketySplits = " + _licketySplits + ", ");
+            stringBuilder.Append("Cameras = " + _cameras + ", ");
+            stringBuilder.Append("LedDriver = " + _ledDriver);
             return true;
         }
     
@@ -1549,6 +2085,11 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             return System.Reactive.Linq.Observable.Select(source, value => Newtonsoft.Json.JsonConvert.SerializeObject(value, formatting));
         }
 
+        public System.IObservable<string> Process(System.IObservable<ArduinoDevice> source)
+        {
+            return Process<ArduinoDevice>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<BehaviorBoard> source)
         {
             return Process<BehaviorBoard>(source);
@@ -1557,6 +2098,16 @@ namespace UclOpenAuditoryVrCorridorDataSchema
         public System.IObservable<string> Process(System.IObservable<CameraController> source)
         {
             return Process<CameraController>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<LedDriver> source)
+        {
+            return Process<LedDriver>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<LicketySplit> source)
+        {
+            return Process<LicketySplit>(source);
         }
 
         public System.IObservable<string> Process(System.IObservable<LogConfig> source)
@@ -1582,6 +2133,11 @@ namespace UclOpenAuditoryVrCorridorDataSchema
         public System.IObservable<string> Process(System.IObservable<RunningWheelModule> source)
         {
             return Process<RunningWheelModule>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<SpinnakerCamera> source)
+        {
+            return Process<SpinnakerCamera>(source);
         }
 
         public System.IObservable<string> Process(System.IObservable<Stage> source)
@@ -1618,13 +2174,17 @@ namespace UclOpenAuditoryVrCorridorDataSchema
     [System.ComponentModel.DescriptionAttribute("Deserializes a sequence of JSON strings into data model objects.")]
     [System.ComponentModel.DefaultPropertyAttribute("Type")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Transform)]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ArduinoDevice>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BehaviorBoard>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<CameraController>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<LedDriver>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<LicketySplit>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<LogConfig>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PulseController>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PulseWidths>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PunishmentConfig>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<RunningWheelModule>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<SpinnakerCamera>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Stage>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ThresholdFrequencies>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<UclOpenAuditoryVrCorridorRig>))]
@@ -1635,7 +2195,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
     
         public DeserializeFromJson()
         {
-            Type = new Bonsai.Expressions.TypeMapping<BehaviorBoard>();
+            Type = new Bonsai.Expressions.TypeMapping<ArduinoDevice>();
         }
 
         public Bonsai.Expressions.TypeMapping Type { get; set; }

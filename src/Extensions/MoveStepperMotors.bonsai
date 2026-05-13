@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.9.0"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
+                 xmlns:p1="clr-namespace:Harp.StepperDriver;assembly=Harp.StepperDriver"
+                 xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
+                 xmlns="https://bonsai-rx.org/2018/workflow">
+  <Workflow>
+    <Nodes>
+      <Expression xsi:type="WorkflowInput">
+        <Name>Source1</Name>
+      </Expression>
+      <Expression xsi:type="rx:SelectMany">
+        <Name>MoveStepperMotors</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="Annotation">
+              <Name>If I dont have these, the Message is send before updating the property!!!</Name>
+              <Text><![CDATA[If I dont have these, the Message is send before updating the property!!!]]></Text>
+            </Expression>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Delay">
+                <rx:DueTime>PT0.01S</rx:DueTime>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="Motor0MoveAbsolute" Selector="Item1" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="p1:CreateMessage">
+              <harp:MessageType>Write</harp:MessageType>
+              <harp:Payload xsi:type="p1:CreateMotor0MoveAbsolutePayload">
+                <p1:Motor0MoveAbsolute>8000</p1:Motor0MoveAbsolute>
+              </harp:Payload>
+            </Expression>
+            <Expression xsi:type="MulticastSubject">
+              <Name>StepperDriver1Commands</Name>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="Motor1MoveAbsolute" Selector="Item2" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="p1:CreateMessage">
+              <harp:MessageType>Write</harp:MessageType>
+              <harp:Payload xsi:type="p1:CreateMotor1MoveAbsolutePayload">
+                <p1:Motor1MoveAbsolute>8000</p1:Motor1MoveAbsolute>
+              </harp:Payload>
+            </Expression>
+            <Expression xsi:type="MulticastSubject">
+              <Name>StepperDriver1Commands</Name>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="Motor2MoveAbsolute" Selector="Item3" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="p1:CreateMessage">
+              <harp:MessageType>Write</harp:MessageType>
+              <harp:Payload xsi:type="p1:CreateMotor2MoveAbsolutePayload">
+                <p1:Motor2MoveAbsolute>8000</p1:Motor2MoveAbsolute>
+              </harp:Payload>
+            </Expression>
+            <Expression xsi:type="MulticastSubject">
+              <Name>StepperDriver1Commands</Name>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="Motor0MoveAbsolute" Selector="Item4" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="p1:CreateMessage">
+              <harp:MessageType>Write</harp:MessageType>
+              <harp:Payload xsi:type="p1:CreateMotor0MoveAbsolutePayload">
+                <p1:Motor0MoveAbsolute>3000</p1:Motor0MoveAbsolute>
+              </harp:Payload>
+            </Expression>
+            <Expression xsi:type="MulticastSubject">
+              <Name>StepperDriver2Commands</Name>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="Motor1MoveAbsolute" Selector="Item5" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="p1:CreateMessage">
+              <harp:MessageType>Write</harp:MessageType>
+              <harp:Payload xsi:type="p1:CreateMotor1MoveAbsolutePayload">
+                <p1:Motor1MoveAbsolute>4000</p1:Motor1MoveAbsolute>
+              </harp:Payload>
+            </Expression>
+            <Expression xsi:type="MulticastSubject">
+              <Name>StepperDriver2Commands</Name>
+            </Expression>
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="2" Label="Source1" />
+            <Edge From="1" To="2" Label="Source2" />
+            <Edge From="1" To="3" Label="Source1" />
+            <Edge From="1" To="6" Label="Source1" />
+            <Edge From="1" To="9" Label="Source1" />
+            <Edge From="1" To="12" Label="Source1" />
+            <Edge From="1" To="15" Label="Source1" />
+            <Edge From="2" To="4" Label="Source1" />
+            <Edge From="2" To="7" Label="Source1" />
+            <Edge From="2" To="10" Label="Source1" />
+            <Edge From="2" To="13" Label="Source2" />
+            <Edge From="2" To="16" Label="Source2" />
+            <Edge From="3" To="4" Label="Source2" />
+            <Edge From="4" To="5" Label="Source1" />
+            <Edge From="6" To="7" Label="Source2" />
+            <Edge From="7" To="8" Label="Source1" />
+            <Edge From="9" To="10" Label="Source2" />
+            <Edge From="10" To="11" Label="Source1" />
+            <Edge From="12" To="13" Label="Source1" />
+            <Edge From="13" To="14" Label="Source1" />
+            <Edge From="15" To="16" Label="Source1" />
+            <Edge From="16" To="17" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="WorkflowOutput" />
+    </Nodes>
+    <Edges>
+      <Edge From="0" To="1" Label="Source1" />
+      <Edge From="1" To="2" Label="Source1" />
+    </Edges>
+  </Workflow>
+</WorkflowBuilder>

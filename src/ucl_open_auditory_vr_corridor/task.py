@@ -47,6 +47,8 @@ class LogConfig(BaseSchema):
 
 class UclOpenAuditoryVrCorridorTaskParameters(BaseSchema):
     '''Task params.'''
+    modality: Literal["A", "V", "AV"] = Field(default="AV", description="Stimulus modality: auditory (A), visual (V), or audiovisual (AV)")
+
     shaping_stage: int = Field(default=1, description='Shaping stage (1-6)', ge=1, le=6)
     start_freq: int = Field(default=2000, description='Start frequency of the sweep (Hz)', ge=1, le=25000)
     end_freq: int = Field(default=25000, description='End frequency of the sweep (Hz)', ge=1, le=25000)

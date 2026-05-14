@@ -474,6 +474,7 @@
         "taskParameters": {
           "$ref": "#/$defs/UclOpenAuditoryVrCorridorTaskParameters",
           "default": {
+            "modality": "AV",
             "shapingStage": 1,
             "startFreq": 2000,
             "endFreq": 25000,
@@ -516,7 +517,7 @@
             "logConfig": {
               "animalId": "unknown_animal",
               "loggingRootPath": ".\\logs",
-              "sessionId": "2026-05-13T12_42_30"
+              "sessionId": "2026-05-14T17_26_24"
             },
             "amplitude": 0.5,
             "quantizeBinSize": 1
@@ -530,6 +531,17 @@
     "UclOpenAuditoryVrCorridorTaskParameters": {
       "description": "Task params.",
       "properties": {
+        "modality": {
+          "default": "AV",
+          "description": "Stimulus modality: auditory (A), visual (V), or audiovisual (AV)",
+          "enum": [
+            "A",
+            "V",
+            "AV"
+          ],
+          "title": "Modality",
+          "type": "string"
+        },
         "shapingStage": {
           "default": 1,
           "description": "Shaping stage (1-6)",
@@ -611,7 +623,7 @@
           "$ref": "#/$defs/LogConfig",
           "default": {
             "loggingRootPath": ".\\logs",
-            "sessionId": "2026-05-13T12_42_30",
+            "sessionId": "2026-05-14T17_26_24",
             "animalId": "unknown_animal"
           }
         },

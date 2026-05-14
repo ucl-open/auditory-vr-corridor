@@ -13,6 +13,7 @@ from ucl_open_auditory_vr_corridor.task import (
 def main():
     animal_id = input("\nEnter animal ID: ").strip() or "unknown_animal"
     session_id = input("Enter session ID: ").strip()
+    modality = (input("Enter modality (A/V/AV) [default=AV]: ").strip().upper() or "AV")
     logging_root_path = str(Path(__file__).parent.parent / "Logs") # Logs will be saved in a "Logs" folder at project root
 
     task_logic = UclOpenAuditoryVrCorridorTaskLogic(
@@ -23,6 +24,7 @@ def main():
                 logging_root_path=logging_root_path
             ),
             shaping_stage=determine_shaping_stage(animal_id=animal_id, session_id=session_id, logging_root_path=logging_root_path), # Determine shaping stage based on previous session logs for this animal
+            modality=modality,
         ),
     )
 

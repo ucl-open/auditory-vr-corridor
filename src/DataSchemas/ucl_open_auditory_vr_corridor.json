@@ -172,7 +172,7 @@
       "description": "Logging params.",
       "properties": {
         "loggingRootPath": {
-          "default": ".\\logs",
+          "default": "..\\Logs",
           "description": "Root path for logs",
           "title": "LoggingRootPath",
           "type": "string"
@@ -516,10 +516,10 @@
             },
             "logConfig": {
               "animalId": "unknown_animal",
-              "loggingRootPath": ".\\logs",
-              "sessionId": "2026-05-14T17_26_24"
+              "loggingRootPath": "..\\Logs",
+              "sessionId": "2026-05-19T13_33_04"
             },
-            "amplitude": 0.5,
+            "amplitude": 0.05,
             "quantizeBinSize": 1
           },
           "title": "TaskParameters"
@@ -622,13 +622,13 @@
         "logConfig": {
           "$ref": "#/$defs/LogConfig",
           "default": {
-            "loggingRootPath": ".\\logs",
-            "sessionId": "2026-05-14T17_26_24",
+            "loggingRootPath": "..\\Logs",
+            "sessionId": "2026-05-19T13_33_04",
             "animalId": "unknown_animal"
           }
         },
         "amplitude": {
-          "default": 0.5,
+          "default": 0.05,
           "description": "Audio amplitude (0.0 to 1.0)",
           "maximum": 1.0,
           "minimum": 0.0,

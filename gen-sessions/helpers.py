@@ -6,10 +6,25 @@ from scipy.io import wavfile
 from scipy.signal import butter, sosfilt
 
 
-def determine_shaping_stage(
+def session_exists(
         animal_id: str,
         session_id: str,
         logging_root_path: str
+    ):
+    '''
+    Returns True if a session folder for this session_id already exists for this animal.
+    '''
+    animal_dir = Path(logging_root_path) / f"sub-{animal_id}"
+    if not animal_dir.exists():
+        return False
+    return any(dir.is_dir() and dir.name.startswith(f"ses-{session_id}_") for dir in animal_dir.iterdir())
+
+
+def determine_shaping_stage(
+        animal_id: str,
+        session_id: str,
+        logging_root_path: str,
+        continue_session: bool = False
     ):
     '''
     Grabs last trial log for a specific animal and calculates shaping stage based on success rate:
@@ -25,8 +40,10 @@ def determine_shaping_stage(
         print(f"\nNo log directory found for animal '{animal_id}' at {animal_dir}, defaulting to shaping stage 1.\n")
         return 1
 
-    # Find all session folders for this animal, excluding the current session
-    session_dirs = [dir for dir in animal_dir.iterdir() if dir.is_dir() and dir.name.startswith("ses-") and f"ses-{session_id}_" not in dir.name]
+    # Find all session folders for this animal. When continuing an existing session, include it; otherwise exclude any folder for this session_id
+    session_dirs = [dir for dir in animal_dir.iterdir() if dir.is_dir() and dir.name.startswith("ses-")]
+    if not continue_session:
+        session_dirs = [dir for dir in session_dirs if not dir.name.startswith(f"ses-{session_id}_")]
     if not session_dirs:
         print(f"\nNo previous session folders found for animal '{animal_id}', defaulting to shaping stage 1.\n")
         return 1
@@ -59,6 +76,11 @@ def determine_shaping_stage(
     if start_stage != end_stage:
         print(f"\nNB: Shaping stage changed during session (start: {start_stage}, end: {end_stage}). Using last recorded stage.")
     df = df[df['ShapingStage'] == end_stage] # Filter df to trials from last shaping stage only
+
+    # If continuing the same session, keep the same shaping stage as the last session
+    if continue_session:
+        print(f'\nContinuing session, maintaining same shaping stage as last session ({end_stage}).\n')
+        return end_stage
 
     # If less than 50 trials, keep to same shaping stage
     if total_trials < 50:
@@ -143,7 +165,7 @@ def generate_waveforms(
     filtered /= (np.max(np.abs(filtered)) + 1e-12)
     filtered *= amplitude
     filtered_i16 = np.clip(filtered * 32767, -32768, 32767).astype(np.int16)
-    wavfile.write(out_dir / "error_tone.wav", sample_rate, np.column_stack([filtered_i16, filtered_i16]))
+    wavfile.write(out_dir / "error_tone.wav", sample_rate, filtered_i16)  # mono
 
     # Return summary
     return {

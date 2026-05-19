@@ -40,7 +40,7 @@ class PunishmentConfig(BaseSchema):
 
 class LogConfig(BaseSchema):
     '''Logging params.'''
-    logging_root_path: str = Field(default=".\logs", description="Root path for logs")
+    logging_root_path: str = Field(default=r"..\Logs", description="Root path for logs")
     session_id: str = Field(default_factory=lambda: datetime.now().strftime("%Y-%m-%dT%H_%M_%S"), description="Unique session identifier, defaults to timestamp")
     animal_id: str = Field(default="unknown_animal", description="Animal identifier for the session")
 
@@ -63,7 +63,7 @@ class UclOpenAuditoryVrCorridorTaskParameters(BaseSchema):
 
     punishment: PunishmentConfig = PunishmentConfig()
     log_config: LogConfig = LogConfig()
-    amplitude: float = Field(default=0.5, description='Audio amplitude (0.0 to 1.0)', ge=0.0, le=1.0)
+    amplitude: float = Field(default=0.05, description='Audio amplitude (0.0 to 1.0)', ge=0.0, le=1.0)
     quantize_bin_size: int = Field(default=1, description='Bin size for frequency quantization (Hz)', ge=1)
 
     @model_validator(mode="after")

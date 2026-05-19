@@ -558,7 +558,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
     
         public LogConfig()
         {
-            _loggingRootPath = ".\\logs";
+            _loggingRootPath = "..\\Logs";
             _animalId = "unknown_animal";
         }
     
@@ -1813,7 +1813,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             _stage6WindowSize = 4000;
             _punishment = new PunishmentConfig();
             _logConfig = new LogConfig();
-            _amplitude = 0.5D;
+            _amplitude = 0.05D;
             _quantizeBinSize = 1;
         }
     

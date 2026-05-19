@@ -1,6 +1,6 @@
 import os
 from datetime import datetime
-from helpers import determine_shaping_stage, generate_waveforms
+from helpers import determine_shaping_stage, generate_waveforms, session_exists
 from pathlib import Path
 
 
@@ -16,14 +16,23 @@ def main():
     modality = (input("Enter modality (A/V/AV) [default=AV]: ").strip().upper() or "AV")
     logging_root_path = str(Path(__file__).parent.parent / "Logs") # Logs will be saved in a "Logs" folder at project root
 
+    # If this session already exists for this animal, ask whether to continue it or pick a new session id
+    continue_session = False
+    while session_exists(animal_id=animal_id, session_id=session_id, logging_root_path=logging_root_path):
+        response = input(f"\nSession '{session_id}' already exists in the log. Are you sure you want to continue the same session? [Y/n]: ").strip().lower()
+        if response in ("", "y", "yes"):
+            continue_session = True
+            break
+        session_id = input("Enter a new session ID: ").strip()
+
     task_logic = UclOpenAuditoryVrCorridorTaskLogic(
         task_parameters=UclOpenAuditoryVrCorridorTaskParameters(
             log_config=LogConfig(
                 session_id=session_id,
                 animal_id=animal_id,
-                logging_root_path=logging_root_path
+                logging_root_path=r"..\Logs"
             ),
-            shaping_stage=determine_shaping_stage(animal_id=animal_id, session_id=session_id, logging_root_path=logging_root_path), # Determine shaping stage based on previous session logs for this animal
+            shaping_stage=determine_shaping_stage(animal_id=animal_id, session_id=session_id, logging_root_path=logging_root_path, continue_session=continue_session), # Determine shaping stage based on previous session logs for this animal
             modality=modality,
         ),
     )

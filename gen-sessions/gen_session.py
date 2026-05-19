@@ -32,7 +32,7 @@ def main():
                 animal_id=animal_id,
                 logging_root_path=r"..\Logs"
             ),
-            shaping_stage=determine_shaping_stage(animal_id=animal_id, session_id=session_id, logging_root_path=logging_root_path, continue_session=continue_session), # Determine shaping stage based on previous session logs for this animal
+            shaping_stage=determine_shaping_stage(animal_id=animal_id, session_id=session_id, logging_root_path=logging_root_path, modality=modality, continue_session=continue_session), # Determine shaping stage based on previous session logs of the same modality for this animal
             modality=modality,
         ),
     )

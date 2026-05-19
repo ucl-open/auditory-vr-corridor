@@ -866,7 +866,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
     
         public PunishmentConfig()
         {
-            _timeoutSec = 5;
+            _timeoutSec = 2;
             _stage4PunishedLick = 5;
             _stage5PunishedLick = 4;
             _stage6PunishedLick = 3;

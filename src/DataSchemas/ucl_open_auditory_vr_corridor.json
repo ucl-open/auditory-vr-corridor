@@ -247,7 +247,7 @@
       "description": "Punishment params.",
       "properties": {
         "timeoutSec": {
-          "default": 5,
+          "default": 2,
           "description": "Timeout duration in seconds",
           "title": "TimeoutSec",
           "type": "integer"
@@ -512,12 +512,12 @@
               "stage4PunishedLick": 5,
               "stage5PunishedLick": 4,
               "stage6PunishedLick": 3,
-              "timeoutSec": 5
+              "timeoutSec": 2
             },
             "logConfig": {
               "animalId": "unknown_animal",
               "loggingRootPath": "..\\Logs",
-              "sessionId": "2026-05-19T13_33_04"
+              "sessionId": "2026-05-19T18_06_01"
             },
             "amplitude": 0.05,
             "quantizeBinSize": 1
@@ -612,7 +612,7 @@
         "punishment": {
           "$ref": "#/$defs/PunishmentConfig",
           "default": {
-            "timeoutSec": 5,
+            "timeoutSec": 2,
             "stage4PunishedLick": 5,
             "stage5PunishedLick": 4,
             "stage6PunishedLick": 3
@@ -623,7 +623,7 @@
           "$ref": "#/$defs/LogConfig",
           "default": {
             "loggingRootPath": "..\\Logs",
-            "sessionId": "2026-05-19T13_33_04",
+            "sessionId": "2026-05-19T18_06_01",
             "animalId": "unknown_animal"
           }
         },

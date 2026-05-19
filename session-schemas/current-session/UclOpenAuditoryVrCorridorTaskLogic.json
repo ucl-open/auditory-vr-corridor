@@ -37,14 +37,14 @@
       }
     },
     "punishment": {
-      "timeoutSec": 5,
+      "timeoutSec": 2,
       "stage4PunishedLick": 5,
       "stage5PunishedLick": 4,
       "stage6PunishedLick": 3
     },
     "logConfig": {
       "loggingRootPath": "..\\Logs",
-      "sessionId": "TEST",
+      "sessionId": "TEST2",
       "animalId": "Algernon"
     },
     "amplitude": 0.05,

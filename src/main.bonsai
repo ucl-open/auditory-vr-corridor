@@ -1385,7 +1385,7 @@
               <gui:Name>TrialNumber</gui:Name>
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>12</gui:Text>
+              <gui:Text>4</gui:Text>
               <gui:Multiline>false</gui:Multiline>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
@@ -1449,7 +1449,7 @@
               <gui:Name>TrackLength</gui:Name>
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>60</gui:Text>
+              <gui:Text>40</gui:Text>
               <gui:Multiline>false</gui:Multiline>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
@@ -1481,7 +1481,7 @@
               <gui:Name>MouseVirtualPos</gui:Name>
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>0.29</gui:Text>
+              <gui:Text>0.00</gui:Text>
               <gui:Multiline>false</gui:Multiline>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
@@ -1513,7 +1513,7 @@
               <gui:Name>RewardFloorPos</gui:Name>
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>50.38</gui:Text>
+              <gui:Text>33.58</gui:Text>
               <gui:Multiline>false</gui:Multiline>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
@@ -1545,7 +1545,7 @@
               <gui:Name>RewardCeilPos</gui:Name>
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>55.73</gui:Text>
+              <gui:Text>37.15</gui:Text>
               <gui:Multiline>false</gui:Multiline>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
@@ -4861,7 +4861,7 @@
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="p8:JsonWriter">
-                            <p8:Path>..\Logs\sub-Algernon\ses-AV2_date-2026-05-20T15-40-38\TaskSchemaLog_AV2_Algernon_\TaskSchemaLog_AV2_Algernon_.json</p8:Path>
+                            <p8:Path>..\Logs\sub-Algernon\ses-AV2_date-2026-05-20T15-44-38\TaskSchemaLog_AV2_Algernon_\TaskSchemaLog_AV2_Algernon_.json</p8:Path>
                             <p8:Suffix>None</p8:Suffix>
                             <p8:Overwrite>false</p8:Overwrite>
                           </Combinator>
@@ -5101,7 +5101,7 @@ it.Item2 as WasRewarded
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>..\Logs\sub-Algernon\ses-AV2_date-2026-05-20T15-40-38\TrialLog_AV2_Algernon_\TrialLog_AV2_Algernon_.csv</io:FileName>
+                    <io:FileName>..\Logs\sub-Algernon\ses-AV2_date-2026-05-20T15-44-38\TrialLog_AV2_Algernon_\TrialLog_AV2_Algernon_.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>true</io:Overwrite>
                     <io:Suffix>Timestamp</io:Suffix>
@@ -5320,7 +5320,7 @@ it.Item2 as WasRewarded
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="cv:VideoWriter">
-                            <cv:FileName>..\Logs\sub-Algernon\ses-AV2_date-2026-05-20T15-40-38\Cameras\VideoData_Camera1.avi</cv:FileName>
+                            <cv:FileName>..\Logs\sub-Algernon\ses-AV2_date-2026-05-20T15-44-38\Cameras\VideoData_Camera1.avi</cv:FileName>
                             <cv:Suffix>None</cv:Suffix>
                             <cv:Buffered>true</cv:Buffered>
                             <cv:Overwrite>true</cv:Overwrite>
@@ -5420,7 +5420,7 @@ Item4 as ExposureTime)</scr:Expression>
                           </PropertyMappings>
                         </Expression>
                         <Expression xsi:type="io:CsvWriter">
-                          <io:FileName>..\Logs\sub-Algernon\ses-AV2_date-2026-05-20T15-40-38\Cameras\VideoData_Camera1.csv</io:FileName>
+                          <io:FileName>..\Logs\sub-Algernon\ses-AV2_date-2026-05-20T15-44-38\Cameras\VideoData_Camera1.csv</io:FileName>
                           <io:Append>false</io:Append>
                           <io:Overwrite>true</io:Overwrite>
                           <io:Suffix>None</io:Suffix>
@@ -5534,7 +5534,7 @@ Item4 as ExposureTime)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="cv:VideoWriter">
-                            <cv:FileName>..\Logs\sub-Algernon\ses-AV2_date-2026-05-20T15-40-38\Cameras\VideoData_Camera2.avi</cv:FileName>
+                            <cv:FileName>..\Logs\sub-Algernon\ses-AV2_date-2026-05-20T15-44-38\Cameras\VideoData_Camera2.avi</cv:FileName>
                             <cv:Suffix>None</cv:Suffix>
                             <cv:Buffered>true</cv:Buffered>
                             <cv:Overwrite>true</cv:Overwrite>
@@ -5634,7 +5634,7 @@ Item4 as ExposureTime)</scr:Expression>
                           </PropertyMappings>
                         </Expression>
                         <Expression xsi:type="io:CsvWriter">
-                          <io:FileName>..\Logs\sub-Algernon\ses-AV2_date-2026-05-20T15-40-38\Cameras\VideoData_Camera2.csv</io:FileName>
+                          <io:FileName>..\Logs\sub-Algernon\ses-AV2_date-2026-05-20T15-44-38\Cameras\VideoData_Camera2.csv</io:FileName>
                           <io:Append>false</io:Append>
                           <io:Overwrite>true</io:Overwrite>
                           <io:Suffix>None</io:Suffix>
@@ -5748,7 +5748,7 @@ Item4 as ExposureTime)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="cv:VideoWriter">
-                            <cv:FileName>..\Logs\sub-Algernon\ses-AV2_date-2026-05-20T15-40-38\Cameras\VideoData_Camera3.avi</cv:FileName>
+                            <cv:FileName>..\Logs\sub-Algernon\ses-AV2_date-2026-05-20T15-44-38\Cameras\VideoData_Camera3.avi</cv:FileName>
                             <cv:Suffix>None</cv:Suffix>
                             <cv:Buffered>true</cv:Buffered>
                             <cv:Overwrite>true</cv:Overwrite>
@@ -5848,7 +5848,7 @@ Item4 as ExposureTime)</scr:Expression>
                           </PropertyMappings>
                         </Expression>
                         <Expression xsi:type="io:CsvWriter">
-                          <io:FileName>..\Logs\sub-Algernon\ses-AV2_date-2026-05-20T15-40-38\Cameras\VideoData_Camera3.csv</io:FileName>
+                          <io:FileName>..\Logs\sub-Algernon\ses-AV2_date-2026-05-20T15-44-38\Cameras\VideoData_Camera3.csv</io:FileName>
                           <io:Append>false</io:Append>
                           <io:Overwrite>true</io:Overwrite>
                           <io:Suffix>None</io:Suffix>
@@ -6124,7 +6124,7 @@ it.Item2 as WasRewarded
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>..\Logs\sub-Algernon\ses-AV2_date-2026-05-20T15-40-38\IntervalLog_AV2_Algernon_\IntervalLog_AV2_Algernon_.csv</io:FileName>
+                    <io:FileName>..\Logs\sub-Algernon\ses-AV2_date-2026-05-20T15-44-38\IntervalLog_AV2_Algernon_\IntervalLog_AV2_Algernon_.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>true</io:Overwrite>
                     <io:Suffix>Timestamp</io:Suffix>
@@ -6805,7 +6805,7 @@ it.Item2 as WasRewarded
                   </Expression>
                   <Expression xsi:type="Add">
                     <Operand xsi:type="DoubleProperty">
-                      <Value>2867.5518298364327</Value>
+                      <Value>2874.6862890083935</Value>
                     </Operand>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
@@ -8326,7 +8326,7 @@ it.Item2 as WasRewarded
                   </Expression>
                   <Expression xsi:type="Add">
                     <Operand xsi:type="DoubleProperty">
-                      <Value>0.0418910508316778</Value>
+                      <Value>0.041987619677178213</Value>
                     </Operand>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />

@@ -44,7 +44,7 @@
     },
     "logConfig": {
       "loggingRootPath": "..\\Logs",
-      "sessionId": "TEST2",
+      "sessionId": "AV2",
       "animalId": "Algernon"
     },
     "amplitude": 0.05,

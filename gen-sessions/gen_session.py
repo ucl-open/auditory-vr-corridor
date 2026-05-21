@@ -13,7 +13,7 @@ from ucl_open_auditory_vr_corridor.task import (
 def main():
     animal_id = input("\nEnter animal ID: ").strip() or "unknown_animal"
     session_id = input("Enter session ID: ").strip()
-    modality = (input("Enter modality (A/V/AV) [default=AV]: ").strip().upper() or "AV")
+    modality = (input("Enter modality (A/V/AV) [default=A]: ").strip().upper() or "A")
     logging_root_path = str(Path(__file__).parent.parent / "Logs") # Logs will be saved in a "Logs" folder at project root
 
     # If this session already exists for this animal, ask whether to continue it or pick a new session id

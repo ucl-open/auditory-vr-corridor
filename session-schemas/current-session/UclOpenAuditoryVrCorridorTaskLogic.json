@@ -2,7 +2,8 @@
   "version": "0.0.0-rc1",
   "name": "UclOpenAuditoryVrCorridor",
   "taskParameters": {
-    "shapingStage": 1,
+    "modality": "A",
+    "shapingStage": 6,
     "startFreq": 2000,
     "endFreq": 25000,
     "nFreqBins": 100,
@@ -36,17 +37,17 @@
       }
     },
     "punishment": {
-      "timeoutSec": 5,
+      "timeoutSec": 2,
       "stage4PunishedLick": 5,
       "stage5PunishedLick": 4,
       "stage6PunishedLick": 3
     },
     "logConfig": {
-      "loggingRootPath": "c:\\Users\\CoenLabUsers\\Desktop\\auditory-vr-corridor\\auditory-vr-corridor\\Logs",
-      "sessionId": "1",
-      "animalId": "Algernon"
+      "loggingRootPath": "..\\Logs",
+      "sessionId": "A2",
+      "animalId": "NEWTESTNEW"
     },
-    "amplitude": 0.5,
+    "amplitude": 0.05,
     "quantizeBinSize": 1
   }
 }

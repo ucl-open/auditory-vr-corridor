@@ -558,7 +558,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
     
         public LogConfig()
         {
-            _loggingRootPath = ".\\logs";
+            _loggingRootPath = "..\\Logs";
             _animalId = "unknown_animal";
         }
     
@@ -866,7 +866,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
     
         public PunishmentConfig()
         {
-            _timeoutSec = 5;
+            _timeoutSec = 2;
             _stage4PunishedLick = 5;
             _stage5PunishedLick = 4;
             _stage6PunishedLick = 3;
@@ -1775,6 +1775,8 @@ namespace UclOpenAuditoryVrCorridorDataSchema
     public partial class UclOpenAuditoryVrCorridorTaskParameters
     {
     
+        private UclOpenAuditoryVrCorridorTaskParametersModality _modality;
+    
         private int _shapingStage;
     
         private int _startFreq;
@@ -1801,6 +1803,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
     
         public UclOpenAuditoryVrCorridorTaskParameters()
         {
+            _modality = UclOpenAuditoryVrCorridorTaskParametersModality.AV;
             _shapingStage = 1;
             _startFreq = 2000;
             _endFreq = 25000;
@@ -1810,12 +1813,13 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             _stage6WindowSize = 4000;
             _punishment = new PunishmentConfig();
             _logConfig = new LogConfig();
-            _amplitude = 0.5D;
+            _amplitude = 0.05D;
             _quantizeBinSize = 1;
         }
     
         protected UclOpenAuditoryVrCorridorTaskParameters(UclOpenAuditoryVrCorridorTaskParameters other)
         {
+            _modality = other._modality;
             _shapingStage = other._shapingStage;
             _startFreq = other._startFreq;
             _endFreq = other._endFreq;
@@ -1828,6 +1832,23 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             _logConfig = other._logConfig;
             _amplitude = other._amplitude;
             _quantizeBinSize = other._quantizeBinSize;
+        }
+    
+        /// <summary>
+        /// Stimulus modality: auditory (A), visual (V), or audiovisual (AV)
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("modality")]
+        [System.ComponentModel.DescriptionAttribute("Stimulus modality: auditory (A), visual (V), or audiovisual (AV)")]
+        public UclOpenAuditoryVrCorridorTaskParametersModality Modality
+        {
+            get
+            {
+                return _modality;
+            }
+            set
+            {
+                _modality = value;
+            }
         }
     
         /// <summary>
@@ -2037,6 +2058,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
     
         protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
         {
+            stringBuilder.Append("Modality = " + _modality + ", ");
             stringBuilder.Append("ShapingStage = " + _shapingStage + ", ");
             stringBuilder.Append("StartFreq = " + _startFreq + ", ");
             stringBuilder.Append("EndFreq = " + _endFreq + ", ");
@@ -2064,6 +2086,22 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             stringBuilder.Append("}");
             return stringBuilder.ToString();
         }
+    }
+
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.7.2.0 (Newtonsoft.Json v13.0.0.0)")]
+    [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+    public enum UclOpenAuditoryVrCorridorTaskParametersModality
+    {
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="A")]
+        A = 0,
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="V")]
+        V = 1,
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="AV")]
+        AV = 2,
     }
 
 

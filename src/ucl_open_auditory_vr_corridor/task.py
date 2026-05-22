@@ -32,7 +32,7 @@ class ThresholdFrequencies(BaseSchema):
 
 class PunishmentConfig(BaseSchema):
     '''Punishment params.'''
-    timeout_sec: int = Field(default=5, description='Timeout duration in seconds')
+    timeout_sec: int = Field(default=2, description='Timeout duration in seconds')
     stage4_punished_lick: int = Field(default=5, description='Punished lick in stage 4', ge=1)
     stage5_punished_lick: int = Field(default=4, description='Punished lick in stage 5', ge=1)
     stage6_punished_lick: int = Field(default=3, description='Punished lick in stage 6', ge=1)
@@ -40,13 +40,15 @@ class PunishmentConfig(BaseSchema):
 
 class LogConfig(BaseSchema):
     '''Logging params.'''
-    logging_root_path: str = Field(default=".\logs", description="Root path for logs")
+    logging_root_path: str = Field(default=r"..\Logs", description="Root path for logs")
     session_id: str = Field(default_factory=lambda: datetime.now().strftime("%Y-%m-%dT%H_%M_%S"), description="Unique session identifier, defaults to timestamp")
     animal_id: str = Field(default="unknown_animal", description="Animal identifier for the session")
 
 
 class UclOpenAuditoryVrCorridorTaskParameters(BaseSchema):
     '''Task params.'''
+    modality: Literal["A", "V", "AV"] = Field(default="AV", description="Stimulus modality: auditory (A), visual (V), or audiovisual (AV)")
+
     shaping_stage: int = Field(default=1, description='Shaping stage (1-6)', ge=1, le=6)
     start_freq: int = Field(default=2000, description='Start frequency of the sweep (Hz)', ge=1, le=25000)
     end_freq: int = Field(default=25000, description='End frequency of the sweep (Hz)', ge=1, le=25000)
@@ -61,7 +63,7 @@ class UclOpenAuditoryVrCorridorTaskParameters(BaseSchema):
 
     punishment: PunishmentConfig = PunishmentConfig()
     log_config: LogConfig = LogConfig()
-    amplitude: float = Field(default=0.5, description='Audio amplitude (0.0 to 1.0)', ge=0.0, le=1.0)
+    amplitude: float = Field(default=0.05, description='Audio amplitude (0.0 to 1.0)', ge=0.0, le=1.0)
     quantize_bin_size: int = Field(default=1, description='Bin size for frequency quantization (Hz)', ge=1)
 
     @model_validator(mode="after")

@@ -172,7 +172,7 @@
       "description": "Logging params.",
       "properties": {
         "loggingRootPath": {
-          "default": ".\\logs",
+          "default": "..\\Logs",
           "description": "Root path for logs",
           "title": "LoggingRootPath",
           "type": "string"
@@ -247,7 +247,7 @@
       "description": "Punishment params.",
       "properties": {
         "timeoutSec": {
-          "default": 5,
+          "default": 2,
           "description": "Timeout duration in seconds",
           "title": "TimeoutSec",
           "type": "integer"
@@ -474,6 +474,7 @@
         "taskParameters": {
           "$ref": "#/$defs/UclOpenAuditoryVrCorridorTaskParameters",
           "default": {
+            "modality": "AV",
             "shapingStage": 1,
             "startFreq": 2000,
             "endFreq": 25000,
@@ -511,14 +512,14 @@
               "stage4PunishedLick": 5,
               "stage5PunishedLick": 4,
               "stage6PunishedLick": 3,
-              "timeoutSec": 5
+              "timeoutSec": 2
             },
             "logConfig": {
               "animalId": "unknown_animal",
-              "loggingRootPath": ".\\logs",
-              "sessionId": "2026-05-13T12_42_30"
+              "loggingRootPath": "..\\Logs",
+              "sessionId": "2026-05-19T18_06_01"
             },
-            "amplitude": 0.5,
+            "amplitude": 0.05,
             "quantizeBinSize": 1
           },
           "title": "TaskParameters"
@@ -530,6 +531,17 @@
     "UclOpenAuditoryVrCorridorTaskParameters": {
       "description": "Task params.",
       "properties": {
+        "modality": {
+          "default": "AV",
+          "description": "Stimulus modality: auditory (A), visual (V), or audiovisual (AV)",
+          "enum": [
+            "A",
+            "V",
+            "AV"
+          ],
+          "title": "Modality",
+          "type": "string"
+        },
         "shapingStage": {
           "default": 1,
           "description": "Shaping stage (1-6)",
@@ -600,7 +612,7 @@
         "punishment": {
           "$ref": "#/$defs/PunishmentConfig",
           "default": {
-            "timeoutSec": 5,
+            "timeoutSec": 2,
             "stage4PunishedLick": 5,
             "stage5PunishedLick": 4,
             "stage6PunishedLick": 3
@@ -610,13 +622,13 @@
         "logConfig": {
           "$ref": "#/$defs/LogConfig",
           "default": {
-            "loggingRootPath": ".\\logs",
-            "sessionId": "2026-05-13T12_42_30",
+            "loggingRootPath": "..\\Logs",
+            "sessionId": "2026-05-19T18_06_01",
             "animalId": "unknown_animal"
           }
         },
         "amplitude": {
-          "default": 0.5,
+          "default": 0.05,
           "description": "Audio amplitude (0.0 to 1.0)",
           "maximum": 1.0,
           "minimum": 0.0,

@@ -6,18 +6,35 @@ from scipy.io import wavfile
 from scipy.signal import butter, sosfilt
 
 
-def determine_shaping_stage(
+def session_exists(
         animal_id: str,
         session_id: str,
         logging_root_path: str
     ):
     '''
-    Grabs last trial log for a specific animal and calculates shaping stage based on success rate:
+    Returns True if a session folder for this session_id already exists for this animal.
+    '''
+    animal_dir = Path(logging_root_path) / f"sub-{animal_id}"
+    if not animal_dir.exists():
+        return False
+    return any(dir.is_dir() and dir.name.startswith(f"ses-{session_id}_") for dir in animal_dir.iterdir())
+
+
+def determine_shaping_stage(
+        animal_id: str,
+        session_id: str,
+        logging_root_path: str,
+        modality: str,
+        continue_session: bool = False
+    ):
+    '''
+    Grabs the most recent trial log of the SAME modality for a specific animal and calculates shaping stage based on success rate:
     - >70% success: advance to next stage
     - 50-70% success: stay in current stage
     - <50% success: regress to previous stage
+    Sessions of a different modality are ignored, so e.g. a first-ever 'A' session starts at stage 1 even if 'V' is on a later stage.
     '''
-    print(f"Determining shaping stage for animal '{animal_id}' (new session: {session_id})...")
+    print(f"Determining shaping stage for animal '{animal_id}' (new session: {session_id}, modality: {modality})...")
 
     # Folder structure: {logging_root_path}/sub-{animal_id}/ses-{session_id}_date-{date}/TrialLog_{session_id}_{animal_id}/TrialLog_{session_id}_{animal_id}_{date}.csv
     animal_dir = Path(logging_root_path) / f"sub-{animal_id}"
@@ -25,33 +42,45 @@ def determine_shaping_stage(
         print(f"\nNo log directory found for animal '{animal_id}' at {animal_dir}, defaulting to shaping stage 1.\n")
         return 1
 
-    # Find all session folders for this animal, excluding the current session
-    session_dirs = [dir for dir in animal_dir.iterdir() if dir.is_dir() and dir.name.startswith("ses-") and f"ses-{session_id}_" not in dir.name]
+    # Find all session folders for this animal. When continuing an existing session, include it; otherwise exclude any folder for this session_id
+    session_dirs = [dir for dir in animal_dir.iterdir() if dir.is_dir() and dir.name.startswith("ses-")]
+    if not continue_session:
+        session_dirs = [dir for dir in session_dirs if not dir.name.startswith(f"ses-{session_id}_")]
     if not session_dirs:
         print(f"\nNo previous session folders found for animal '{animal_id}', defaulting to shaping stage 1.\n")
         return 1
 
-    # Take the most recently created session folder
-    latest_session_dir = max(session_dirs, key=lambda d: d.stat().st_ctime)
-    print(f"\nMost recent previous session folder: {latest_session_dir.name}")
+    # Search session folders from most to least recent for the most recent non-empty log matching this modality.
+    # Empty logs (sessions that were opened but ran no trials) and other modalities are skipped, not errored on.
+    df = None
+    for session_dir in sorted(session_dirs, key=lambda d: d.stat().st_ctime, reverse=True):
+        trial_logs = list(session_dir.glob("**/TrialLog_*.csv"))
+        if not trial_logs:
+            continue
 
-    # Find the trial log CSV inside it
-    trial_logs = list(latest_session_dir.glob("**/TrialLog_*.csv"))
-    if not trial_logs:
-        print(f"\nNo trial log CSV found in {latest_session_dir}, defaulting to shaping stage 1.\n")
+        latest_log = max(trial_logs, key=lambda p: p.stat().st_ctime)
+        try:
+            candidate = pd.read_csv(latest_log)
+        except pd.errors.EmptyDataError:
+            print(f"\nNB: Skipping empty trial log (no trials): {latest_log.name}")
+            continue
+        if len(candidate) == 0:
+            print(f"\nNB: Skipping empty trial log (no trials): {latest_log.name}")
+            continue
+
+        if 'Modality' not in candidate.columns or str(candidate['Modality'].iloc[-1]) != modality:
+            continue # Different modality (or legacy log with no Modality column), keep looking further back
+
+        df = candidate
+        print(f"\nMost recent previous '{modality}' session with trials: {session_dir.name}")
+        print(f"Trial log: {latest_log.name}")
+        break
+
+    if df is None:
+        print(f"\nNo previous '{modality}' session with trials found for animal '{animal_id}', defaulting to shaping stage 1.\n")
         return 1
 
-    # If empty log, raise error
-    latest_log = max(trial_logs, key=lambda p: p.stat().st_ctime)
-    try:
-        df = pd.read_csv(latest_log)
-    except pd.errors.EmptyDataError:
-        raise ValueError('No trials found in latest log. Please delete empty TrialLog files then run again.\n')
-    print(f"Trial log: {latest_log.name}")
-
     total_trials = len(df)
-    if total_trials == 0:
-        raise ValueError('\nNo trials found in latest log. Please delete empty TrialLog files then run again.\n')
 
     # Check stage was consistent throughout previous session
     start_stage = df['ShapingStage'].iloc[0]
@@ -59,6 +88,11 @@ def determine_shaping_stage(
     if start_stage != end_stage:
         print(f"\nNB: Shaping stage changed during session (start: {start_stage}, end: {end_stage}). Using last recorded stage.")
     df = df[df['ShapingStage'] == end_stage] # Filter df to trials from last shaping stage only
+
+    # If continuing the same session, keep the same shaping stage as the last session
+    if continue_session:
+        print(f'\nContinuing session, maintaining same shaping stage as last session ({end_stage}).\n')
+        return end_stage
 
     # If less than 50 trials, keep to same shaping stage
     if total_trials < 50:
@@ -143,7 +177,7 @@ def generate_waveforms(
     filtered /= (np.max(np.abs(filtered)) + 1e-12)
     filtered *= amplitude
     filtered_i16 = np.clip(filtered * 32767, -32768, 32767).astype(np.int16)
-    wavfile.write(out_dir / "error_tone.wav", sample_rate, np.column_stack([filtered_i16, filtered_i16]))
+    wavfile.write(out_dir / "error_tone.wav", sample_rate, filtered_i16)  # mono
 
     # Return summary
     return {

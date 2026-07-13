@@ -3,7 +3,7 @@
   "name": "UclOpenAuditoryVrCorridor",
   "taskParameters": {
     "modality": "A",
-    "shapingStage": 1,
+    "shapingStage": 2,
     "startFreq": 2000,
     "endFreq": 25000,
     "nFreqBins": 100,
@@ -44,7 +44,7 @@
     },
     "logConfig": {
       "loggingRootPath": "..\\Logs",
-      "sessionId": "A1",
+      "sessionId": "A2",
       "animalId": "GN"
     },
     "amplitude": 0.05,

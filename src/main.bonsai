@@ -1300,12 +1300,10 @@
                 <Property Name="Text" />
               </PropertyMappings>
             </Expression>
-            <Expression xsi:type="gui:TextBoxBuilder">
-              <gui:Name>Session_Animal</gui:Name>
+            <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
               <gui:Text>A2_GN</gui:Text>
-              <gui:Multiline>false</gui:Multiline>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1327,12 +1325,10 @@
                 <Property Name="Text" />
               </PropertyMappings>
             </Expression>
-            <Expression xsi:type="gui:TextBoxBuilder">
-              <gui:Name>Modality</gui:Name>
+            <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
               <gui:Text>A</gui:Text>
-              <gui:Multiline>false</gui:Multiline>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1354,12 +1350,10 @@
                 <Property Name="Text" />
               </PropertyMappings>
             </Expression>
-            <Expression xsi:type="gui:TextBoxBuilder">
-              <gui:Name>ShapingStage</gui:Name>
+            <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
               <gui:Text>2</gui:Text>
-              <gui:Multiline>false</gui:Multiline>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1381,12 +1375,10 @@
                 <Property Name="Text" />
               </PropertyMappings>
             </Expression>
-            <Expression xsi:type="gui:TextBoxBuilder">
-              <gui:Name>TrialNumber</gui:Name>
+            <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>125</gui:Text>
-              <gui:Multiline>false</gui:Multiline>
+              <gui:Text>11</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1413,12 +1405,10 @@
                 <Property Name="Text" />
               </PropertyMappings>
             </Expression>
-            <Expression xsi:type="gui:TextBoxBuilder">
-              <gui:Name>LickCount</gui:Name>
+            <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
               <gui:Text>0</gui:Text>
-              <gui:Multiline>false</gui:Multiline>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1445,12 +1435,10 @@
                 <Property Name="Text" />
               </PropertyMappings>
             </Expression>
-            <Expression xsi:type="gui:TextBoxBuilder">
-              <gui:Name>TrackLength</gui:Name>
+            <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>80</gui:Text>
-              <gui:Multiline>false</gui:Multiline>
+              <gui:Text>100</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1477,12 +1465,10 @@
                 <Property Name="Text" />
               </PropertyMappings>
             </Expression>
-            <Expression xsi:type="gui:TextBoxBuilder">
-              <gui:Name>MouseVirtualPos</gui:Name>
+            <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>80.00</gui:Text>
-              <gui:Multiline>false</gui:Multiline>
+              <gui:Text>5.63</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1509,12 +1495,10 @@
                 <Property Name="Text" />
               </PropertyMappings>
             </Expression>
-            <Expression xsi:type="gui:TextBoxBuilder">
-              <gui:Name>RewardFloorPos</gui:Name>
+            <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>70.74</gui:Text>
-              <gui:Multiline>false</gui:Multiline>
+              <gui:Text>88.42</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1541,12 +1525,10 @@
                 <Property Name="Text" />
               </PropertyMappings>
             </Expression>
-            <Expression xsi:type="gui:TextBoxBuilder">
-              <gui:Name>RewardCeilPos</gui:Name>
+            <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>81.31</gui:Text>
-              <gui:Multiline>false</gui:Multiline>
+              <gui:Text>101.64</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1573,12 +1555,10 @@
                 <Property Name="Text" />
               </PropertyMappings>
             </Expression>
-            <Expression xsi:type="gui:TextBoxBuilder">
-              <gui:Name>CurrentAudFrequency</gui:Name>
+            <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>19919</gui:Text>
-              <gui:Multiline>false</gui:Multiline>
+              <gui:Text>2321</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="Disable">
@@ -1687,12 +1667,10 @@
                 <Property Name="Text" />
               </PropertyMappings>
             </Expression>
-            <Expression xsi:type="gui:TextBoxBuilder">
-              <gui:Name>CurrentVisFreq</gui:Name>
+            <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>0.30</gui:Text>
-              <gui:Multiline>false</gui:Multiline>
+              <gui:Text>0.03</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:TableLayoutPanelBuilder">
@@ -1711,12 +1689,11 @@
               <gui:Text />
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
-            <Expression xsi:type="gui:ToggleButtonBuilder">
+            <Expression xsi:type="gui:ButtonBuilder">
               <gui:Name>Start</gui:Name>
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
               <gui:Text>Start</gui:Text>
-              <gui:Checked>false</gui:Checked>
             </Expression>
             <Expression xsi:type="rx:PublishSubject">
               <Name>StartSession</Name>
@@ -4791,7 +4768,7 @@
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="p8:JsonWriter">
-                            <p8:Path>..\Logs\sub-GN\ses-A2_date-2026-07-13T14-09-14\TaskSchemaLog_A2_GN_\TaskSchemaLog_A2_GN_.json</p8:Path>
+                            <p8:Path>..\Logs\sub-GN\ses-A2_date-2026-07-14T14-17-08\TaskSchemaLog_A2_GN_\TaskSchemaLog_A2_GN_.json</p8:Path>
                             <p8:Suffix>None</p8:Suffix>
                             <p8:Overwrite>false</p8:Overwrite>
                           </Combinator>
@@ -5045,7 +5022,7 @@ it.Item2 as HitEndOfTrack
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>..\Logs\sub-GN\ses-A2_date-2026-07-13T14-09-14\TrialLog_A2_GN_\TrialLog_A2_GN_.csv</io:FileName>
+                    <io:FileName>..\Logs\sub-GN\ses-A2_date-2026-07-14T14-17-08\TrialLog_A2_GN_\TrialLog_A2_GN_.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>true</io:Overwrite>
                     <io:Suffix>Timestamp</io:Suffix>
@@ -5273,7 +5250,7 @@ it.Item2 as HitEndOfTrack
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="cv:VideoWriter">
-                            <cv:FileName>..\Logs\sub-GN\ses-A2_date-2026-07-13T14-09-14\Cameras\VideoData_Camera1.avi</cv:FileName>
+                            <cv:FileName>..\Logs\sub-GN\ses-A2_date-2026-07-14T14-17-08\Cameras\VideoData_Camera1.avi</cv:FileName>
                             <cv:Suffix>None</cv:Suffix>
                             <cv:Buffered>true</cv:Buffered>
                             <cv:Overwrite>true</cv:Overwrite>
@@ -5373,7 +5350,7 @@ Item4 as ExposureTime)</scr:Expression>
                           </PropertyMappings>
                         </Expression>
                         <Expression xsi:type="io:CsvWriter">
-                          <io:FileName>..\Logs\sub-GN\ses-A2_date-2026-07-13T14-09-14\Cameras\VideoData_Camera1.csv</io:FileName>
+                          <io:FileName>..\Logs\sub-GN\ses-A2_date-2026-07-14T14-17-08\Cameras\VideoData_Camera1.csv</io:FileName>
                           <io:Append>false</io:Append>
                           <io:Overwrite>true</io:Overwrite>
                           <io:Suffix>None</io:Suffix>
@@ -5492,7 +5469,7 @@ Item4 as ExposureTime)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="cv:VideoWriter">
-                            <cv:FileName>..\Logs\sub-GN\ses-A2_date-2026-07-13T14-09-14\Cameras\VideoData_Camera2.avi</cv:FileName>
+                            <cv:FileName>..\Logs\sub-GN\ses-A2_date-2026-07-14T14-17-08\Cameras\VideoData_Camera2.avi</cv:FileName>
                             <cv:Suffix>None</cv:Suffix>
                             <cv:Buffered>true</cv:Buffered>
                             <cv:Overwrite>true</cv:Overwrite>
@@ -5592,7 +5569,7 @@ Item4 as ExposureTime)</scr:Expression>
                           </PropertyMappings>
                         </Expression>
                         <Expression xsi:type="io:CsvWriter">
-                          <io:FileName>..\Logs\sub-GN\ses-A2_date-2026-07-13T14-09-14\Cameras\VideoData_Camera2.csv</io:FileName>
+                          <io:FileName>..\Logs\sub-GN\ses-A2_date-2026-07-14T14-17-08\Cameras\VideoData_Camera2.csv</io:FileName>
                           <io:Append>false</io:Append>
                           <io:Overwrite>true</io:Overwrite>
                           <io:Suffix>None</io:Suffix>
@@ -5711,7 +5688,7 @@ Item4 as ExposureTime)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="cv:VideoWriter">
-                            <cv:FileName>..\Logs\sub-GN\ses-A2_date-2026-07-13T14-09-14\Cameras\VideoData_Camera3.avi</cv:FileName>
+                            <cv:FileName>..\Logs\sub-GN\ses-A2_date-2026-07-14T14-17-08\Cameras\VideoData_Camera3.avi</cv:FileName>
                             <cv:Suffix>None</cv:Suffix>
                             <cv:Buffered>true</cv:Buffered>
                             <cv:Overwrite>true</cv:Overwrite>
@@ -5811,7 +5788,7 @@ Item4 as ExposureTime)</scr:Expression>
                           </PropertyMappings>
                         </Expression>
                         <Expression xsi:type="io:CsvWriter">
-                          <io:FileName>..\Logs\sub-GN\ses-A2_date-2026-07-13T14-09-14\Cameras\VideoData_Camera3.csv</io:FileName>
+                          <io:FileName>..\Logs\sub-GN\ses-A2_date-2026-07-14T14-17-08\Cameras\VideoData_Camera3.csv</io:FileName>
                           <io:Append>false</io:Append>
                           <io:Overwrite>true</io:Overwrite>
                           <io:Suffix>None</io:Suffix>
@@ -6090,7 +6067,7 @@ it.Item2 as WasRewarded
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>..\Logs\sub-GN\ses-A2_date-2026-07-13T14-09-14\IntervalLog_A2_GN_\IntervalLog_A2_GN_.csv</io:FileName>
+                    <io:FileName>..\Logs\sub-GN\ses-A2_date-2026-07-14T14-17-08\IntervalLog_A2_GN_\IntervalLog_A2_GN_.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>true</io:Overwrite>
                     <io:Suffix>Timestamp</io:Suffix>
@@ -7032,7 +7009,7 @@ it.Item2 as WasRewarded
                   </Expression>
                   <Expression xsi:type="Add">
                     <Operand xsi:type="DoubleProperty">
-                      <Value>2165.5279604248826</Value>
+                      <Value>4429.6355342408206</Value>
                     </Operand>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
@@ -7175,7 +7152,7 @@ it.Item2 as WasRewarded
                   </Expression>
                   <Expression xsi:type="Index">
                     <Operand xsi:type="IntProperty">
-                      <Value>84</Value>
+                      <Value>6</Value>
                     </Operand>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
@@ -9652,7 +9629,7 @@ it.Item2 as WasRewarded
                   </Expression>
                   <Expression xsi:type="Add">
                     <Operand xsi:type="DoubleProperty">
-                      <Value>0.032894345884295594</Value>
+                      <Value>0.0626788839256218</Value>
                     </Operand>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
@@ -10107,7 +10084,7 @@ Convert.ToBoolean(it.Item2) ? 0.0 : Math.Min((it.Item1.Item1.Item1 - Math.Min(it
         <Layer>1</Layer>
         <ExtentX>270</ExtentX>
         <ExtentY>105</ExtentY>
-        <SpatialFrequency>0.3</SpatialFrequency>
+        <SpatialFrequency>0.0344446078</SpatialFrequency>
         <TemporalFrequency>0</TemporalFrequency>
         <Phase>16.8036766</Phase>
         <Angle>90</Angle>

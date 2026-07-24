@@ -44,8 +44,8 @@
     },
     "logConfig": {
       "loggingRootPath": "..\\Logs",
-      "sessionId": "A2",
-      "animalId": "GN"
+      "sessionId": "A6",
+      "animalId": "TC002"
     },
     "amplitude": 0.05,
     "quantizeBinSize": 1

@@ -33,6 +33,7 @@ def determine_shaping_stage(
     - 50-70% success: stay in current stage
     - <50% success: regress to previous stage
     Sessions of a different modality are ignored, so e.g. a first-ever 'A' session starts at stage 1 even if 'V' is on a later stage.
+    Since stage 2 is auto-rewarded, it only advances to stage 3 once the 2 most recent consecutive sessions each have at least 50 trials.
     '''
     print(f"Determining shaping stage for animal '{animal_id}' (new session: {session_id}, modality: {modality})...")
 
@@ -50,9 +51,10 @@ def determine_shaping_stage(
         print(f"\nNo previous session folders found for animal '{animal_id}', defaulting to shaping stage 1.\n")
         return 1
 
-    # Search session folders from most to least recent for the most recent non-empty log matching this modality.
+    # Search session folders from most to least recent for the two most recent non-empty logs matching this modality.
     # Empty logs (sessions that were opened but ran no trials) and other modalities are skipped, not errored on.
     df = None
+    prev_df = None # Second most recent matching session, used for the stage 2 advancement rule below
     for session_dir in sorted(session_dirs, key=lambda d: d.stat().st_ctime, reverse=True):
         trial_logs = list(session_dir.glob("**/TrialLog_*.csv"))
         if not trial_logs:
@@ -71,10 +73,13 @@ def determine_shaping_stage(
         if 'Modality' not in candidate.columns or str(candidate['Modality'].iloc[-1]) != modality:
             continue # Different modality (or legacy log with no Modality column), keep looking further back
 
-        df = candidate
-        print(f"\nMost recent previous '{modality}' session with trials: {session_dir.name}")
-        print(f"Trial log: {latest_log.name}")
-        break
+        if df is None:
+            df = candidate
+            print(f"\nMost recent previous '{modality}' session with trials: {session_dir.name}")
+            print(f"Trial log: {latest_log.name}")
+        else:
+            prev_df = candidate # Second most recent matching session
+            break # Have the two most recent matching sessions - stop searching
 
     if df is None:
         print(f"\nNo previous '{modality}' session with trials found for animal '{animal_id}', defaulting to shaping stage 1.\n")
@@ -105,6 +110,24 @@ def determine_shaping_stage(
         success_rate = rewarded_trials / total_trials if total_trials > 0 else 0
 
         print(f"\nTotal trials: {total_trials}, Rewarded trials: {rewarded_trials}, Success rate: {success_rate:.2%}")
+
+        # Stage 2 only advances to stage 3 once the 2 most recent consecutive sessions each have at least 50 correct (rewarded) trials
+        if end_stage == 2:
+            prev_stage2 = prev_df[prev_df['ShapingStage'] == 2] if prev_df is not None else None
+            prev_rewarded_trials = prev_stage2['WasRewarded'].sum() if prev_stage2 is not None else 0
+
+            if rewarded_trials >= 50 and prev_rewarded_trials >= 50:
+                next_stage = end_stage + 1
+                print("\n>= 50 correct trials for 2 consecutive sessions at stage 2. Advancing to next shaping stage.")
+            elif success_rate < 0.5:
+                next_stage = max(1, end_stage - 1)
+                print("\nSuccess rate < 50%. Regressing to previous shaping stage.")
+            else:
+                next_stage = end_stage
+                print(f"\nStage 2 needs 2 consecutive sessions with >= 50 correct trials to advance (this session: {rewarded_trials}, previous: {prev_rewarded_trials}). Staying in current shaping stage.")
+
+            print(f"Next shaping stage: {next_stage}\n")
+            return next_stage
 
         if success_rate >= 0.7:
             print("\nSuccess rate >= 70%. Advancing to next shaping stage.")

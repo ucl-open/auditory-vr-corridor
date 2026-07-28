@@ -9119,7 +9119,7 @@ it.Item2 as WasRewarded
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="al:AudioReader">
-                            <al:FileName>waveforms\error_tone.wav</al:FileName>
+                            <al:FileName>C:\dev\auditory-vr-corridor\src\waveforms\error_tone.wav</al:FileName>
                             <al:BufferLength>0</al:BufferLength>
                             <al:SampleRate>0</al:SampleRate>
                           </Combinator>
@@ -9285,7 +9285,7 @@ it.Item2 as WasRewarded
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="al:AudioReader">
-                            <al:FileName>waveforms\error_tone.wav</al:FileName>
+                            <al:FileName>C:\dev\auditory-vr-corridor\src\waveforms\error_tone.wav</al:FileName>
                             <al:BufferLength>0</al:BufferLength>
                             <al:SampleRate>0</al:SampleRate>
                           </Combinator>

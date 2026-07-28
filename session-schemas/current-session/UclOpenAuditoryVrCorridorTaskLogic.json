@@ -2,8 +2,8 @@
   "version": "0.0.0-rc1",
   "name": "UclOpenAuditoryVrCorridor",
   "taskParameters": {
-    "modality": "A",
-    "shapingStage": 2,
+    "modality": "AV",
+    "shapingStage": 4,
     "startFreq": 2000,
     "endFreq": 25000,
     "nFreqBins": 100,
@@ -44,7 +44,7 @@
     },
     "logConfig": {
       "loggingRootPath": "..\\Logs",
-      "sessionId": "A6",
+      "sessionId": "AVTEST2",
       "animalId": "TC002"
     },
     "amplitude": 0.05,

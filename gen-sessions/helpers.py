@@ -30,8 +30,8 @@ def determine_shaping_stage(
     '''
     Grabs the most recent trial log of the SAME modality for a specific animal and calculates shaping stage based on success rate:
     - >70% success: advance to next stage
-    - 50-70% success: stay in current stage
-    - <50% success: regress to previous stage
+    - 10-70% success: stay in current stage
+    - <10% success: regress to previous stage
     Sessions of a different modality are ignored, so e.g. a first-ever 'A' session starts at stage 1 even if 'V' is on a later stage.
     Since stage 2 is auto-rewarded, it only advances to stage 3 once the 2 most recent consecutive sessions each have at least 50 trials.
     '''
@@ -132,12 +132,12 @@ def determine_shaping_stage(
         if success_rate >= 0.7:
             print("\nSuccess rate >= 70%. Advancing to next shaping stage.")
             next_stage = min(6, end_stage + 1) # NB: hard coding in 6 shaping stages here - if more stages added in future, update this
-        elif success_rate < 0.7 and success_rate >= 0.5:
-            print("\nSuccess rate between 50% and 70%. Staying in current shaping stage.")
+        elif success_rate < 0.7 and success_rate >= 0.1:
+            print("\nSuccess rate between 10% and 70%. Staying in current shaping stage.")
             next_stage = end_stage 
         else:
             next_stage = max(1, end_stage - 1) 
-            print("\nSuccess rate < 50%. Regressing to previous shaping stage.")
+            print("\nSuccess rate < 10%. Regressing to previous shaping stage.")
 
         print(f"Next shaping stage: {next_stage}\n")
 

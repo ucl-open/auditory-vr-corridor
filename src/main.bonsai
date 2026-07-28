@@ -1299,7 +1299,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>00:04:28</gui:Text>
+              <gui:Text>00:00:30</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1399,7 +1399,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>0</gui:Text>
+              <gui:Text>4</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1459,7 +1459,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>100</gui:Text>
+              <gui:Text>80</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1489,7 +1489,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>0.00</gui:Text>
+              <gui:Text>37.26</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1519,7 +1519,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>75.20</gui:Text>
+              <gui:Text>60.16</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1549,7 +1549,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>101.64</gui:Text>
+              <gui:Text>81.31</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1579,7 +1579,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>0</gui:Text>
+              <gui:Text>4347</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="Disable">
@@ -1691,7 +1691,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>0.00</gui:Text>
+              <gui:Text>0.06</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1716,7 +1716,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>13% (3/23)</gui:Text>
+              <gui:Text>33% (1/3)</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1741,7 +1741,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>16</gui:Text>
+              <gui:Text>1</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1766,7 +1766,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>00:03:31</gui:Text>
+              <gui:Text>00:00:04</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:TableLayoutPanelBuilder">
@@ -1796,6 +1796,23 @@
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="SubscribeSubject">
+              <Name>FrameEvents3</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:SampleInterval">
+                <rx:Interval>PT0.1S</rx:Interval>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Value.Image</Selector>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="cv:Flip">
+                <cv:Mode>Both</cv:Mode>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="VisualizerMapping" />
+            <Expression xsi:type="SubscribeSubject">
               <Name>FrameEvents1</Name>
             </Expression>
             <Expression xsi:type="Combinator">
@@ -1814,23 +1831,6 @@
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="SubscribeSubject">
               <Name>FrameEvents2</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:SampleInterval">
-                <rx:Interval>PT0.1S</rx:Interval>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="MemberSelector">
-              <Selector>Value.Image</Selector>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="cv:Flip">
-                <cv:Mode>Both</cv:Mode>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="VisualizerMapping" />
-            <Expression xsi:type="SubscribeSubject">
-              <Name>FrameEvents3</Name>
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="rx:SampleInterval">
@@ -4867,7 +4867,7 @@
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="p8:JsonWriter">
-                            <p8:Path>..\Logs\sub-TC002\ses-AVTEST2_date-2026-07-28T17-07-52\TaskSchemaLog_AVTEST2_TC002_\TaskSchemaLog_AVTEST2_TC002_.json</p8:Path>
+                            <p8:Path>..\Logs\sub-TC002\ses-AVTEST2_date-2026-07-28T17-47-36\TaskSchemaLog_AVTEST2_TC002_\TaskSchemaLog_AVTEST2_TC002_.json</p8:Path>
                             <p8:Suffix>None</p8:Suffix>
                             <p8:Overwrite>false</p8:Overwrite>
                           </Combinator>
@@ -5121,7 +5121,7 @@ it.Item2 as HitEndOfTrack
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>..\Logs\sub-TC002\ses-AVTEST2_date-2026-07-28T17-07-52\TrialLog_AVTEST2_TC002_\TrialLog_AVTEST2_TC002_.csv</io:FileName>
+                    <io:FileName>..\Logs\sub-TC002\ses-AVTEST2_date-2026-07-28T17-47-36\TrialLog_AVTEST2_TC002_\TrialLog_AVTEST2_TC002_.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>true</io:Overwrite>
                     <io:Suffix>Timestamp</io:Suffix>
@@ -5349,7 +5349,7 @@ it.Item2 as HitEndOfTrack
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="cv:VideoWriter">
-                            <cv:FileName>..\Logs\sub-TC002\ses-AVTEST2_date-2026-07-28T17-07-52\Cameras\VideoData_Camera1.avi</cv:FileName>
+                            <cv:FileName>..\Logs\sub-TC002\ses-AVTEST2_date-2026-07-28T17-47-36\Cameras\VideoData_Camera1.avi</cv:FileName>
                             <cv:Suffix>None</cv:Suffix>
                             <cv:Buffered>true</cv:Buffered>
                             <cv:Overwrite>true</cv:Overwrite>
@@ -5449,7 +5449,7 @@ Item4 as ExposureTime)</scr:Expression>
                           </PropertyMappings>
                         </Expression>
                         <Expression xsi:type="io:CsvWriter">
-                          <io:FileName>..\Logs\sub-TC002\ses-AVTEST2_date-2026-07-28T17-07-52\Cameras\VideoData_Camera1.csv</io:FileName>
+                          <io:FileName>..\Logs\sub-TC002\ses-AVTEST2_date-2026-07-28T17-47-36\Cameras\VideoData_Camera1.csv</io:FileName>
                           <io:Append>false</io:Append>
                           <io:Overwrite>true</io:Overwrite>
                           <io:Suffix>None</io:Suffix>
@@ -5568,7 +5568,7 @@ Item4 as ExposureTime)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="cv:VideoWriter">
-                            <cv:FileName>..\Logs\sub-TC002\ses-AVTEST2_date-2026-07-28T17-07-52\Cameras\VideoData_Camera2.avi</cv:FileName>
+                            <cv:FileName>..\Logs\sub-TC002\ses-AVTEST2_date-2026-07-28T17-47-36\Cameras\VideoData_Camera2.avi</cv:FileName>
                             <cv:Suffix>None</cv:Suffix>
                             <cv:Buffered>true</cv:Buffered>
                             <cv:Overwrite>true</cv:Overwrite>
@@ -5668,7 +5668,7 @@ Item4 as ExposureTime)</scr:Expression>
                           </PropertyMappings>
                         </Expression>
                         <Expression xsi:type="io:CsvWriter">
-                          <io:FileName>..\Logs\sub-TC002\ses-AVTEST2_date-2026-07-28T17-07-52\Cameras\VideoData_Camera2.csv</io:FileName>
+                          <io:FileName>..\Logs\sub-TC002\ses-AVTEST2_date-2026-07-28T17-47-36\Cameras\VideoData_Camera2.csv</io:FileName>
                           <io:Append>false</io:Append>
                           <io:Overwrite>true</io:Overwrite>
                           <io:Suffix>None</io:Suffix>
@@ -5787,7 +5787,7 @@ Item4 as ExposureTime)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="cv:VideoWriter">
-                            <cv:FileName>..\Logs\sub-TC002\ses-AVTEST2_date-2026-07-28T17-07-52\Cameras\VideoData_Camera3.avi</cv:FileName>
+                            <cv:FileName>..\Logs\sub-TC002\ses-AVTEST2_date-2026-07-28T17-47-36\Cameras\VideoData_Camera3.avi</cv:FileName>
                             <cv:Suffix>None</cv:Suffix>
                             <cv:Buffered>true</cv:Buffered>
                             <cv:Overwrite>true</cv:Overwrite>
@@ -5887,7 +5887,7 @@ Item4 as ExposureTime)</scr:Expression>
                           </PropertyMappings>
                         </Expression>
                         <Expression xsi:type="io:CsvWriter">
-                          <io:FileName>..\Logs\sub-TC002\ses-AVTEST2_date-2026-07-28T17-07-52\Cameras\VideoData_Camera3.csv</io:FileName>
+                          <io:FileName>..\Logs\sub-TC002\ses-AVTEST2_date-2026-07-28T17-47-36\Cameras\VideoData_Camera3.csv</io:FileName>
                           <io:Append>false</io:Append>
                           <io:Overwrite>true</io:Overwrite>
                           <io:Suffix>None</io:Suffix>
@@ -6166,7 +6166,7 @@ it.Item2 as WasRewarded
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>..\Logs\sub-TC002\ses-AVTEST2_date-2026-07-28T17-07-52\IntervalLog_AVTEST2_TC002_\IntervalLog_AVTEST2_TC002_.csv</io:FileName>
+                    <io:FileName>..\Logs\sub-TC002\ses-AVTEST2_date-2026-07-28T17-47-36\IntervalLog_AVTEST2_TC002_\IntervalLog_AVTEST2_TC002_.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>true</io:Overwrite>
                     <io:Suffix>Timestamp</io:Suffix>
@@ -6589,7 +6589,7 @@ it.Item2 as WasRewarded
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="rx:Timer">
-                            <rx:DueTime>PT1S</rx:DueTime>
+                            <rx:DueTime>PT2S</rx:DueTime>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="Disable">
@@ -7110,7 +7110,7 @@ it.Item2 as WasRewarded
                   </Expression>
                   <Expression xsi:type="Add">
                     <Operand xsi:type="DoubleProperty">
-                      <Value>2668.1793593456564</Value>
+                      <Value>2333.1315844615492</Value>
                     </Operand>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
@@ -7253,7 +7253,7 @@ it.Item2 as WasRewarded
                   </Expression>
                   <Expression xsi:type="Index">
                     <Operand xsi:type="IntProperty">
-                      <Value>0</Value>
+                      <Value>45</Value>
                     </Operand>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
@@ -9736,7 +9736,7 @@ it.Item2 as WasRewarded
                   </Expression>
                   <Expression xsi:type="Add">
                     <Operand xsi:type="DoubleProperty">
-                      <Value>0.039185126643955383</Value>
+                      <Value>0.034603597734632834</Value>
                     </Operand>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
@@ -10191,7 +10191,7 @@ Convert.ToBoolean(it.Item2) ? 0.0 : Math.Min((it.Item1.Item1.Item1 - Math.Min(it
         <Layer>1</Layer>
         <ExtentX>270</ExtentX>
         <ExtentY>105</ExtentY>
-        <SpatialFrequency>0.03</SpatialFrequency>
+        <SpatialFrequency>0.0870204344</SpatialFrequency>
         <TemporalFrequency>0</TemporalFrequency>
         <Phase>16.8036766</Phase>
         <Angle>90</Angle>
@@ -10200,11 +10200,11 @@ Convert.ToBoolean(it.Item2) ? 0.0 : Math.Min((it.Item1.Item1.Item1 - Math.Min(it
         <DutyCycle xsi:nil="true" />
         <Radius>1000</Radius>
         <Aperture>0</Aperture>
-        <Opacity>0</Opacity>
+        <Opacity>1</Opacity>
       </Expression>
       <Expression xsi:type="GroupWorkflow">
         <Name>SessionStats</Name>
-        <Description>Running session metrics for the GUI: success rate, trials since last reward, and time since last reward. Driven by the same TrialEnded event as the TrialLogger so the GUI always agrees with the trial log.</Description>
+        <Description>Running session metrics shown in the GUI: success rate, trials since the last reward, and time since the last reward. Trial outcomes are read from the same TrialEnded event the TrialLogger uses, so the GUI always agrees with the trial log. The two reward-relative metrics are refreshed once a second and read "--" until the first reward of the session.</Description>
         <Workflow>
           <Nodes>
             <Expression xsi:type="SubscribeSubject">
@@ -10237,12 +10237,12 @@ Convert.ToBoolean(it.Item2) ? 0.0 : Math.Min((it.Item1.Item1.Item1 - Math.Min(it
               <Combinator xsi:type="rx:WithLatestFrom" />
             </Expression>
             <Expression xsi:type="scr:ExpressionTransform">
-              <scr:Name>RewardedAsDouble</scr:Name>
+              <scr:Name>RewardedTrialIncrement</scr:Name>
               <scr:Expression>Convert.ToDouble(it.Item1.Item2)</scr:Expression>
             </Expression>
             <Expression xsi:type="rx:Accumulate" />
             <Expression xsi:type="scr:ExpressionTransform">
-              <scr:Name>OnePerTrial</scr:Name>
+              <scr:Name>TrialIncrement</scr:Name>
               <scr:Expression>1.0</scr:Expression>
             </Expression>
             <Expression xsi:type="rx:Accumulate" />
@@ -10250,19 +10250,31 @@ Convert.ToBoolean(it.Item2) ? 0.0 : Math.Min((it.Item1.Item1.Item1 - Math.Min(it
               <Combinator xsi:type="rx:Zip" />
             </Expression>
             <Expression xsi:type="scr:ExpressionTransform">
-              <scr:Name>CalcSuccessRate</scr:Name>
+              <scr:Name>SuccessRateParts</scr:Name>
               <scr:Expression>new(
-100.0 * it.Item1 / it.Item2 as Pct,
-it.Item1 as Rew,
-it.Item2 as Tot
+100.0 * it.Item1 / it.Item2 as Percent,
+it.Item1 as Rewarded,
+it.Item2 as Total
 )</scr:Expression>
             </Expression>
             <Expression xsi:type="Format">
               <Format>{0:0}% ({1:0}/{2:0})</Format>
-              <Selector>Pct,Rew,Tot</Selector>
+              <Selector>Percent,Rewarded,Total</Selector>
             </Expression>
             <Expression xsi:type="rx:BehaviorSubject">
               <Name>SuccessRateText</Name>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>SessionClockSec</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Take">
+                <rx:Count>1</rx:Count>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Name>SeedNoRewardYet</scr:Name>
+              <scr:Expression>-1.0</scr:Expression>
             </Expression>
             <Expression xsi:type="rx:Condition">
               <Name>IsRewardedTrial?</Name>
@@ -10282,40 +10294,31 @@ it.Item2 as Tot
                 </Edges>
               </Workflow>
             </Expression>
-            <Expression xsi:type="MemberSelector">
-              <Selector>Item2</Selector>
-            </Expression>
-            <Expression xsi:type="rx:BehaviorSubject">
-              <Name>TrialNumAtLastReward</Name>
-            </Expression>
             <Expression xsi:type="SubscribeSubject">
-              <Name>TrialNumAtLastReward</Name>
+              <Name>SessionClockSec</Name>
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="rx:WithLatestFrom" />
             </Expression>
             <Expression xsi:type="scr:ExpressionTransform">
-              <scr:Name>CalcTrialsSinceReward</scr:Name>
-              <scr:Expression>it.Item1.Item1.Item2 ? 0.0 : Convert.ToDouble(it.Item1.Item2) - Convert.ToDouble(it.Item2)</scr:Expression>
-            </Expression>
-            <Expression xsi:type="Format">
-              <Format>{0:0}</Format>
-              <Selector>it</Selector>
-            </Expression>
-            <Expression xsi:type="rx:BehaviorSubject">
-              <Name>TrialsSinceRewardText</Name>
-            </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>StatsClockSec</Name>
+              <scr:Name>ClockAtReward</scr:Name>
+              <scr:Expression>Convert.ToDouble(it.Item2)</scr:Expression>
             </Expression>
             <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:WithLatestFrom" />
-            </Expression>
-            <Expression xsi:type="MemberSelector">
-              <Selector>Item2</Selector>
+              <Combinator xsi:type="rx:Merge" />
             </Expression>
             <Expression xsi:type="rx:BehaviorSubject">
               <Name>LastRewardClockSec</Name>
+            </Expression>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Name>TrialNumberAtReward</scr:Name>
+              <scr:Expression>Convert.ToDouble(it.Item1.Item2)</scr:Expression>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Merge" />
+            </Expression>
+            <Expression xsi:type="rx:BehaviorSubject">
+              <Name>LastRewardTrialNumber</Name>
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="rx:Timer">
@@ -10324,10 +10327,10 @@ it.Item2 as Tot
               </Combinator>
             </Expression>
             <Expression xsi:type="rx:BehaviorSubject">
-              <Name>StatsClockSec</Name>
+              <Name>SessionClockSec</Name>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
-              <Name>StatsClockSec</Name>
+              <Name>SessionClockSec</Name>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
               <Name>LastRewardClockSec</Name>
@@ -10336,11 +10339,33 @@ it.Item2 as Tot
               <Combinator xsi:type="rx:WithLatestFrom" />
             </Expression>
             <Expression xsi:type="scr:ExpressionTransform">
-              <scr:Name>CalcTimeSinceReward</scr:Name>
-              <scr:Expression>TimeSpan.FromSeconds(Convert.ToDouble(it.Item1 - it.Item2)).ToString()</scr:Expression>
+              <scr:Name>FormatTimeSinceReward</scr:Name>
+              <scr:Expression>it.Item2 &lt; 0 ? "--" : TimeSpan.FromSeconds(Convert.ToDouble(it.Item1) - it.Item2).ToString()</scr:Expression>
             </Expression>
             <Expression xsi:type="rx:BehaviorSubject">
               <Name>TimeSinceRewardText</Name>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>SessionClockSec</Name>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>TrialNumber</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:WithLatestFrom" />
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>LastRewardTrialNumber</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:WithLatestFrom" />
+            </Expression>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Name>FormatTrialsSinceReward</scr:Name>
+              <scr:Expression>it.Item2 &lt; 0 ? "--" : (Convert.ToDouble(it.Item1.Item2) - it.Item2).ToString()</scr:Expression>
+            </Expression>
+            <Expression xsi:type="rx:BehaviorSubject">
+              <Name>TrialsSinceRewardText</Name>
             </Expression>
           </Nodes>
           <Edges>
@@ -10351,8 +10376,7 @@ it.Item2 as Tot
             <Edge From="4" To="5" Label="Source2" />
             <Edge From="5" To="6" Label="Source1" />
             <Edge From="5" To="8" Label="Source1" />
-            <Edge From="5" To="14" Label="Source1" />
-            <Edge From="5" To="18" Label="Source1" />
+            <Edge From="5" To="17" Label="Source1" />
             <Edge From="6" To="7" Label="Source1" />
             <Edge From="7" To="10" Label="Source1" />
             <Edge From="8" To="9" Label="Source1" />
@@ -10361,20 +10385,28 @@ it.Item2 as Tot
             <Edge From="11" To="12" Label="Source1" />
             <Edge From="12" To="13" Label="Source1" />
             <Edge From="14" To="15" Label="Source1" />
-            <Edge From="14" To="23" Label="Source1" />
             <Edge From="15" To="16" Label="Source1" />
-            <Edge From="17" To="18" Label="Source2" />
-            <Edge From="18" To="19" Label="Source1" />
+            <Edge From="16" To="21" Label="Source1" />
+            <Edge From="16" To="24" Label="Source1" />
+            <Edge From="17" To="19" Label="Source1" />
+            <Edge From="18" To="19" Label="Source2" />
             <Edge From="19" To="20" Label="Source1" />
-            <Edge From="20" To="21" Label="Source1" />
-            <Edge From="22" To="23" Label="Source2" />
-            <Edge From="23" To="24" Label="Source1" />
+            <Edge From="19" To="23" Label="Source1" />
+            <Edge From="20" To="21" Label="Source2" />
+            <Edge From="21" To="22" Label="Source1" />
+            <Edge From="23" To="24" Label="Source2" />
             <Edge From="24" To="25" Label="Source1" />
             <Edge From="26" To="27" Label="Source1" />
             <Edge From="28" To="30" Label="Source1" />
             <Edge From="29" To="30" Label="Source2" />
             <Edge From="30" To="31" Label="Source1" />
             <Edge From="31" To="32" Label="Source1" />
+            <Edge From="33" To="35" Label="Source1" />
+            <Edge From="34" To="35" Label="Source2" />
+            <Edge From="35" To="37" Label="Source1" />
+            <Edge From="36" To="37" Label="Source2" />
+            <Edge From="37" To="38" Label="Source1" />
+            <Edge From="38" To="39" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>

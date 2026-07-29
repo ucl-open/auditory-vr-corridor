@@ -34,6 +34,7 @@ def determine_shaping_stage(
     - <10% success: regress to previous stage
     Sessions of a different modality are ignored, so e.g. a first-ever 'A' session starts at stage 1 even if 'V' is on a later stage.
     Since stage 2 is auto-rewarded, it only advances to stage 3 once the 2 most recent consecutive sessions each have at least 50 trials.
+    Stage 3 also advances on the first 100 or first 150 trials alone, since mice often stop licking late in a session and drag the full-session average down.
     '''
     print(f"Determining shaping stage for animal '{animal_id}' (new session: {session_id}, modality: {modality})...")
 
@@ -109,7 +110,15 @@ def determine_shaping_stage(
         rewarded_trials = df['WasRewarded'].sum()
         success_rate = rewarded_trials / total_trials if total_trials > 0 else 0
 
-        print(f"\nTotal trials: {total_trials}, Rewarded trials: {rewarded_trials}, Success rate: {success_rate:.2%}")
+        # Report the success rate over the first n trials as well as the whole session, since mice often stop licking late on and drag the full-session average down
+        print()
+        for n_trials in (50, 100, 150):
+            first_n_trials = df.head(n_trials)
+            if len(first_n_trials) < n_trials:
+                continue # Session did not run this many trials, so skip
+            first_n_rewarded_trials = first_n_trials['WasRewarded'].sum()
+            print(f"First {n_trials} trials: Rewarded trials: {first_n_rewarded_trials}, Success rate: {first_n_rewarded_trials / n_trials:.2%}")
+        print(f"Total trials: {total_trials}, Rewarded trials: {rewarded_trials}, Success rate: {success_rate:.2%}")
 
         # Stage 2 only advances to stage 3 once the 2 most recent consecutive sessions each have at least 50 correct (rewarded) trials
         if end_stage == 2:
@@ -128,6 +137,19 @@ def determine_shaping_stage(
 
             print(f"Next shaping stage: {next_stage}\n")
             return next_stage
+
+        # Stage 3 mice often 'zone out' late in a session and run the track without licking, which drags the full-session success rate below 70% even when they do understand the task.
+        # So stage 3 also advances if either the first 100 or the first 150 trials alone were >= 70% successful. Otherwise it falls through to the normal full-session rules below.
+        if end_stage == 3:
+            for n_trials in (100, 150):
+                early_trials = df.head(n_trials)
+                early_success_rate = early_trials['WasRewarded'].sum() / len(early_trials) if len(early_trials) > 0 else 0
+
+                if early_success_rate >= 0.7:
+                    next_stage = end_stage + 1
+                    print(f"\nSuccess rate >= 70% in first {len(early_trials)} trials at stage 3. Advancing to next shaping stage.")
+                    print(f"Next shaping stage: {next_stage}\n")
+                    return next_stage
 
         if success_rate >= 0.7:
             print("\nSuccess rate >= 70%. Advancing to next shaping stage.")

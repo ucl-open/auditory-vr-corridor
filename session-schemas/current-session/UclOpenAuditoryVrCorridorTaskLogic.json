@@ -2,7 +2,7 @@
   "version": "0.0.0-rc1",
   "name": "UclOpenAuditoryVrCorridor",
   "taskParameters": {
-    "modality": "AV",
+    "modality": "A",
     "shapingStage": 4,
     "startFreq": 2000,
     "endFreq": 25000,
@@ -38,13 +38,13 @@
     },
     "punishment": {
       "timeoutSec": 2,
-      "stage4PunishedLick": 5,
-      "stage5PunishedLick": 4,
+      "stage4PunishedLick": 10,
+      "stage5PunishedLick": 6,
       "stage6PunishedLick": 3
     },
     "logConfig": {
       "loggingRootPath": "..\\Logs",
-      "sessionId": "AVTEST2",
+      "sessionId": "A10",
       "animalId": "TC002"
     },
     "amplitude": 0.05,

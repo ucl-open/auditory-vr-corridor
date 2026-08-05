@@ -1,5 +1,3 @@
-import os
-from datetime import datetime
 from helpers import determine_shaping_stage, generate_waveforms, session_exists
 from pathlib import Path
 
@@ -14,11 +12,14 @@ def main():
     animal_id = input("\nEnter animal ID: ").strip() or "unknown_animal"
     session_id = input("Enter session ID: ").strip()
     modality = (input("Enter modality (A/V/AV) [default=A]: ").strip().upper() or "A")
-    logging_root_path = str(Path(__file__).parent.parent / "Logs") # Logs will be saved in a "Logs" folder at project root
+    project_root = Path(__file__).parent.parent # Absolute path to the repo root, so every path below is absolute and does not depend on where this script is run from
+    logging_root_path = str(project_root / "Logs") # This session is written locally, to a "Logs" folder at project root. Writing live to the server risks stalling acquisition mid-session
+    server_root_path = r"\\rdp.arc.ucl.ac.uk\ritd-ag-project-rd01n9-pcoen00\AV_VR_Corridor" # Local logs are pushed here daily, so the server holds the full history for each animal
+    read_root_paths = [logging_root_path, server_root_path] # Past sessions are read from both: the server has everything up to the last sync, and local catches anything not yet synced
 
     # If this session already exists for this animal, ask whether to continue it or pick a new session id
     continue_session = False
-    while session_exists(animal_id=animal_id, session_id=session_id, logging_root_path=logging_root_path):
+    while session_exists(animal_id=animal_id, session_id=session_id, logging_root_paths=read_root_paths):
         response = input(f"\nSession '{session_id}' already exists in the log. Are you sure you want to continue the same session? [Y/n]: ").strip().lower()
         if response in ("", "y", "yes"):
             continue_session = True
@@ -30,17 +31,17 @@ def main():
             log_config=LogConfig(
                 session_id=session_id,
                 animal_id=animal_id,
-                logging_root_path=r"..\Logs"
+                logging_root_path=logging_root_path
             ),
-            shaping_stage=determine_shaping_stage(animal_id=animal_id, session_id=session_id, logging_root_path=logging_root_path, modality=modality, continue_session=continue_session), # Determine shaping stage based on previous session logs of the same modality for this animal
+            shaping_stage=determine_shaping_stage(animal_id=animal_id, session_id=session_id, logging_root_paths=read_root_paths, modality=modality, continue_session=continue_session), # Determine shaping stage based on previous session logs of the same modality for this animal
             modality=modality,
         ),
     )
 
     # Save generated task logic to json that will be read by Bonsai at the start of the session
     filename = task_logic.__class__.__name__
-    bonsai_path = f"./session-schemas/current-session/{filename}.json"
-    os.makedirs(os.path.dirname(bonsai_path), exist_ok=True)
+    bonsai_path = project_root / "session-schemas" / "current-session" / f"{filename}.json"
+    bonsai_path.parent.mkdir(parents=True, exist_ok=True)
     with open(bonsai_path, "w", encoding="utf-8") as f:
         f.write(task_logic.model_dump_json(indent=2, by_alias=True))
     
@@ -52,7 +53,7 @@ def main():
         end_freq=params.end_freq,
         n_freq_bins=params.n_freq_bins,
         amplitude=params.amplitude,
-        out_dir=Path("./src/waveforms"),
+        out_dir=project_root / "src" / "waveforms"
     )
 
     print(log, '\n')

@@ -33,8 +33,8 @@ class ThresholdFrequencies(BaseSchema):
 class PunishmentConfig(BaseSchema):
     '''Punishment params.'''
     timeout_sec: int = Field(default=2, description='Timeout duration in seconds')
-    stage4_punished_lick: int = Field(default=5, description='Punished lick in stage 4', ge=1)
-    stage5_punished_lick: int = Field(default=4, description='Punished lick in stage 5', ge=1)
+    stage4_punished_lick: int = Field(default=10, description='Punished lick in stage 4', ge=1)
+    stage5_punished_lick: int = Field(default=6, description='Punished lick in stage 5', ge=1)
     stage6_punished_lick: int = Field(default=3, description='Punished lick in stage 6', ge=1)
 
 

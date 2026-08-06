@@ -39,6 +39,25 @@ def session_exists(
     return any(dir.name.startswith(f"ses-{session_id}_") for dir in collect_session_dirs(logging_root_paths, animal_id))
 
 
+def next_session_id(
+        animal_id: str,
+        modality: str,
+        logging_root_paths: list
+    ):
+    '''
+    Returns the next session id for this animal and modality, e.g. 'A7' if the most recent 'A' session was 'A6'.
+    A session id is the modality followed by a number, so each modality is numbered independently and only sessions of the same modality are counted
+    (e.g. an 'A' session ignores 'AV6', and an 'AV' session ignores 'A6'). Numbering starts at 1 if this animal has no previous sessions of this modality.
+    '''
+    session_numbers = []
+    for dir in collect_session_dirs(logging_root_paths, animal_id):
+        session_id = dir.name.split("_date-")[0].removeprefix("ses-") # e.g. 'ses-A6_date-2026-08-05T10-00-00' -> 'A6'
+        session_number = session_id.removeprefix(modality)
+        if session_id.startswith(modality) and session_number.isdigit():
+            session_numbers.append(int(session_number))
+    return f"{modality}{max(session_numbers, default=0) + 1}"
+
+
 def determine_shaping_stage(
         animal_id: str,
         session_id: str,

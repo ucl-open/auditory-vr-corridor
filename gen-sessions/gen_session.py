@@ -1,4 +1,4 @@
-from helpers import determine_shaping_stage, generate_waveforms, session_exists
+from helpers import determine_shaping_stage, generate_waveforms, next_session_id
 from pathlib import Path
 
 
@@ -10,21 +10,15 @@ from ucl_open_auditory_vr_corridor.task import (
 
 def main():
     animal_id = input("\nEnter animal ID: ").strip() or "unknown_animal"
-    session_id = input("Enter session ID: ").strip()
     modality = (input("Enter modality (A/V/AV) [default=A]: ").strip().upper() or "A")
     project_root = Path(__file__).parent.parent # Absolute path to the repo root, so every path below is absolute and does not depend on where this script is run from
     logging_root_path = str(project_root / "Logs") # This session is written locally, to a "Logs" folder at project root. Writing live to the server risks stalling acquisition mid-session
     server_root_path = r"\\rdp.arc.ucl.ac.uk\ritd-ag-project-rd01n9-pcoen00\AV_VR_Corridor" # Local logs are pushed here daily, so the server holds the full history for each animal
     read_root_paths = [logging_root_path, server_root_path] # Past sessions are read from both: the server has everything up to the last sync, and local catches anything not yet synced
 
-    # If this session already exists for this animal, ask whether to continue it or pick a new session id
-    continue_session = False
-    while session_exists(animal_id=animal_id, session_id=session_id, logging_root_paths=read_root_paths):
-        response = input(f"\nSession '{session_id}' already exists in the log. Are you sure you want to continue the same session? [Y/n]: ").strip().lower()
-        if response in ("", "y", "yes"):
-            continue_session = True
-            break
-        session_id = input("Enter a new session ID: ").strip()
+    # Session id is set automatically by incrementing the most recent session of this modality for this animal, e.g. 'A7' if the last 'A' session was 'A6'
+    session_id = next_session_id(animal_id=animal_id, modality=modality, logging_root_paths=read_root_paths)
+    print(f"\nSession ID: {session_id}")
 
     task_logic = UclOpenAuditoryVrCorridorTaskLogic(
         task_parameters=UclOpenAuditoryVrCorridorTaskParameters(
@@ -33,7 +27,7 @@ def main():
                 animal_id=animal_id,
                 logging_root_path=logging_root_path
             ),
-            shaping_stage=determine_shaping_stage(animal_id=animal_id, session_id=session_id, logging_root_paths=read_root_paths, modality=modality, continue_session=continue_session), # Determine shaping stage based on previous session logs of the same modality for this animal
+            shaping_stage=determine_shaping_stage(animal_id=animal_id, session_id=session_id, logging_root_paths=read_root_paths, modality=modality), # Determine shaping stage based on previous session logs of the same modality for this animal
             modality=modality,
         ),
     )

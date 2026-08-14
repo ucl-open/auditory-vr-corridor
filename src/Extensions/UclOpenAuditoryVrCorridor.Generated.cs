@@ -388,6 +388,131 @@ namespace UclOpenAuditoryVrCorridorDataSchema
     }
 
 
+    /// <summary>
+    /// Params for labelling whether the animal is still attempting the task.
+    ///
+    ///A mouse partway through a session often keeps running but stops licking. Those trials are not failures - it is not attempting the task - so they are
+    ///labelled separately rather than scored as misses. Engagement is read from whether each trial contained a lick, smoothed over a window of trials, so
+    ///that contiguous periods are judged rather than individual trials. Defaults match the offline analysis; changing them here changes both.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.7.2.0 (Newtonsoft.Json v13.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute(@"Params for labelling whether the animal is still attempting the task.
+
+    A mouse partway through a session often keeps running but stops licking. Those trials are not failures - it is not attempting the task - so they are
+    labelled separately rather than scored as misses. Engagement is read from whether each trial contained a lick, smoothed over a window of trials, so
+    that contiguous periods are judged rather than individual trials. Defaults match the offline analysis; changing them here changes both.")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class EngagementConfig
+    {
+    
+        private int _rollWindow;
+    
+        private double _rollThreshold;
+    
+        private int _minEpoch;
+    
+        public EngagementConfig()
+        {
+            _rollWindow = 25;
+            _rollThreshold = 0.5D;
+            _minEpoch = 10;
+        }
+    
+        protected EngagementConfig(EngagementConfig other)
+        {
+            _rollWindow = other._rollWindow;
+            _rollThreshold = other._rollThreshold;
+            _minEpoch = other._minEpoch;
+        }
+    
+        /// <summary>
+        /// Trials averaged around each trial when deciding engagement. Prefer an odd value: an even window is centred one trial further back than forward
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("rollWindow")]
+        [System.ComponentModel.DescriptionAttribute("Trials averaged around each trial when deciding engagement. Prefer an odd value: " +
+            "an even window is centred one trial further back than forward")]
+        public int RollWindow
+        {
+            get
+            {
+                return _rollWindow;
+            }
+            set
+            {
+                _rollWindow = value;
+            }
+        }
+    
+        /// <summary>
+        /// Lick fraction at or below which the animal counts as disengaged
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("rollThreshold")]
+        [System.ComponentModel.DescriptionAttribute("Lick fraction at or below which the animal counts as disengaged")]
+        public double RollThreshold
+        {
+            get
+            {
+                return _rollThreshold;
+            }
+            set
+            {
+                _rollThreshold = value;
+            }
+        }
+    
+        /// <summary>
+        /// Shortest run of trials that can be called engaged or disengaged - shorter runs are absorbed into their neighbours. Above 20 this starts swallowing real working periods
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("minEpoch")]
+        [System.ComponentModel.DescriptionAttribute("Shortest run of trials that can be called engaged or disengaged - shorter runs ar" +
+            "e absorbed into their neighbours. Above 20 this starts swallowing real working p" +
+            "eriods")]
+        public int MinEpoch
+        {
+            get
+            {
+                return _minEpoch;
+            }
+            set
+            {
+                _minEpoch = value;
+            }
+        }
+    
+        public System.IObservable<EngagementConfig> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new EngagementConfig(this)));
+        }
+    
+        public System.IObservable<EngagementConfig> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new EngagementConfig(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("RollWindow = " + _rollWindow + ", ");
+            stringBuilder.Append("RollThreshold = " + _rollThreshold + ", ");
+            stringBuilder.Append("MinEpoch = " + _minEpoch);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.7.2.0 (Newtonsoft.Json v13.0.0.0)")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     [Bonsai.CombinatorAttribute(MethodName="Generate")]
@@ -867,8 +992,8 @@ namespace UclOpenAuditoryVrCorridorDataSchema
         public PunishmentConfig()
         {
             _timeoutSec = 2;
-            _stage4PunishedLick = 5;
-            _stage5PunishedLick = 4;
+            _stage4PunishedLick = 10;
+            _stage5PunishedLick = 6;
             _stage6PunishedLick = 3;
         }
     
@@ -1795,6 +1920,8 @@ namespace UclOpenAuditoryVrCorridorDataSchema
     
         private PunishmentConfig _punishment;
     
+        private EngagementConfig _engagement;
+    
         private LogConfig _logConfig;
     
         private double _amplitude;
@@ -1812,6 +1939,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             _stage5WindowSize = 8000;
             _stage6WindowSize = 4000;
             _punishment = new PunishmentConfig();
+            _engagement = new EngagementConfig();
             _logConfig = new LogConfig();
             _amplitude = 0.05D;
             _quantizeBinSize = 1;
@@ -1829,6 +1957,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             _stage6WindowSize = other._stage6WindowSize;
             _thresholdFrequencies = other._thresholdFrequencies;
             _punishment = other._punishment;
+            _engagement = other._engagement;
             _logConfig = other._logConfig;
             _amplitude = other._amplitude;
             _quantizeBinSize = other._quantizeBinSize;
@@ -1999,6 +2128,20 @@ namespace UclOpenAuditoryVrCorridorDataSchema
         }
     
         [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("engagement")]
+        public EngagementConfig Engagement
+        {
+            get
+            {
+                return _engagement;
+            }
+            set
+            {
+                _engagement = value;
+            }
+        }
+    
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
         [Newtonsoft.Json.JsonPropertyAttribute("logConfig")]
         public LogConfig LogConfig
         {
@@ -2068,6 +2211,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             stringBuilder.Append("Stage6WindowSize = " + _stage6WindowSize + ", ");
             stringBuilder.Append("ThresholdFrequencies = " + _thresholdFrequencies + ", ");
             stringBuilder.Append("Punishment = " + _punishment + ", ");
+            stringBuilder.Append("Engagement = " + _engagement + ", ");
             stringBuilder.Append("LogConfig = " + _logConfig + ", ");
             stringBuilder.Append("Amplitude = " + _amplitude + ", ");
             stringBuilder.Append("QuantizeBinSize = " + _quantizeBinSize);
@@ -2136,6 +2280,11 @@ namespace UclOpenAuditoryVrCorridorDataSchema
         public System.IObservable<string> Process(System.IObservable<CameraController> source)
         {
             return Process<CameraController>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<EngagementConfig> source)
+        {
+            return Process<EngagementConfig>(source);
         }
 
         public System.IObservable<string> Process(System.IObservable<LedDriver> source)
@@ -2215,6 +2364,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ArduinoDevice>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BehaviorBoard>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<CameraController>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<EngagementConfig>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<LedDriver>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<LicketySplit>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<LogConfig>))]

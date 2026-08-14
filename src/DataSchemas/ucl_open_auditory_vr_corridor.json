@@ -130,6 +130,36 @@
       "title": "CameraController",
       "type": "object"
     },
+    "EngagementConfig": {
+      "description": "Params for labelling whether the animal is still attempting the task.\n\nA mouse partway through a session often keeps running but stops licking. Those trials are not failures - it is not attempting the task - so they are\nlabelled separately rather than scored as misses. Engagement is read from whether each trial contained a lick, smoothed over a window of trials, so\nthat contiguous periods are judged rather than individual trials. Defaults match the offline analysis; changing them here changes both.",
+      "properties": {
+        "rollWindow": {
+          "default": 25,
+          "description": "Trials averaged around each trial when deciding engagement. Prefer an odd value: an even window is centred one trial further back than forward",
+          "minimum": 1,
+          "title": "RollWindow",
+          "type": "integer"
+        },
+        "rollThreshold": {
+          "default": 0.5,
+          "description": "Lick fraction at or below which the animal counts as disengaged",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "RollThreshold",
+          "type": "number"
+        },
+        "minEpoch": {
+          "default": 10,
+          "description": "Shortest run of trials that can be called engaged or disengaged - shorter runs are absorbed into their neighbours. Above 20 this starts swallowing real working periods",
+          "maximum": 20,
+          "minimum": 1,
+          "title": "MinEpoch",
+          "type": "integer"
+        }
+      },
+      "title": "EngagementConfig",
+      "type": "object"
+    },
     "LedDriver": {
       "properties": {
         "digitalOutPin": {
@@ -253,14 +283,14 @@
           "type": "integer"
         },
         "stage4PunishedLick": {
-          "default": 5,
+          "default": 10,
           "description": "Punished lick in stage 4",
           "minimum": 1,
           "title": "Stage4PunishedLick",
           "type": "integer"
         },
         "stage5PunishedLick": {
-          "default": 4,
+          "default": 6,
           "description": "Punished lick in stage 5",
           "minimum": 1,
           "title": "Stage5PunishedLick",
@@ -509,15 +539,20 @@
               }
             },
             "punishment": {
-              "stage4PunishedLick": 5,
-              "stage5PunishedLick": 4,
+              "stage4PunishedLick": 10,
+              "stage5PunishedLick": 6,
               "stage6PunishedLick": 3,
               "timeoutSec": 2
+            },
+            "engagement": {
+              "minEpoch": 10,
+              "rollThreshold": 0.5,
+              "rollWindow": 25
             },
             "logConfig": {
               "animalId": "unknown_animal",
               "loggingRootPath": "..\\Logs",
-              "sessionId": "2026-05-19T18_06_01"
+              "sessionId": "2026-08-14T13_18_08"
             },
             "amplitude": 0.05,
             "quantizeBinSize": 1
@@ -613,17 +648,26 @@
           "$ref": "#/$defs/PunishmentConfig",
           "default": {
             "timeoutSec": 2,
-            "stage4PunishedLick": 5,
-            "stage5PunishedLick": 4,
+            "stage4PunishedLick": 10,
+            "stage5PunishedLick": 6,
             "stage6PunishedLick": 3
           },
           "title": "Punishment"
+        },
+        "engagement": {
+          "$ref": "#/$defs/EngagementConfig",
+          "default": {
+            "rollWindow": 25,
+            "rollThreshold": 0.5,
+            "minEpoch": 10
+          },
+          "title": "Engagement"
         },
         "logConfig": {
           "$ref": "#/$defs/LogConfig",
           "default": {
             "loggingRootPath": "..\\Logs",
-            "sessionId": "2026-05-19T18_06_01",
+            "sessionId": "2026-08-14T13_18_08",
             "animalId": "unknown_animal"
           }
         },

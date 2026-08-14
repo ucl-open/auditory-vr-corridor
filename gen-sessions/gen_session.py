@@ -9,7 +9,7 @@ from ucl_open_auditory_vr_corridor.task import (
 )
 
 def main():
-    animal_id = input("\nEnter animal ID: ").strip() or "unknown_animal"
+    animal_id = input("\nEnter animal ID: ").strip().upper() or "unknown_animal" # Upper-cased so 'tc001' and 'TC001' are the same animal and end up in the same log folder
     modality = (input("Enter modality (A/V/AV) [default=A]: ").strip().upper() or "A")
     project_root = Path(__file__).parent.parent # Absolute path to the repo root, so every path below is absolute and does not depend on where this script is run from
     logging_root_path = str(project_root / "Logs") # This session is written locally, to a "Logs" folder at project root. Writing live to the server risks stalling acquisition mid-session

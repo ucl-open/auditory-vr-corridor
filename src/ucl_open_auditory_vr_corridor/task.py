@@ -38,6 +38,18 @@ class PunishmentConfig(BaseSchema):
     stage6_punished_lick: int = Field(default=3, description='Punished lick in stage 6', ge=1)
 
 
+class EngagementConfig(BaseSchema):
+    '''Params for labelling whether the animal is still attempting the task.
+
+    A mouse partway through a session often keeps running but stops licking. Those trials are not failures - it is not attempting the task - so they are
+    labelled separately rather than scored as misses. Engagement is read from whether each trial contained a lick, smoothed over a window of trials, so
+    that contiguous periods are judged rather than individual trials. Defaults match the offline analysis; changing them here changes both.
+    '''
+    roll_window: int = Field(default=25, description='Trials averaged around each trial when deciding engagement. Prefer an odd value: an even window is centred one trial further back than forward', ge=1)
+    roll_threshold: float = Field(default=0.5, description='Lick fraction at or below which the animal counts as disengaged', ge=0.0, le=1.0)
+    min_epoch: int = Field(default=10, description='Shortest run of trials that can be called engaged or disengaged - shorter runs are absorbed into their neighbours. Above 20 this starts swallowing real working periods', ge=1, le=20)
+
+
 class LogConfig(BaseSchema):
     '''Logging params.'''
     logging_root_path: str = Field(default=r"..\Logs", description="Root path for logs")
@@ -62,6 +74,7 @@ class UclOpenAuditoryVrCorridorTaskParameters(BaseSchema):
     threshold_frequencies: Optional[ThresholdFrequencies] = None
 
     punishment: PunishmentConfig = PunishmentConfig()
+    engagement: EngagementConfig = EngagementConfig()
     log_config: LogConfig = LogConfig()
     amplitude: float = Field(default=0.05, description='Audio amplitude (0.0 to 1.0)', ge=0.0, le=1.0)
     quantize_bin_size: int = Field(default=1, description='Bin size for frequency quantization (Hz)', ge=1)

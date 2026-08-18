@@ -6,6 +6,49 @@ from scipy.io import wavfile
 from scipy.signal import butter, sosfilt
 
 
+# Engagement labelling. These must match EngagementConfig in the task schema (and so the C#
+# EngagementLabeller that runs live during a session), otherwise the labels reported here will not
+# be the ones the rig displayed.
+ROLL_WINDOW = 25
+ROLL_THRESHOLD = 0.5
+MIN_EPOCH = 10
+
+
+def label_engagement(licked, window=ROLL_WINDOW, threshold=ROLL_THRESHOLD, min_epoch=MIN_EPOCH):
+    '''
+    Labels each trial as engaged (True) or disengaged (False) with the task.
+
+    A mouse partway through a session often keeps running but stops licking. Those trials are not failures - it is not attempting the task - and scoring them
+    as misses makes performance look far worse than it is. Whether a trial contained a lick is the only usable signal, since running speed does not separate
+    the two states.
+
+    The signal is read as a sequence, not trial by trial. Dropping individual no-lick trials would be circular: it removes only failures, so the hit rate would
+    rise by construction. Judging contiguous runs instead means a dry trial inside a good run is kept, and a lone lick inside a dead stretch does not rescue it.
+    '''
+    lick_fraction = pd.Series(licked.astype(float)).rolling(window, min_periods=1, center=True).mean().values
+    labels = lick_fraction > threshold
+
+    # Absorb any run shorter than min_epoch into its neighbours, shortest first. Each flip merges runs together so the count strictly falls, hence this ends.
+    while True:
+        edges = np.flatnonzero(np.diff(labels)) + 1
+        starts = np.concatenate([[0], edges])
+        ends = np.concatenate([edges, [len(labels)]])
+        lengths = ends - starts
+        if len(lengths) == 1 or lengths.min() >= min_epoch:
+            return labels
+        shortest = lengths.argmin()
+        labels[starts[shortest]:ends[shortest]] = ~labels[starts[shortest]]
+
+
+def engaged_success_text(trials, engaged):
+    '''Success rate over engaged trials only, formatted for the session report below.'''
+    n_engaged = int(engaged.sum())
+    if n_engaged == 0:
+        return 'Engaged trials: 0, Success rate while engaged: n/a'
+    engaged_rewarded = int(trials['WasRewarded'].values[engaged].sum())
+    return f'Engaged trials: {n_engaged}, Success rate while engaged: {engaged_rewarded / n_engaged:.2%}'
+
+
 def collect_session_dirs(
         logging_root_paths: list,
         animal_id: str
@@ -143,7 +186,9 @@ def determine_shaping_stage(
         rewarded_trials = df['WasRewarded'].sum()
         success_rate = rewarded_trials / total_trials if total_trials > 0 else 0
 
-        # Report the success rate over the first n trials as well as the whole session, since mice often stop licking late on and drag the full-session average down
+        # Report the success rate over the first n trials as well as the whole session, since mice often stop licking late on and drag the full-session average down.
+        # The last line gives the same thing over engaged trials only, i.e. measured while the animal was actually attempting the task.
+        engaged = label_engagement((df['LickCount'] > 0).values)
         print()
         for n_trials in (50, 100, 150):
             first_n_trials = df.head(n_trials)
@@ -152,6 +197,7 @@ def determine_shaping_stage(
             first_n_rewarded_trials = first_n_trials['WasRewarded'].sum()
             print(f"First {n_trials} trials: Rewarded trials: {first_n_rewarded_trials}, Success rate: {first_n_rewarded_trials / n_trials:.2%}")
         print(f"Total trials: {total_trials}, Rewarded trials: {rewarded_trials}, Success rate: {success_rate:.2%}")
+        print(engaged_success_text(df, engaged))
 
         # Stage 2 only advances to stage 3 once the 2 most recent consecutive sessions each have at least 50 correct (rewarded) trials
         if end_stage == 2:

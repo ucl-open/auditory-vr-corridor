@@ -35,7 +35,7 @@ class PunishmentConfig(BaseSchema):
     timeout_sec: int = Field(default=2, description='Timeout duration in seconds')
     stage4_punished_lick: int = Field(default=10, description='Punished lick in stage 4', ge=1)
     stage5_punished_lick: int = Field(default=6, description='Punished lick in stage 5', ge=1)
-    stage6_punished_lick: int = Field(default=3, description='Punished lick in stage 6', ge=1)
+    stage6_punished_lick: int = Field(default=5, description='Punished lick in stage 6', ge=1)
 
 
 class EngagementConfig(BaseSchema):
@@ -69,7 +69,7 @@ class UclOpenAuditoryVrCorridorTaskParameters(BaseSchema):
 
     center_freq: int = Field(default=18000, description="Center frequency of all reward windows (Hz)", ge=1, le=25000)
     stage5_window_size: int = Field(default=8000, ge=1, le=25000, description="Window size around center_freq for stage 5 (Hz)")
-    stage6_window_size: int = Field(default=4000, ge=1, le=25000, description="Window size around center_freq for stage 6 (Hz)")
+    stage6_window_size: int = Field(default=6000, ge=1, le=25000, description="Window size around center_freq for stage 6 (Hz)")
 
     threshold_frequencies: Optional[ThresholdFrequencies] = None
 

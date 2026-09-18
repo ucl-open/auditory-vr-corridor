@@ -297,7 +297,7 @@
           "type": "integer"
         },
         "stage6PunishedLick": {
-          "default": 3,
+          "default": 5,
           "description": "Punished lick in stage 6",
           "minimum": 1,
           "title": "Stage6PunishedLick",
@@ -511,7 +511,7 @@
             "nFreqBins": 100,
             "centerFreq": 18000,
             "stage5WindowSize": 8000,
-            "stage6WindowSize": 4000,
+            "stage6WindowSize": 6000,
             "thresholdFrequencies": {
               "stage1": {
                 "ceiling": 25000,
@@ -534,14 +534,14 @@
                 "floor": 14439
               },
               "stage6": {
-                "ceiling": 20110,
-                "floor": 16110
+                "ceiling": 21248,
+                "floor": 15248
               }
             },
             "punishment": {
               "stage4PunishedLick": 10,
               "stage5PunishedLick": 6,
-              "stage6PunishedLick": 3,
+              "stage6PunishedLick": 5,
               "timeoutSec": 2
             },
             "engagement": {
@@ -552,7 +552,7 @@
             "logConfig": {
               "animalId": "unknown_animal",
               "loggingRootPath": "..\\Logs",
-              "sessionId": "2026-08-14T13_18_08"
+              "sessionId": "2026-09-18T14_21_44"
             },
             "amplitude": 0.05,
             "quantizeBinSize": 1
@@ -625,7 +625,7 @@
           "type": "integer"
         },
         "stage6WindowSize": {
-          "default": 4000,
+          "default": 6000,
           "description": "Window size around center_freq for stage 6 (Hz)",
           "maximum": 25000,
           "minimum": 1,
@@ -650,7 +650,7 @@
             "timeoutSec": 2,
             "stage4PunishedLick": 10,
             "stage5PunishedLick": 6,
-            "stage6PunishedLick": 3
+            "stage6PunishedLick": 5
           },
           "title": "Punishment"
         },
@@ -667,7 +667,7 @@
           "$ref": "#/$defs/LogConfig",
           "default": {
             "loggingRootPath": "..\\Logs",
-            "sessionId": "2026-08-14T13_18_08",
+            "sessionId": "2026-09-18T14_21_44",
             "animalId": "unknown_animal"
           }
         },

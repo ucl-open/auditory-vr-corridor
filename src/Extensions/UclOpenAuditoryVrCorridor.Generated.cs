@@ -994,7 +994,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             _timeoutSec = 2;
             _stage4PunishedLick = 10;
             _stage5PunishedLick = 6;
-            _stage6PunishedLick = 3;
+            _stage6PunishedLick = 5;
         }
     
         protected PunishmentConfig(PunishmentConfig other)
@@ -1937,7 +1937,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             _nFreqBins = 100;
             _centerFreq = 18000;
             _stage5WindowSize = 8000;
-            _stage6WindowSize = 4000;
+            _stage6WindowSize = 6000;
             _punishment = new PunishmentConfig();
             _engagement = new EngagementConfig();
             _logConfig = new LogConfig();

@@ -304,9 +304,9 @@
                   <Expression xsi:type="IncludeWorkflow" Path="UclOpen.Devices:BehaviorBoard.PulseController.bonsai">
                     <BehaviorCommandsSubjectName>BehaviorCommands</BehaviorCommandsSubjectName>
                     <OutputPulseEnable>DO1 DO2 DO3</OutputPulseEnable>
-                    <PulseDO1>45</PulseDO1>
-                    <PulseDO2>45</PulseDO2>
-                    <PulseDO3>45</PulseDO3>
+                    <PulseDO1>55</PulseDO1>
+                    <PulseDO2>55</PulseDO2>
+                    <PulseDO3>55</PulseDO3>
                     <BehaviorEventsSubjectName>BehaviorEvents</BehaviorEventsSubjectName>
                     <TriggerPulseSubjectName>TriggerValve</TriggerPulseSubjectName>
                   </Expression>
@@ -960,8 +960,13 @@
                       </Edges>
                     </Workflow>
                   </Expression>
+                  <Expression xsi:type="rx:BehaviorSubject">
+                    <Name>SteppersZEROed</Name>
+                  </Expression>
                 </Nodes>
-                <Edges />
+                <Edges>
+                  <Edge From="3" To="5" Label="Source1" />
+                </Edges>
               </Workflow>
             </Expression>
             <Expression xsi:type="GroupWorkflow">
@@ -1299,7 +1304,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>00:05:40</gui:Text>
+              <gui:Text>00:55:45</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1324,7 +1329,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>A20_TC002</gui:Text>
+              <gui:Text>A36_TC002</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1374,7 +1379,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>5</gui:Text>
+              <gui:Text>6</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1399,7 +1404,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>39</gui:Text>
+              <gui:Text>441</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1429,7 +1434,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>0</gui:Text>
+              <gui:Text>2</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1459,7 +1464,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>100</gui:Text>
+              <gui:Text>80</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1489,7 +1494,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>0.00</gui:Text>
+              <gui:Text>80.00</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1519,7 +1524,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>79.55</gui:Text>
+              <gui:Text>65.40</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1549,7 +1554,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>97.29</gui:Text>
+              <gui:Text>76.08</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1579,7 +1584,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>2000</gui:Text>
+              <gui:Text>21864</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="Disable">
@@ -1691,7 +1696,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>0.03</gui:Text>
+              <gui:Text>0.30</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1716,7 +1721,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>37% (14/38)</gui:Text>
+              <gui:Text>56% (246/440)</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1741,7 +1746,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>5</gui:Text>
+              <gui:Text>7</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1766,7 +1771,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>00:01:07</gui:Text>
+              <gui:Text>00:01:02</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1791,7 +1796,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>Engaged</gui:Text>
+              <gui:Text>Disengaged</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1816,7 +1821,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>11 trials / 00:01:21</gui:Text>
+              <gui:Text>124 trials / 00:17:55</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1841,7 +1846,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>42% (11/26)</gui:Text>
+              <gui:Text>71% (304/428)</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1866,7 +1871,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>64% (7/11)</gui:Text>
+              <gui:Text>79% (241/304)</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:TableLayoutPanelBuilder">
@@ -2034,7 +2039,7 @@
               <gui:Name>BLANK</gui:Name>
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>3550,5500,4700,2150,950;</gui:Text>
+              <gui:Text>1150,7300,4700,1550,950;</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:ButtonBuilder">
@@ -2320,7 +2325,7 @@
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
               <gui:ColumnCount>2</gui:ColumnCount>
-              <gui:RowCount>2</gui:RowCount>
+              <gui:RowCount>3</gui:RowCount>
               <gui:ColumnStyles />
               <gui:RowStyles />
               <gui:CellSpans />
@@ -2387,6 +2392,16 @@
             <Expression xsi:type="rx:BehaviorSubject">
               <Name>StepperStepSize</Name>
             </Expression>
+            <Expression xsi:type="gui:ButtonBuilder">
+              <gui:Name>SaveSpoutPositions</gui:Name>
+              <gui:Enabled>true</gui:Enabled>
+              <gui:Visible>true</gui:Visible>
+              <gui:Text>SAVE POSITIONS</gui:Text>
+            </Expression>
+            <Expression xsi:type="rx:PublishSubject">
+              <Name>SaveSpoutPositions</Name>
+            </Expression>
+            <Expression xsi:type="VisualizerMapping" />
           </Nodes>
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
@@ -2674,6 +2689,9 @@
             <Edge From="282" To="283" Label="Source1" />
             <Edge From="283" To="284" Label="Source2" />
             <Edge From="285" To="286" Label="Source1" />
+            <Edge From="287" To="288" Label="Source1" />
+            <Edge From="288" To="289" Label="Source1" />
+            <Edge From="289" To="272" Label="Source5" />
           </Edges>
         </Workflow>
       </Expression>
@@ -3438,6 +3456,303 @@
                       </Edges>
                     </Workflow>
                   </Expression>
+            <Expression xsi:type="Annotation">
+              <Name>Saved spout positions</Name>
+              <Text><![CDATA[Saved spout positions]]></Text>
+            </Expression>
+            <Expression xsi:type="GroupWorkflow">
+              <Name>SpoutPositions</Name>
+              <Description>Remembers where the lick spout sits for each animal. Positions are read back when a session starts and written whenever the SAVE POSITIONS button is pressed, so an animal returns to the spout position it was last set to. One file per animal in a rig-local folder, matching the av-dome workflow, which drives the same motors on this rig and reads the same files.</Description>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="Annotation">
+                    <Name>File is set once the motors have been ZEROed</Name>
+                    <Text><![CDATA[One file per animal, named after the animal ID. Waiting for the motors to be ZEROed
+means a saved position is never applied against an unknown motor origin.]]></Text>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="StringProperty">
+                      <Value>C:\RigConfigs\LickSpoutPositions\</Value>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>SteppersZEROed</Name>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>AnimalID</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Item2</Selector>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Take">
+                      <rx:Count>1</rx:Count>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Zip" />
+                  </Expression>
+                  <Expression xsi:type="scr:ExpressionTransform">
+                    <scr:Name>SpoutPositionFilePath</scr:Name>
+                    <scr:Expression>it.Item1+it.Item2+".csv"</scr:Expression>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Take">
+                      <rx:Count>1</rx:Count>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="rx:BehaviorSubject">
+                    <Name>SpoutPositionFileName</Name>
+                  </Expression>
+                  <Expression xsi:type="Annotation">
+                    <Name>Restore the saved positions for this animal</Name>
+                    <Text><![CDATA[If the animal has no file yet, the defaults in Init Positions are left alone.]]></Text>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>SpoutPositionFileName</Name>
+                  </Expression>
+                  <Expression xsi:type="rx:SelectMany">
+                    <Name>ReadPositions</Name>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Take">
+                            <rx:Count>1</rx:Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="rx:AsyncSubject">
+                          <Name>_fName</Name>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>_fName</Name>
+                        </Expression>
+                        <Expression xsi:type="PropertyMapping">
+                          <PropertyMappings>
+                            <Property Name="FileName" />
+                          </PropertyMappings>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>_fName</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="p3:FileExists" />
+                        </Expression>
+                        <Expression xsi:type="rx:Condition">
+                          <Name>FileFound?</Name>
+                          <Workflow>
+                            <Nodes>
+                              <Expression xsi:type="WorkflowInput">
+                                <Name>Source1</Name>
+                              </Expression>
+                              <Expression xsi:type="WorkflowOutput" />
+                            </Nodes>
+                            <Edges>
+                              <Edge From="0" To="1" Label="Source1" />
+                            </Edges>
+                          </Workflow>
+                        </Expression>
+                        <Expression xsi:type="rx:SelectMany">
+                          <Name>LoadSpoutPositions</Name>
+                          <Workflow>
+                            <Nodes>
+                              <Expression xsi:type="ExternalizedMapping">
+                                <Property Name="FileName" />
+                              </Expression>
+                              <Expression xsi:type="io:CsvReader">
+                                <io:FileName>C:\RigConfigs\LickSpoutPositions\TC002.csv</io:FileName>
+                                <io:ScanPattern>%i,%i,%i,%i,%i</io:ScanPattern>
+                                <io:SkipRows>0</io:SkipRows>
+                              </Expression>
+                              <Expression xsi:type="MemberSelector">
+                                <Selector>Item1</Selector>
+                              </Expression>
+                              <Expression xsi:type="MulticastSubject">
+                                <Name>Motor1_Position</Name>
+                              </Expression>
+                              <Expression xsi:type="MemberSelector">
+                                <Selector>Item2</Selector>
+                              </Expression>
+                              <Expression xsi:type="MulticastSubject">
+                                <Name>Motor2_Position</Name>
+                              </Expression>
+                              <Expression xsi:type="MemberSelector">
+                                <Selector>Item3</Selector>
+                              </Expression>
+                              <Expression xsi:type="MulticastSubject">
+                                <Name>Motor3_Position</Name>
+                              </Expression>
+                              <Expression xsi:type="MemberSelector">
+                                <Selector>Item4</Selector>
+                              </Expression>
+                              <Expression xsi:type="MulticastSubject">
+                                <Name>Motor4_Position</Name>
+                              </Expression>
+                              <Expression xsi:type="MemberSelector">
+                                <Selector>Item5</Selector>
+                              </Expression>
+                              <Expression xsi:type="MulticastSubject">
+                                <Name>Motor5_Position</Name>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="rx:Merge" />
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="rx:Take">
+                                  <rx:Count>1</rx:Count>
+                                </Combinator>
+                              </Expression>
+                              <Expression xsi:type="WorkflowOutput" />
+                              <Expression xsi:type="WorkflowInput">
+                                <Name>Source1</Name>
+                              </Expression>
+                            </Nodes>
+                            <Edges>
+                              <Edge From="0" To="1" Label="Source1" />
+                              <Edge From="1" To="2" Label="Source1" />
+                              <Edge From="1" To="4" Label="Source1" />
+                              <Edge From="1" To="6" Label="Source1" />
+                              <Edge From="1" To="8" Label="Source1" />
+                              <Edge From="1" To="10" Label="Source1" />
+                              <Edge From="2" To="3" Label="Source1" />
+                              <Edge From="3" To="12" Label="Source1" />
+                              <Edge From="4" To="5" Label="Source1" />
+                              <Edge From="5" To="12" Label="Source2" />
+                              <Edge From="6" To="7" Label="Source1" />
+                              <Edge From="7" To="12" Label="Source3" />
+                              <Edge From="8" To="9" Label="Source1" />
+                              <Edge From="9" To="12" Label="Source4" />
+                              <Edge From="10" To="11" Label="Source1" />
+                              <Edge From="11" To="12" Label="Source5" />
+                              <Edge From="12" To="13" Label="Source1" />
+                              <Edge From="13" To="14" Label="Source1" />
+                            </Edges>
+                          </Workflow>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                      </Nodes>
+                      <Edges>
+                        <Edge From="0" To="1" Label="Source1" />
+                        <Edge From="1" To="2" Label="Source1" />
+                        <Edge From="3" To="4" Label="Source1" />
+                        <Edge From="4" To="8" Label="Source1" />
+                        <Edge From="5" To="6" Label="Source1" />
+                        <Edge From="6" To="7" Label="Source1" />
+                        <Edge From="7" To="8" Label="Source2" />
+                        <Edge From="8" To="9" Label="Source1" />
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                  <Expression xsi:type="Annotation">
+                    <Name>Save on button press</Name>
+                    <Text><![CDATA[Writes the five current motor positions, overwriting this animal's file.]]></Text>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>SpoutPositionFileName</Name>
+                  </Expression>
+                  <Expression xsi:type="PropertyMapping">
+                    <PropertyMappings>
+                      <Property Name="FileName" />
+                    </PropertyMappings>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>SaveSpoutPositions</Name>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>SpoutPositionFileName</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:SubscribeWhen" />
+                  </Expression>
+                  <Expression xsi:type="rx:SelectMany">
+                    <Name>WritePositions</Name>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>Motor1_Position</Name>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>Motor2_Position</Name>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>Motor3_Position</Name>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>Motor4_Position</Name>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>Motor5_Position</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Zip" />
+                        </Expression>
+                        <Expression xsi:type="Format">
+                          <Format>{0},{1},{2},{3},{4}</Format>
+                          <Selector>Item1,Item2,Item3,Item4,Item5</Selector>
+                        </Expression>
+                        <Expression xsi:type="ExternalizedMapping">
+                          <Property Name="FileName" />
+                        </Expression>
+                        <Expression xsi:type="io:CsvWriter">
+                          <io:FileName>C:\RigConfigs\LickSpoutPositions\TC002.csv</io:FileName>
+                          <io:Delimiter>,</io:Delimiter>
+                          <io:ListSeparator>;</io:ListSeparator>
+                          <io:Append>false</io:Append>
+                          <io:Overwrite>true</io:Overwrite>
+                          <io:Suffix>None</io:Suffix>
+                          <io:IncludeHeader>false</io:IncludeHeader>
+                          <io:Selector>it</io:Selector>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Take">
+                            <rx:Count>1</rx:Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                      </Nodes>
+                      <Edges>
+                        <Edge From="0" To="5" Label="Source1" />
+                        <Edge From="1" To="5" Label="Source2" />
+                        <Edge From="2" To="5" Label="Source3" />
+                        <Edge From="3" To="5" Label="Source4" />
+                        <Edge From="4" To="5" Label="Source5" />
+                        <Edge From="5" To="6" Label="Source1" />
+                        <Edge From="6" To="8" Label="Source1" />
+                        <Edge From="7" To="8" Label="Source2" />
+                        <Edge From="8" To="9" Label="Source1" />
+                        <Edge From="9" To="10" Label="Source1" />
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="1" Label="Source1" />
+                  <Edge From="1" To="7" Label="Source1" />
+                  <Edge From="2" To="4" Label="Source1" />
+                  <Edge From="3" To="4" Label="Source2" />
+                  <Edge From="4" To="5" Label="Source1" />
+                  <Edge From="5" To="6" Label="Source1" />
+                  <Edge From="6" To="7" Label="Source2" />
+                  <Edge From="7" To="8" Label="Source1" />
+                  <Edge From="8" To="9" Label="Source1" />
+                  <Edge From="9" To="10" Label="Source1" />
+                  <Edge From="12" To="13" Label="Source1" />
+                  <Edge From="15" To="16" Label="Source1" />
+                   <Edge From="16" To="20" Label="Source1" />
+                   <Edge From="17" To="19" Label="Source1" />
+                  <Edge From="18" To="19" Label="Source2" />
+                   <Edge From="19" To="20" Label="Source2" />
+                </Edges>
+              </Workflow>
+            </Expression>
                 </Nodes>
                 <Edges>
                   <Edge From="5" To="6" Label="Source1" />
@@ -4995,7 +5310,7 @@
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="p8:JsonWriter">
-                            <p8:Path>C:\dev\auditory-vr-corridor\Logs\sub-TC002\ses-A20_date-2026-08-14T12-34-38\TaskSchemaLog_A20_TC002_\TaskSchemaLog_A20_TC002_.json</p8:Path>
+                            <p8:Path>C:\dev\auditory-vr-corridor\Logs\sub-TC002\ses-A36_date-2026-09-08T12-24-12\TaskSchemaLog_A36_TC002_\TaskSchemaLog_A36_TC002_.json</p8:Path>
                             <p8:Suffix>None</p8:Suffix>
                             <p8:Overwrite>false</p8:Overwrite>
                           </Combinator>
@@ -5249,7 +5564,7 @@ it.Item2 as HitEndOfTrack
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC002\ses-A20_date-2026-08-14T12-34-38\TrialLog_A20_TC002_\TrialLog_A20_TC002_.csv</io:FileName>
+                    <io:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC002\ses-A36_date-2026-09-08T12-24-12\TrialLog_A36_TC002_\TrialLog_A36_TC002_.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>true</io:Overwrite>
                     <io:Suffix>Timestamp</io:Suffix>
@@ -5477,7 +5792,7 @@ it.Item2 as HitEndOfTrack
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="cv:VideoWriter">
-                            <cv:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC002\ses-A20_date-2026-08-14T12-34-38\Cameras\VideoData_Camera1.avi</cv:FileName>
+                            <cv:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC002\ses-A36_date-2026-09-08T12-24-12\Cameras\VideoData_Camera1.avi</cv:FileName>
                             <cv:Suffix>None</cv:Suffix>
                             <cv:Buffered>true</cv:Buffered>
                             <cv:Overwrite>true</cv:Overwrite>
@@ -5577,7 +5892,7 @@ Item4 as ExposureTime)</scr:Expression>
                           </PropertyMappings>
                         </Expression>
                         <Expression xsi:type="io:CsvWriter">
-                          <io:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC002\ses-A20_date-2026-08-14T12-34-38\Cameras\VideoData_Camera1.csv</io:FileName>
+                          <io:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC002\ses-A36_date-2026-09-08T12-24-12\Cameras\VideoData_Camera1.csv</io:FileName>
                           <io:Append>false</io:Append>
                           <io:Overwrite>true</io:Overwrite>
                           <io:Suffix>None</io:Suffix>
@@ -5696,7 +6011,7 @@ Item4 as ExposureTime)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="cv:VideoWriter">
-                            <cv:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC002\ses-A20_date-2026-08-14T12-34-38\Cameras\VideoData_Camera2.avi</cv:FileName>
+                            <cv:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC002\ses-A36_date-2026-09-08T12-24-12\Cameras\VideoData_Camera2.avi</cv:FileName>
                             <cv:Suffix>None</cv:Suffix>
                             <cv:Buffered>true</cv:Buffered>
                             <cv:Overwrite>true</cv:Overwrite>
@@ -5796,7 +6111,7 @@ Item4 as ExposureTime)</scr:Expression>
                           </PropertyMappings>
                         </Expression>
                         <Expression xsi:type="io:CsvWriter">
-                          <io:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC002\ses-A20_date-2026-08-14T12-34-38\Cameras\VideoData_Camera2.csv</io:FileName>
+                          <io:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC002\ses-A36_date-2026-09-08T12-24-12\Cameras\VideoData_Camera2.csv</io:FileName>
                           <io:Append>false</io:Append>
                           <io:Overwrite>true</io:Overwrite>
                           <io:Suffix>None</io:Suffix>
@@ -5915,7 +6230,7 @@ Item4 as ExposureTime)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="cv:VideoWriter">
-                            <cv:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC002\ses-A20_date-2026-08-14T12-34-38\Cameras\VideoData_Camera3.avi</cv:FileName>
+                            <cv:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC002\ses-A36_date-2026-09-08T12-24-12\Cameras\VideoData_Camera3.avi</cv:FileName>
                             <cv:Suffix>None</cv:Suffix>
                             <cv:Buffered>true</cv:Buffered>
                             <cv:Overwrite>true</cv:Overwrite>
@@ -6015,7 +6330,7 @@ Item4 as ExposureTime)</scr:Expression>
                           </PropertyMappings>
                         </Expression>
                         <Expression xsi:type="io:CsvWriter">
-                          <io:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC002\ses-A20_date-2026-08-14T12-34-38\Cameras\VideoData_Camera3.csv</io:FileName>
+                          <io:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC002\ses-A36_date-2026-09-08T12-24-12\Cameras\VideoData_Camera3.csv</io:FileName>
                           <io:Append>false</io:Append>
                           <io:Overwrite>true</io:Overwrite>
                           <io:Suffix>None</io:Suffix>
@@ -6294,7 +6609,7 @@ it.Item2 as WasRewarded
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC002\ses-A20_date-2026-08-14T12-34-38\IntervalLog_A20_TC002_\IntervalLog_A20_TC002_.csv</io:FileName>
+                    <io:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC002\ses-A36_date-2026-09-08T12-24-12\IntervalLog_A36_TC002_\IntervalLog_A36_TC002_.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>true</io:Overwrite>
                     <io:Suffix>Timestamp</io:Suffix>
@@ -6377,7 +6692,7 @@ it.Item2 as WasRewarded
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="UclOpen.Logging:LogController.bonsai">
               <SubjectId>TC002</SubjectId>
-              <SessionId>A20</SessionId>
+              <SessionId>A36</SessionId>
               <Path>C:\dev\auditory-vr-corridor\Logs</Path>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
@@ -7317,7 +7632,7 @@ it.Item2 as WasRewarded
                   </Expression>
                   <Expression xsi:type="Add">
                     <Operand xsi:type="DoubleProperty">
-                      <Value>3667.3319299296945</Value>
+                      <Value>3287.5036590344425</Value>
                     </Operand>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
@@ -7460,7 +7775,7 @@ it.Item2 as WasRewarded
                   </Expression>
                   <Expression xsi:type="Index">
                     <Operand xsi:type="IntProperty">
-                      <Value>0</Value>
+                      <Value>94</Value>
                     </Operand>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
@@ -9981,7 +10296,7 @@ it.Item2 as WasRewarded
                   </Expression>
                   <Expression xsi:type="Add">
                     <Operand xsi:type="DoubleProperty">
-                      <Value>0.052616415055253232</Value>
+                      <Value>0.055862614099886486</Value>
                     </Operand>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
@@ -10436,7 +10751,7 @@ Convert.ToBoolean(it.Item2) ? 0.0 : Math.Min((it.Item1.Item1.Item1 - Math.Min(it
         <Layer>1</Layer>
         <ExtentX>270</ExtentX>
         <ExtentY>105</ExtentY>
-        <SpatialFrequency>0.03</SpatialFrequency>
+        <SpatialFrequency>0.3</SpatialFrequency>
         <TemporalFrequency>0</TemporalFrequency>
         <Phase>16.8036766</Phase>
         <Angle>90</Angle>

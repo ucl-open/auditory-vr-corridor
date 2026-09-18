@@ -123,6 +123,9 @@
                       </Edges>
                     </Workflow>
                   </Expression>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="PortName" />
+                  </Expression>
                 </Nodes>
                 <Edges>
                   <Edge From="0" To="1" Label="Source1" />
@@ -131,6 +134,7 @@
                   <Edge From="3" To="4" Label="Source1" />
                   <Edge From="4" To="5" Label="Source1" />
                   <Edge From="5" To="6" Label="Source1" />
+                  <Edge From="8" To="4" Label="Source2" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -310,8 +314,19 @@
                     <BehaviorEventsSubjectName>BehaviorEvents</BehaviorEventsSubjectName>
                     <TriggerPulseSubjectName>TriggerValve</TriggerPulseSubjectName>
                   </Expression>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="PortName" />
+                  </Expression>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="PulseDO1" />
+                    <Property Name="PulseDO2" />
+                    <Property Name="PulseDO3" />
+                  </Expression>
                 </Nodes>
-                <Edges />
+                <Edges>
+                  <Edge From="4" To="1" Label="Source1" />
+                  <Edge From="5" To="3" Label="Source1" />
+                </Edges>
               </Workflow>
             </Expression>
             <Expression xsi:type="GroupWorkflow">
@@ -963,9 +978,20 @@
                   <Expression xsi:type="rx:BehaviorSubject">
                     <Name>SteppersZEROed</Name>
                   </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>RigConfigs</Name>
+                  </Expression>
+                  <Expression xsi:type="PropertyMapping">
+                    <PropertyMappings>
+                      <Property Name="StepperDriver1PortName" Selector="COMPortStepperDriver1" />
+                      <Property Name="StepperDriver2PortName" Selector="COMPortStepperDriver2" />
+                    </PropertyMappings>
+                  </Expression>
                 </Nodes>
                 <Edges>
                   <Edge From="3" To="5" Label="Source1" />
+                  <Edge From="6" To="7" Label="Source1" />
+                  <Edge From="7" To="0" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -995,8 +1021,13 @@
                       <LickStateSubjectName>LickStateRight</LickStateSubjectName>
                     </Builder>
                   </Expression>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="PortName" />
+                  </Expression>
                 </Nodes>
-                <Edges />
+                <Edges>
+                  <Edge From="2" To="0" Label="Source1" />
+                </Edges>
               </Workflow>
             </Expression>
             <Expression xsi:type="GroupWorkflow">
@@ -1258,8 +1289,33 @@
                       </Edges>
                     </Workflow>
                   </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>RigConfigs</Name>
+                  </Expression>
+                  <Expression xsi:type="PropertyMapping">
+                    <PropertyMappings>
+                      <Property Name="SerialNumber" Selector="SerialNumberCamera2" />
+                    </PropertyMappings>
+                  </Expression>
+                  <Expression xsi:type="PropertyMapping">
+                    <PropertyMappings>
+                      <Property Name="SerialNumber" Selector="SerialNumberCamera1" />
+                    </PropertyMappings>
+                  </Expression>
+                  <Expression xsi:type="PropertyMapping">
+                    <PropertyMappings>
+                      <Property Name="SerialNumber" Selector="SerialNumberCamera3" />
+                    </PropertyMappings>
+                  </Expression>
                 </Nodes>
-                <Edges />
+                <Edges>
+                  <Edge From="3" To="4" Label="Source1" />
+                  <Edge From="3" To="5" Label="Source1" />
+                  <Edge From="3" To="6" Label="Source1" />
+                  <Edge From="4" To="0" Label="Source1" />
+                  <Edge From="5" To="1" Label="Source1" />
+                  <Edge From="6" To="2" Label="Source1" />
+                </Edges>
               </Workflow>
             </Expression>
             <Expression xsi:type="Combinator">
@@ -1275,10 +1331,37 @@
             <Expression xsi:type="MulticastSubject">
               <Name>StartCameras</Name>
             </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>RigConfigs</Name>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="PortName" Selector="COMPortTimestampGenerator" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="PortName" Selector="COMPortBehaviourBoard" />
+                <Property Name="PulseDO1" Selector="ValveOpenTime" />
+                <Property Name="PulseDO2" Selector="ValveOpenTime" />
+                <Property Name="PulseDO3" Selector="ValveOpenTime" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="PortName" Selector="COMPortLicketySplit" />
+              </PropertyMappings>
+            </Expression>
           </Nodes>
           <Edges>
             <Edge From="5" To="6" Label="Source1" />
             <Edge From="6" To="7" Label="Source1" />
+            <Edge From="8" To="9" Label="Source1" />
+            <Edge From="8" To="10" Label="Source1" />
+            <Edge From="8" To="11" Label="Source1" />
+            <Edge From="9" To="0" Label="Source1" />
+            <Edge From="10" To="1" Label="Source1" />
+            <Edge From="11" To="3" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -2881,6 +2964,34 @@
                                 <Combinator xsi:type="rx:Merge" />
                               </Expression>
                               <Expression xsi:type="WorkflowOutput" />
+                              <Expression xsi:type="SubscribeSubject">
+                                <Name>RigConfigs</Name>
+                              </Expression>
+                              <Expression xsi:type="PropertyMapping">
+                                <PropertyMappings>
+                                  <Property Name="Value" Selector="Motor1InPosition" />
+                                </PropertyMappings>
+                              </Expression>
+                              <Expression xsi:type="PropertyMapping">
+                                <PropertyMappings>
+                                  <Property Name="Value" Selector="Motor2InPosition" />
+                                </PropertyMappings>
+                              </Expression>
+                              <Expression xsi:type="PropertyMapping">
+                                <PropertyMappings>
+                                  <Property Name="Value" Selector="Motor3InPosition" />
+                                </PropertyMappings>
+                              </Expression>
+                              <Expression xsi:type="PropertyMapping">
+                                <PropertyMappings>
+                                  <Property Name="Value" Selector="Motor4InPosition" />
+                                </PropertyMappings>
+                              </Expression>
+                              <Expression xsi:type="PropertyMapping">
+                                <PropertyMappings>
+                                  <Property Name="Value" Selector="Motor5InPosition" />
+                                </PropertyMappings>
+                              </Expression>
                             </Nodes>
                             <Edges>
                               <Edge From="0" To="1" Label="Source1" />
@@ -2899,6 +3010,16 @@
                               <Edge From="13" To="14" Label="Source1" />
                               <Edge From="14" To="15" Label="Source5" />
                               <Edge From="15" To="16" Label="Source1" />
+                              <Edge From="17" To="18" Label="Source1" />
+                              <Edge From="17" To="19" Label="Source1" />
+                              <Edge From="17" To="20" Label="Source1" />
+                              <Edge From="17" To="21" Label="Source1" />
+                              <Edge From="17" To="22" Label="Source1" />
+                              <Edge From="18" To="1" Label="Source2" />
+                              <Edge From="19" To="4" Label="Source2" />
+                              <Edge From="20" To="7" Label="Source2" />
+                              <Edge From="21" To="10" Label="Source2" />
+                              <Edge From="22" To="13" Label="Source2" />
                             </Edges>
                           </Workflow>
                         </Expression>
@@ -4807,6 +4928,26 @@ means a saved position is never applied against an unknown motor origin.]]></Tex
                 </Workflow>
               </Builder>
             </Expression>
+            <Expression xsi:type="Annotation">
+              <Name>RigConfigs</Name>
+              <Text><![CDATA[Hardware addresses and calibrations for whichever rig this is - see Extensions/RigConfigs.cs]]></Text>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="StringProperty">
+                <Value />
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="p3:RigConfigs" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Take">
+                <rx:Count>1</rx:Count>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="rx:AsyncSubject">
+              <Name>RigConfigs</Name>
+            </Expression>
           </Nodes>
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
@@ -4829,6 +4970,10 @@ means a saved position is never applied against an unknown motor origin.]]></Tex
             <Edge From="20" To="21" Label="Source1" />
             <Edge From="22" To="23" Label="Source1" />
             <Edge From="23" To="24" Label="Source1" />
+            <Edge From="26" To="27" Label="Source1" />
+            <Edge From="27" To="28" Label="Source1" />
+            <Edge From="28" To="29" Label="Source1" />
+            <Edge From="29" To="30" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -6834,6 +6979,14 @@ it.Item2 as WasRewarded
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="p9:QueueBuffer" />
             </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>RigConfigs</Name>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="DeviceName" Selector="AudioDeviceName" />
+              </PropertyMappings>
+            </Expression>
           </Nodes>
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
@@ -6841,6 +6994,8 @@ it.Item2 as WasRewarded
             <Edge From="3" To="6" Label="Source1" />
             <Edge From="4" To="5" Label="Source1" />
             <Edge From="5" To="6" Label="Source2" />
+            <Edge From="7" To="8" Label="Source1" />
+            <Edge From="8" To="0" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -6909,11 +7064,19 @@ it.Item2 as WasRewarded
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="BonVision:Environment.MeshMapping.bonsai">
               <ClearColor>#7F7F7F</ClearColor>
-              <FileName>C:\dev\av-dome\src\MeshMappingNew\MeshMap_AzRes_30_ElRes_30_Gerions_fancy_interpolation_python.csv</FileName>
+              <FileName>C:\RigConfigs\MeshMap.csv</FileName>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="BonVision:Environment.GammaCorrection.bonsai">
               <ClearColor>Gray</ClearColor>
               <GammaLut>C:\RigConfigs\gammalut.bmp</GammaLut>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>RigConfigs</Name>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="FileName" Selector="MeshMapFilePath" />
+              </PropertyMappings>
             </Expression>
           </Nodes>
           <Edges>
@@ -6924,6 +7087,8 @@ it.Item2 as WasRewarded
             <Edge From="5" To="6" Label="Source1" />
             <Edge From="6" To="7" Label="Source1" />
             <Edge From="7" To="8" Label="Source1" />
+            <Edge From="9" To="10" Label="Source1" />
+            <Edge From="10" To="7" Label="Source2" />
           </Edges>
         </Workflow>
       </Expression>

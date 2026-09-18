@@ -4470,6 +4470,9 @@ means a saved position is never applied against an unknown motor origin.]]></Tex
                         <Expression xsi:type="rx:BehaviorSubject">
                           <Name>TrialDistFloor</Name>
                         </Expression>
+                        <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Double">
+                          <rx:Name>TrialActive</rx:Name>
+                        </Expression>
                       </Nodes>
                       <Edges>
                         <Edge From="13" To="14" Label="Source1" />
@@ -7532,6 +7535,14 @@ it.Item2 as WasRewarded
                   <Expression xsi:type="MulticastSubject">
                     <Name>TrialStartWheelDistance</Name>
                   </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="DoubleProperty">
+                      <Value>1</Value>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="MulticastSubject">
+                    <Name>TrialActive</Name>
+                  </Expression>
                 </Nodes>
                 <Edges>
                   <Edge From="0" To="1" Label="Source1" />
@@ -7574,6 +7585,7 @@ it.Item2 as WasRewarded
                   <Edge From="44" To="45" Label="Source1" />
                   <Edge From="46" To="47" Label="Source1" />
                   <Edge From="47" To="48" Label="Source1" />
+                  <Edge From="49" To="50" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -10304,6 +10316,14 @@ it.Item2 as WasRewarded
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="DoubleProperty">
+                      <Value>0</Value>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="MulticastSubject">
+                    <Name>TrialActive</Name>
+                  </Expression>
                 </Nodes>
                 <Edges>
                   <Edge From="0" To="1" Label="Source1" />
@@ -10344,6 +10364,8 @@ it.Item2 as WasRewarded
                   <Edge From="32" To="33" Label="Source1" />
                   <Edge From="33" To="34" Label="Source1" />
                   <Edge From="34" To="35" Label="Source1" />
+                  <Edge From="15" To="36" Label="Source1" />
+                  <Edge From="36" To="37" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -10657,6 +10679,19 @@ it.Item2 as WasRewarded
                     <Name>CurrOpacity</Name>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>TrialActive</Name>
+                  </Expression>
+                  <Expression xsi:type="PropertyMapping">
+                    <PropertyMappings>
+                      <Property Name="Value" />
+                    </PropertyMappings>
+                  </Expression>
+                  <Expression xsi:type="Multiply">
+                    <Operand xsi:type="DoubleProperty">
+                      <Value>0</Value>
+                    </Operand>
+                  </Expression>
                 </Nodes>
                 <Edges>
                   <Edge From="0" To="1" Label="Source1" />
@@ -10666,8 +10701,11 @@ it.Item2 as WasRewarded
                   <Edge From="4" To="7" Label="Source1" />
                   <Edge From="5" To="6" Label="Source1" />
                   <Edge From="6" To="7" Label="Source2" />
-                  <Edge From="7" To="8" Label="Source1" />
                   <Edge From="8" To="9" Label="Source1" />
+                  <Edge From="7" To="12" Label="Source1" />
+                  <Edge From="10" To="11" Label="Source1" />
+                  <Edge From="11" To="12" Label="Source2" />
+                  <Edge From="12" To="8" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>

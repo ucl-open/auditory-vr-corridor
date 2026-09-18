@@ -4987,7 +4987,7 @@ means a saved position is never applied against an unknown motor origin.]]></Tex
             </Expression>
             <Expression xsi:type="scr:ExpressionTransform">
               <scr:Name>ComputeThreshold</scr:Name>
-              <scr:Expression>it.ShapingStage == 1 ? Convert.ToDouble(it.ThresholdFrequencies.Stage1.Floor) : it.ShapingStage == 2 ? Convert.ToDouble(it.ThresholdFrequencies.Stage2.Floor) : it.ShapingStage == 3 ? Convert.ToDouble(it.ThresholdFrequencies.Stage3.Floor) : it.ShapingStage == 4 ? Convert.ToDouble(it.ThresholdFrequencies.Stage4.Floor) :  it.ShapingStage == 5 ? Convert.ToDouble(it.ThresholdFrequencies.Stage5.Floor) : Convert.ToDouble(it.ThresholdFrequencies.Stage6.Floor)</scr:Expression>
+              <scr:Expression>it.ShapingStage == 1 ? Convert.ToDouble(it.ThresholdFrequencies.Stage1.Floor) : it.ShapingStage == 2 ? Convert.ToDouble(it.ThresholdFrequencies.Stage2.Floor) : it.ShapingStage == 3 ? Convert.ToDouble(it.ThresholdFrequencies.Stage3.Floor) : it.ShapingStage == 4 ? Convert.ToDouble(it.ThresholdFrequencies.Stage4.Floor) :  Convert.ToDouble(it.ThresholdFrequencies.Stage5.Floor)</scr:Expression>
             </Expression>
             <Expression xsi:type="MulticastSubject">
               <Name>RewardFloorFreq</Name>
@@ -4997,7 +4997,7 @@ means a saved position is never applied against an unknown motor origin.]]></Tex
             </Expression>
             <Expression xsi:type="scr:ExpressionTransform">
               <scr:Name>ComputeThreshold</scr:Name>
-              <scr:Expression>it.ShapingStage == 1 ? Convert.ToDouble(it.ThresholdFrequencies.Stage1.Ceiling) : it.ShapingStage == 2 ? Convert.ToDouble(it.ThresholdFrequencies.Stage2.Ceiling) : it.ShapingStage == 3 ? Convert.ToDouble(it.ThresholdFrequencies.Stage3.Ceiling) : it.ShapingStage == 4 ? Convert.ToDouble(it.ThresholdFrequencies.Stage4.Ceiling) :  it.ShapingStage == 5 ? Convert.ToDouble(it.ThresholdFrequencies.Stage5.Ceiling) : Convert.ToDouble(it.ThresholdFrequencies.Stage6.Ceiling)</scr:Expression>
+              <scr:Expression>it.ShapingStage == 1 ? Convert.ToDouble(it.ThresholdFrequencies.Stage1.Ceiling) : it.ShapingStage == 2 ? Convert.ToDouble(it.ThresholdFrequencies.Stage2.Ceiling) : it.ShapingStage == 3 ? Convert.ToDouble(it.ThresholdFrequencies.Stage3.Ceiling) : it.ShapingStage == 4 ? Convert.ToDouble(it.ThresholdFrequencies.Stage4.Ceiling) :  Convert.ToDouble(it.ThresholdFrequencies.Stage5.Ceiling)</scr:Expression>
             </Expression>
             <Expression xsi:type="MulticastSubject">
               <Name>RewardCeilFreq</Name>
@@ -8399,7 +8399,7 @@ it.Item2 as WasRewarded
                         </Expression>
                         <Expression xsi:type="scr:ExpressionTransform">
                           <scr:Name>WrongLickLimit</scr:Name>
-                          <scr:Expression>it.ShapingStage == 4 ? Convert.ToDouble(it.Punishment.Stage4PunishedLick) : it.ShapingStage == 5 ? Convert.ToDouble(it.Punishment.Stage5PunishedLick) : it.ShapingStage == 6 ? Convert.ToDouble(it.Punishment.Stage6PunishedLick) : Convert.ToDouble(1000)</scr:Expression>
+                          <scr:Expression>it.ShapingStage == 4 ? Convert.ToDouble(it.Punishment.Stage4PunishedLick) : it.ShapingStage == 5 ? Convert.ToDouble(it.Punishment.Stage5PunishedLick) : Convert.ToDouble(1000)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="rx:WithLatestFrom" />
@@ -8432,7 +8432,7 @@ it.Item2 as WasRewarded
                         <Expression xsi:type="Disable">
                           <Builder xsi:type="scr:ExpressionTransform">
                             <scr:Name>WrongLickLimit</scr:Name>
-                            <scr:Expression>it.Item2 == 4 ? Convert.ToDouble(it.Item1.Punishment.Stage4PunishedLick) : it.Item2 == 5 ? Convert.ToDouble(it.Item1.Punishment.Stage5PunishedLick) : it.Item2 == 6 ? Convert.ToDouble(it.Item1.Punishment.Stage6PunishedLick) : Convert.ToDouble(1000)</scr:Expression>
+                            <scr:Expression>it.Item2 == 4 ? Convert.ToDouble(it.Item1.Punishment.Stage4PunishedLick) : it.Item2 == 5 ? Convert.ToDouble(it.Item1.Punishment.Stage5PunishedLick) : Convert.ToDouble(1000)</scr:Expression>
                           </Builder>
                         </Expression>
                         <Expression xsi:type="Disable">
@@ -8908,7 +8908,7 @@ it.Item2 as WasRewarded
                           </Expression>
                           <Expression xsi:type="scr:ExpressionTransform">
                             <scr:Name>WrongLickLimit</scr:Name>
-                            <scr:Expression>it.ShapingStage == 4 ? Convert.ToDouble(it.Punishment.Stage4PunishedLick) : it.ShapingStage == 5 ? Convert.ToDouble(it.Punishment.Stage5PunishedLick) : it.ShapingStage == 6 ? Convert.ToDouble(it.Punishment.Stage6PunishedLick) : Convert.ToDouble(1000)</scr:Expression>
+                            <scr:Expression>it.ShapingStage == 4 ? Convert.ToDouble(it.Punishment.Stage4PunishedLick) : it.ShapingStage == 5 ? Convert.ToDouble(it.Punishment.Stage5PunishedLick) : Convert.ToDouble(1000)</scr:Expression>
                           </Expression>
                           <Expression xsi:type="Combinator">
                             <Combinator xsi:type="rx:WithLatestFrom" />
@@ -8941,7 +8941,7 @@ it.Item2 as WasRewarded
                           <Expression xsi:type="Disable">
                             <Builder xsi:type="scr:ExpressionTransform">
                               <scr:Name>WrongLickLimit</scr:Name>
-                              <scr:Expression>it.Item2 == 4 ? Convert.ToDouble(it.Item1.Punishment.Stage4PunishedLick) : it.Item2 == 5 ? Convert.ToDouble(it.Item1.Punishment.Stage5PunishedLick) : it.Item2 == 6 ? Convert.ToDouble(it.Item1.Punishment.Stage6PunishedLick) : Convert.ToDouble(1000)</scr:Expression>
+                              <scr:Expression>it.Item2 == 4 ? Convert.ToDouble(it.Item1.Punishment.Stage4PunishedLick) : it.Item2 == 5 ? Convert.ToDouble(it.Item1.Punishment.Stage5PunishedLick) : Convert.ToDouble(1000)</scr:Expression>
                             </Builder>
                           </Expression>
                           <Expression xsi:type="Disable">

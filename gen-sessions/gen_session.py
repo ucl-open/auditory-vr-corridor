@@ -1,4 +1,4 @@
-from helpers import determine_shaping_stage, generate_waveforms, next_session_id
+from helpers import MAX_SHAPING_STAGE, determine_shaping_stage, generate_waveforms, next_session_id
 from pathlib import Path
 
 
@@ -14,12 +14,12 @@ TEST_ANIMAL_PREFIX = "TEST" # Animal IDs starting with this are test sessions, e
 def prompt_shaping_stage(auto_stage: int):
     '''Asks which shaping stage to run, defaulting to the one worked out from previous sessions. Overriding is useful for testing a stage without an animal.'''
     while True:
-        answer = input(f"Enter shaping stage (1-6) [default={auto_stage}]: ").strip()
+        answer = input(f"Enter shaping stage (1-{MAX_SHAPING_STAGE}) [default={auto_stage}]: ").strip()
         if not answer:
             return auto_stage
-        if answer.isdigit() and 1 <= int(answer) <= 6:
+        if answer.isdigit() and 1 <= int(answer) <= MAX_SHAPING_STAGE:
             return int(answer)
-        print("Shaping stage must be a whole number from 1 to 6.")
+        print(f"Shaping stage must be a whole number from 1 to {MAX_SHAPING_STAGE}.")
 
 
 def main():

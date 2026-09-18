@@ -13,6 +13,10 @@ ROLL_WINDOW = 25
 ROLL_THRESHOLD = 0.5
 MIN_EPOCH = 10
 
+# Highest shaping stage, matching shaping_stage in the task schema. A session logged at a higher stage than this was run under an older
+# set of stages, so it is read as this one, which is the closest equivalent.
+MAX_SHAPING_STAGE = 5
+
 
 def label_engagement(licked, window=ROLL_WINDOW, threshold=ROLL_THRESHOLD, min_epoch=MIN_EPOCH):
     '''
@@ -170,6 +174,10 @@ def determine_shaping_stage(
         print(f"\nNB: Shaping stage changed during session (start: {start_stage}, end: {end_stage}). Using last recorded stage.")
     df = df[df['ShapingStage'] == end_stage] # Filter df to trials from last shaping stage only
 
+    if end_stage > MAX_SHAPING_STAGE:
+        print(f"\nNB: Previous session ran at stage {end_stage}, which no longer exists. Reading it as stage {MAX_SHAPING_STAGE}.")
+        end_stage = MAX_SHAPING_STAGE
+
     # If continuing the same session, keep the same shaping stage as the last session
     if continue_session:
         print(f'\nContinuing session, maintaining same shaping stage as last session ({end_stage}).\n')
@@ -218,7 +226,7 @@ def determine_shaping_stage(
 
         # Mice often 'zone out' late in a session and run the track without licking, which drags the full-session success rate below 70% even when they do understand the task.
         # So stages 3-5 also advance if either the first 100 or the first 150 trials alone were >= 70% successful. Otherwise they fall through to the normal full-session rules below.
-        if end_stage in (3, 4, 5):
+        if end_stage in range(3, MAX_SHAPING_STAGE):
             for n_trials in (100, 150):
                 early_trials = df.head(n_trials)
                 early_success_rate = early_trials['WasRewarded'].sum() / len(early_trials) if len(early_trials) > 0 else 0
@@ -231,7 +239,7 @@ def determine_shaping_stage(
 
         if success_rate >= 0.7:
             print("\nSuccess rate >= 70%. Advancing to next shaping stage.")
-            next_stage = min(6, end_stage + 1) # NB: hard coding in 6 shaping stages here - if more stages added in future, update this
+            next_stage = min(MAX_SHAPING_STAGE, end_stage + 1)
         elif success_rate < 0.7:
             print("\nSuccess rate less than 70%. Staying in current shaping stage.")
             next_stage = end_stage 

@@ -987,14 +987,11 @@ namespace UclOpenAuditoryVrCorridorDataSchema
     
         private int _stage5PunishedLick;
     
-        private int _stage6PunishedLick;
-    
         public PunishmentConfig()
         {
             _timeoutSec = 2;
-            _stage4PunishedLick = 10;
-            _stage5PunishedLick = 6;
-            _stage6PunishedLick = 5;
+            _stage4PunishedLick = 8;
+            _stage5PunishedLick = 5;
         }
     
         protected PunishmentConfig(PunishmentConfig other)
@@ -1002,7 +999,6 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             _timeoutSec = other._timeoutSec;
             _stage4PunishedLick = other._stage4PunishedLick;
             _stage5PunishedLick = other._stage5PunishedLick;
-            _stage6PunishedLick = other._stage6PunishedLick;
         }
     
         /// <summary>
@@ -1056,23 +1052,6 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             }
         }
     
-        /// <summary>
-        /// Punished lick in stage 6
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("stage6PunishedLick")]
-        [System.ComponentModel.DescriptionAttribute("Punished lick in stage 6")]
-        public int Stage6PunishedLick
-        {
-            get
-            {
-                return _stage6PunishedLick;
-            }
-            set
-            {
-                _stage6PunishedLick = value;
-            }
-        }
-    
         public System.IObservable<PunishmentConfig> Generate()
         {
             return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new PunishmentConfig(this)));
@@ -1087,8 +1066,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
         {
             stringBuilder.Append("TimeoutSec = " + _timeoutSec + ", ");
             stringBuilder.Append("Stage4PunishedLick = " + _stage4PunishedLick + ", ");
-            stringBuilder.Append("Stage5PunishedLick = " + _stage5PunishedLick + ", ");
-            stringBuilder.Append("Stage6PunishedLick = " + _stage6PunishedLick);
+            stringBuilder.Append("Stage5PunishedLick = " + _stage5PunishedLick);
             return true;
         }
     
@@ -1484,8 +1462,6 @@ namespace UclOpenAuditoryVrCorridorDataSchema
     
         private Stage _stage5;
     
-        private Stage _stage6;
-    
         public ThresholdFrequencies()
         {
             _stage1 = new Stage();
@@ -1493,7 +1469,6 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             _stage3 = new Stage();
             _stage4 = new Stage();
             _stage5 = new Stage();
-            _stage6 = new Stage();
         }
     
         protected ThresholdFrequencies(ThresholdFrequencies other)
@@ -1503,7 +1478,6 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             _stage3 = other._stage3;
             _stage4 = other._stage4;
             _stage5 = other._stage5;
-            _stage6 = other._stage6;
         }
     
         [System.Xml.Serialization.XmlIgnoreAttribute()]
@@ -1576,20 +1550,6 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             }
         }
     
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("stage6", Required=Newtonsoft.Json.Required.Always)]
-        public Stage Stage6
-        {
-            get
-            {
-                return _stage6;
-            }
-            set
-            {
-                _stage6 = value;
-            }
-        }
-    
         public System.IObservable<ThresholdFrequencies> Generate()
         {
             return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new ThresholdFrequencies(this)));
@@ -1606,8 +1566,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             stringBuilder.Append("Stage2 = " + _stage2 + ", ");
             stringBuilder.Append("Stage3 = " + _stage3 + ", ");
             stringBuilder.Append("Stage4 = " + _stage4 + ", ");
-            stringBuilder.Append("Stage5 = " + _stage5 + ", ");
-            stringBuilder.Append("Stage6 = " + _stage6);
+            stringBuilder.Append("Stage5 = " + _stage5);
             return true;
         }
     
@@ -1912,9 +1871,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
     
         private int _centerFreq;
     
-        private int _stage5WindowSize;
-    
-        private int _stage6WindowSize;
+        private int _rewardWindowSize;
     
         private ThresholdFrequencies _thresholdFrequencies;
     
@@ -1936,8 +1893,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             _endFreq = 25000;
             _nFreqBins = 100;
             _centerFreq = 18000;
-            _stage5WindowSize = 8000;
-            _stage6WindowSize = 6000;
+            _rewardWindowSize = 6000;
             _punishment = new PunishmentConfig();
             _engagement = new EngagementConfig();
             _logConfig = new LogConfig();
@@ -1953,8 +1909,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             _endFreq = other._endFreq;
             _nFreqBins = other._nFreqBins;
             _centerFreq = other._centerFreq;
-            _stage5WindowSize = other._stage5WindowSize;
-            _stage6WindowSize = other._stage6WindowSize;
+            _rewardWindowSize = other._rewardWindowSize;
             _thresholdFrequencies = other._thresholdFrequencies;
             _punishment = other._punishment;
             _engagement = other._engagement;
@@ -1981,10 +1936,10 @@ namespace UclOpenAuditoryVrCorridorDataSchema
         }
     
         /// <summary>
-        /// Shaping stage (1-6)
+        /// Shaping stage (1-5)
         /// </summary>
         [Newtonsoft.Json.JsonPropertyAttribute("shapingStage")]
-        [System.ComponentModel.DescriptionAttribute("Shaping stage (1-6)")]
+        [System.ComponentModel.DescriptionAttribute("Shaping stage (1-5)")]
         public int ShapingStage
         {
             get
@@ -2066,36 +2021,20 @@ namespace UclOpenAuditoryVrCorridorDataSchema
         }
     
         /// <summary>
-        /// Window size around center_freq for stage 5 (Hz)
+        /// Window size around center_freq, setting the reward floor for stages 3-5 and the ceiling for stages 4-5 (Hz)
         /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("stage5WindowSize")]
-        [System.ComponentModel.DescriptionAttribute("Window size around center_freq for stage 5 (Hz)")]
-        public int Stage5WindowSize
+        [Newtonsoft.Json.JsonPropertyAttribute("rewardWindowSize")]
+        [System.ComponentModel.DescriptionAttribute("Window size around center_freq, setting the reward floor for stages 3-5 and the c" +
+            "eiling for stages 4-5 (Hz)")]
+        public int RewardWindowSize
         {
             get
             {
-                return _stage5WindowSize;
+                return _rewardWindowSize;
             }
             set
             {
-                _stage5WindowSize = value;
-            }
-        }
-    
-        /// <summary>
-        /// Window size around center_freq for stage 6 (Hz)
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("stage6WindowSize")]
-        [System.ComponentModel.DescriptionAttribute("Window size around center_freq for stage 6 (Hz)")]
-        public int Stage6WindowSize
-        {
-            get
-            {
-                return _stage6WindowSize;
-            }
-            set
-            {
-                _stage6WindowSize = value;
+                _rewardWindowSize = value;
             }
         }
     
@@ -2207,8 +2146,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             stringBuilder.Append("EndFreq = " + _endFreq + ", ");
             stringBuilder.Append("NFreqBins = " + _nFreqBins + ", ");
             stringBuilder.Append("CenterFreq = " + _centerFreq + ", ");
-            stringBuilder.Append("Stage5WindowSize = " + _stage5WindowSize + ", ");
-            stringBuilder.Append("Stage6WindowSize = " + _stage6WindowSize + ", ");
+            stringBuilder.Append("RewardWindowSize = " + _rewardWindowSize + ", ");
             stringBuilder.Append("ThresholdFrequencies = " + _thresholdFrequencies + ", ");
             stringBuilder.Append("Punishment = " + _punishment + ", ");
             stringBuilder.Append("Engagement = " + _engagement + ", ");

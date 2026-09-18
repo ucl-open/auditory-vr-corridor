@@ -283,24 +283,17 @@
           "type": "integer"
         },
         "stage4PunishedLick": {
-          "default": 10,
+          "default": 8,
           "description": "Punished lick in stage 4",
           "minimum": 1,
           "title": "Stage4PunishedLick",
           "type": "integer"
         },
         "stage5PunishedLick": {
-          "default": 6,
+          "default": 5,
           "description": "Punished lick in stage 5",
           "minimum": 1,
           "title": "Stage5PunishedLick",
-          "type": "integer"
-        },
-        "stage6PunishedLick": {
-          "default": 5,
-          "description": "Punished lick in stage 6",
-          "minimum": 1,
-          "title": "Stage6PunishedLick",
           "type": "integer"
         }
       },
@@ -429,10 +422,6 @@
         "stage5": {
           "$ref": "#/$defs/Stage",
           "title": "Stage5"
-        },
-        "stage6": {
-          "$ref": "#/$defs/Stage",
-          "title": "Stage6"
         }
       },
       "required": [
@@ -440,8 +429,7 @@
         "stage2",
         "stage3",
         "stage4",
-        "stage5",
-        "stage6"
+        "stage5"
       ],
       "title": "ThresholdFrequencies",
       "type": "object"
@@ -510,8 +498,7 @@
             "endFreq": 25000,
             "nFreqBins": 100,
             "centerFreq": 18000,
-            "stage5WindowSize": 8000,
-            "stage6WindowSize": 6000,
+            "rewardWindowSize": 6000,
             "thresholdFrequencies": {
               "stage1": {
                 "ceiling": 25000,
@@ -523,25 +510,20 @@
               },
               "stage3": {
                 "ceiling": 25000,
-                "floor": 12960
+                "floor": 15248
               },
               "stage4": {
-                "ceiling": 25000,
-                "floor": 12960
+                "ceiling": 21248,
+                "floor": 15248
               },
               "stage5": {
-                "ceiling": 22439,
-                "floor": 14439
-              },
-              "stage6": {
                 "ceiling": 21248,
                 "floor": 15248
               }
             },
             "punishment": {
-              "stage4PunishedLick": 10,
-              "stage5PunishedLick": 6,
-              "stage6PunishedLick": 5,
+              "stage4PunishedLick": 8,
+              "stage5PunishedLick": 5,
               "timeoutSec": 2
             },
             "engagement": {
@@ -552,7 +534,7 @@
             "logConfig": {
               "animalId": "unknown_animal",
               "loggingRootPath": "..\\Logs",
-              "sessionId": "2026-09-18T14_21_44"
+              "sessionId": "2026-09-18T16_26_30"
             },
             "amplitude": 0.05,
             "quantizeBinSize": 1
@@ -579,8 +561,8 @@
         },
         "shapingStage": {
           "default": 1,
-          "description": "Shaping stage (1-6)",
-          "maximum": 6,
+          "description": "Shaping stage (1-5)",
+          "maximum": 5,
           "minimum": 1,
           "title": "ShapingStage",
           "type": "integer"
@@ -616,20 +598,12 @@
           "title": "CenterFreq",
           "type": "integer"
         },
-        "stage5WindowSize": {
-          "default": 8000,
-          "description": "Window size around center_freq for stage 5 (Hz)",
-          "maximum": 25000,
-          "minimum": 1,
-          "title": "Stage5WindowSize",
-          "type": "integer"
-        },
-        "stage6WindowSize": {
+        "rewardWindowSize": {
           "default": 6000,
-          "description": "Window size around center_freq for stage 6 (Hz)",
+          "description": "Window size around center_freq, setting the reward floor for stages 3-5 and the ceiling for stages 4-5 (Hz)",
           "maximum": 25000,
           "minimum": 1,
-          "title": "Stage6WindowSize",
+          "title": "RewardWindowSize",
           "type": "integer"
         },
         "thresholdFrequencies": {
@@ -648,9 +622,8 @@
           "$ref": "#/$defs/PunishmentConfig",
           "default": {
             "timeoutSec": 2,
-            "stage4PunishedLick": 10,
-            "stage5PunishedLick": 6,
-            "stage6PunishedLick": 5
+            "stage4PunishedLick": 8,
+            "stage5PunishedLick": 5
           },
           "title": "Punishment"
         },
@@ -667,7 +640,7 @@
           "$ref": "#/$defs/LogConfig",
           "default": {
             "loggingRootPath": "..\\Logs",
-            "sessionId": "2026-09-18T14_21_44",
+            "sessionId": "2026-09-18T16_26_30",
             "animalId": "unknown_animal"
           }
         },

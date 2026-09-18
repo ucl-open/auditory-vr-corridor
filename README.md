@@ -19,4 +19,8 @@ Stage 4: Same as above, but now mice also punished for excess licking or being s
 
 Stage 5: Same as above, but punished for 5th wrong lick.
 
+Stage 6: Same as stage 5, but 15% of trials are 'probe' trials on a 120cm track instead of 80 or 100cm - same frequency sweep, just stretched over a longer distance, to check the mouse is following the sound rather than the distance run. Probe trials are rewarded as normal, and are the ones with TrackLength 120 in the trial log.
+
 The reward zone floor is the same from stage 3 onwards and only the ceiling comes down. Mice lick in anticipation of the reward frequency, so moving the floor between stages makes them fail the new stage on licks that would have been correct before.
+
+Stage 6 is never reached automatically - enter it by hand at the shaping stage prompt. Once an animal is on stage 6 it stays there until you put it back to 5 by hand.

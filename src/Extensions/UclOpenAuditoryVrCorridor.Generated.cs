@@ -779,6 +779,105 @@ namespace UclOpenAuditoryVrCorridorDataSchema
 
 
     /// <summary>
+    /// Probe trials, used in stage 6 only.
+    ///
+    ///A probe trial runs the same frequency sweep over a longer track, so the reward frequency arrives further along the corridor than the animal is used to.
+    ///An animal following the sound still gets rewarded; one that has learnt to lick at a fixed distance does not.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.7.2.0 (Newtonsoft.Json v13.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute(@"Probe trials, used in stage 6 only.
+
+    A probe trial runs the same frequency sweep over a longer track, so the reward frequency arrives further along the corridor than the animal is used to.
+    An animal following the sound still gets rewarded; one that has learnt to lick at a fixed distance does not.")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class ProbeConfig
+    {
+    
+        private double _fraction;
+    
+        private double _trackLength;
+    
+        public ProbeConfig()
+        {
+            _fraction = 0.15D;
+            _trackLength = 120D;
+        }
+    
+        protected ProbeConfig(ProbeConfig other)
+        {
+            _fraction = other._fraction;
+            _trackLength = other._trackLength;
+        }
+    
+        /// <summary>
+        /// Fraction of stage 6 trials that are probe trials. The rest are split evenly between the normal track lengths
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("fraction")]
+        [System.ComponentModel.DescriptionAttribute("Fraction of stage 6 trials that are probe trials. The rest are split evenly betwe" +
+            "en the normal track lengths")]
+        public double Fraction
+        {
+            get
+            {
+                return _fraction;
+            }
+            set
+            {
+                _fraction = value;
+            }
+        }
+    
+        /// <summary>
+        /// Track length of a probe trial (cm)
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("trackLength")]
+        [System.ComponentModel.DescriptionAttribute("Track length of a probe trial (cm)")]
+        public double TrackLength
+        {
+            get
+            {
+                return _trackLength;
+            }
+            set
+            {
+                _trackLength = value;
+            }
+        }
+    
+        public System.IObservable<ProbeConfig> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new ProbeConfig(this)));
+        }
+    
+        public System.IObservable<ProbeConfig> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new ProbeConfig(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("Fraction = " + _fraction + ", ");
+            stringBuilder.Append("TrackLength = " + _trackLength);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    /// <summary>
     /// Represents the PulseController module on the BehaviourBoard.
     ///Mirrors the externalized properties of the Bonsai workflow of the same name,
     ///excluding subject name properties.
@@ -1877,6 +1976,8 @@ namespace UclOpenAuditoryVrCorridorDataSchema
     
         private PunishmentConfig _punishment;
     
+        private ProbeConfig _probe;
+    
         private EngagementConfig _engagement;
     
         private LogConfig _logConfig;
@@ -1895,6 +1996,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             _centerFreq = 18000;
             _rewardWindowSize = 6000;
             _punishment = new PunishmentConfig();
+            _probe = new ProbeConfig();
             _engagement = new EngagementConfig();
             _logConfig = new LogConfig();
             _amplitude = 0.05D;
@@ -1912,6 +2014,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             _rewardWindowSize = other._rewardWindowSize;
             _thresholdFrequencies = other._thresholdFrequencies;
             _punishment = other._punishment;
+            _probe = other._probe;
             _engagement = other._engagement;
             _logConfig = other._logConfig;
             _amplitude = other._amplitude;
@@ -1936,10 +2039,11 @@ namespace UclOpenAuditoryVrCorridorDataSchema
         }
     
         /// <summary>
-        /// Shaping stage (1-5)
+        /// Shaping stage (1-6). Stage 6 is stage 5 with probe trials and is only ever selected by hand
         /// </summary>
         [Newtonsoft.Json.JsonPropertyAttribute("shapingStage")]
-        [System.ComponentModel.DescriptionAttribute("Shaping stage (1-5)")]
+        [System.ComponentModel.DescriptionAttribute("Shaping stage (1-6). Stage 6 is stage 5 with probe trials and is only ever select" +
+            "ed by hand")]
         public int ShapingStage
         {
             get
@@ -2067,6 +2171,20 @@ namespace UclOpenAuditoryVrCorridorDataSchema
         }
     
         [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("probe")]
+        public ProbeConfig Probe
+        {
+            get
+            {
+                return _probe;
+            }
+            set
+            {
+                _probe = value;
+            }
+        }
+    
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
         [Newtonsoft.Json.JsonPropertyAttribute("engagement")]
         public EngagementConfig Engagement
         {
@@ -2149,6 +2267,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             stringBuilder.Append("RewardWindowSize = " + _rewardWindowSize + ", ");
             stringBuilder.Append("ThresholdFrequencies = " + _thresholdFrequencies + ", ");
             stringBuilder.Append("Punishment = " + _punishment + ", ");
+            stringBuilder.Append("Probe = " + _probe + ", ");
             stringBuilder.Append("Engagement = " + _engagement + ", ");
             stringBuilder.Append("LogConfig = " + _logConfig + ", ");
             stringBuilder.Append("Amplitude = " + _amplitude + ", ");
@@ -2240,6 +2359,11 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             return Process<LogConfig>(source);
         }
 
+        public System.IObservable<string> Process(System.IObservable<ProbeConfig> source)
+        {
+            return Process<ProbeConfig>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<PulseController> source)
         {
             return Process<PulseController>(source);
@@ -2306,6 +2430,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<LedDriver>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<LicketySplit>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<LogConfig>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ProbeConfig>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PulseController>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PulseWidths>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PunishmentConfig>))]

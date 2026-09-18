@@ -222,6 +222,28 @@
       "title": "LogConfig",
       "type": "object"
     },
+    "ProbeConfig": {
+      "description": "Probe trials, used in stage 6 only.\n\nA probe trial runs the same frequency sweep over a longer track, so the reward frequency arrives further along the corridor than the animal is used to.\nAn animal following the sound still gets rewarded; one that has learnt to lick at a fixed distance does not.",
+      "properties": {
+        "fraction": {
+          "default": 0.15,
+          "description": "Fraction of stage 6 trials that are probe trials. The rest are split evenly between the normal track lengths",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Fraction",
+          "type": "number"
+        },
+        "trackLength": {
+          "default": 120,
+          "description": "Track length of a probe trial (cm)",
+          "exclusiveMinimum": 0,
+          "title": "TrackLength",
+          "type": "number"
+        }
+      },
+      "title": "ProbeConfig",
+      "type": "object"
+    },
     "PulseController": {
       "description": "Represents the PulseController module on the BehaviourBoard.\nMirrors the externalized properties of the Bonsai workflow of the same name,\nexcluding subject name properties.",
       "properties": {
@@ -526,6 +548,10 @@
               "stage5PunishedLick": 5,
               "timeoutSec": 2
             },
+            "probe": {
+              "fraction": 0.15,
+              "trackLength": 120.0
+            },
             "engagement": {
               "minEpoch": 10,
               "rollThreshold": 0.5,
@@ -534,7 +560,7 @@
             "logConfig": {
               "animalId": "unknown_animal",
               "loggingRootPath": "..\\Logs",
-              "sessionId": "2026-09-18T16_26_30"
+              "sessionId": "2026-09-18T17_09_46"
             },
             "amplitude": 0.05,
             "quantizeBinSize": 1
@@ -561,8 +587,8 @@
         },
         "shapingStage": {
           "default": 1,
-          "description": "Shaping stage (1-5)",
-          "maximum": 5,
+          "description": "Shaping stage (1-6). Stage 6 is stage 5 with probe trials and is only ever selected by hand",
+          "maximum": 6,
           "minimum": 1,
           "title": "ShapingStage",
           "type": "integer"
@@ -627,6 +653,14 @@
           },
           "title": "Punishment"
         },
+        "probe": {
+          "$ref": "#/$defs/ProbeConfig",
+          "default": {
+            "fraction": 0.15,
+            "trackLength": 120.0
+          },
+          "title": "Probe"
+        },
         "engagement": {
           "$ref": "#/$defs/EngagementConfig",
           "default": {
@@ -640,7 +674,7 @@
           "$ref": "#/$defs/LogConfig",
           "default": {
             "loggingRootPath": "..\\Logs",
-            "sessionId": "2026-09-18T16_26_30",
+            "sessionId": "2026-09-18T17_09_46",
             "animalId": "unknown_animal"
           }
         },

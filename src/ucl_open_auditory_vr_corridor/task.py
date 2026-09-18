@@ -36,6 +36,16 @@ class PunishmentConfig(BaseSchema):
     stage5_punished_lick: int = Field(default=5, description='Punished lick in stage 5', ge=1)
 
 
+class ProbeConfig(BaseSchema):
+    '''Probe trials, used in stage 6 only.
+
+    A probe trial runs the same frequency sweep over a longer track, so the reward frequency arrives further along the corridor than the animal is used to.
+    An animal following the sound still gets rewarded; one that has learnt to lick at a fixed distance does not.
+    '''
+    fraction: float = Field(default=0.15, description='Fraction of stage 6 trials that are probe trials. The rest are split evenly between the normal track lengths', ge=0.0, le=1.0)
+    track_length: float = Field(default=120, description='Track length of a probe trial (cm)', gt=0)
+
+
 class EngagementConfig(BaseSchema):
     '''Params for labelling whether the animal is still attempting the task.
 
@@ -59,7 +69,7 @@ class UclOpenAuditoryVrCorridorTaskParameters(BaseSchema):
     '''Task params.'''
     modality: Literal["A", "V", "AV"] = Field(default="AV", description="Stimulus modality: auditory (A), visual (V), or audiovisual (AV)")
 
-    shaping_stage: int = Field(default=1, description='Shaping stage (1-5)', ge=1, le=5)
+    shaping_stage: int = Field(default=1, description='Shaping stage (1-6). Stage 6 is stage 5 with probe trials and is only ever selected by hand', ge=1, le=6)
     start_freq: int = Field(default=2000, description='Start frequency of the sweep (Hz)', ge=1, le=25000)
     end_freq: int = Field(default=25000, description='End frequency of the sweep (Hz)', ge=1, le=25000)
 
@@ -71,6 +81,7 @@ class UclOpenAuditoryVrCorridorTaskParameters(BaseSchema):
     threshold_frequencies: Optional[ThresholdFrequencies] = None
 
     punishment: PunishmentConfig = PunishmentConfig()
+    probe: ProbeConfig = ProbeConfig()
     engagement: EngagementConfig = EngagementConfig()
     log_config: LogConfig = LogConfig()
     amplitude: float = Field(default=0.05, description='Audio amplitude (0.0 to 1.0)', ge=0.0, le=1.0)
@@ -103,7 +114,7 @@ class UclOpenAuditoryVrCorridorTaskParameters(BaseSchema):
                 stage3=Stage(floor=reward_floor, ceiling=self.end_freq), # Must now lick to be rewarded, but anywhere above the floor counts and wrong licks are not punished
                 stage4=Stage(floor=reward_floor, ceiling=reward_ceiling), # Ceiling comes in, so licking too late is now wrong, and wrong licks are punished
                 stage5=Stage(floor=reward_floor, ceiling=reward_ceiling) # Same window as stage 4, but fewer wrong licks are tolerated
-            )
+            ) # Stage 6 has no entry of its own: it is stage 5 with probe trials, so it uses the stage 5 window and punishment
         return self
 
 

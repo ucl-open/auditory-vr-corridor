@@ -7625,12 +7625,55 @@ it.Item2 as WasRewarded
                     <Name>TrackLength</Name>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>ShapingStage</Name>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>TaskParams</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="num:CreateRandom">
+                      <num:Seed xsi:nil="true" />
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="p10:CreateContinuousUniform">
+                      <p10:Lower>0</p10:Lower>
+                      <p10:Upper>1</p10:Upper>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="p10:Sample" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Zip" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="scr:ExpressionTransform">
+                    <scr:Name>ProbeTrackLength</scr:Name>
+                    <scr:Expression>it.Item1.Item2 == 6 &amp;&amp; it.Item1.Item1.Item2 &lt; it.Item2.Probe.Fraction ? Convert.ToDouble(it.Item2.Probe.TrackLength) : Convert.ToDouble(it.Item1.Item1.Item1)</scr:Expression>
+                  </Expression>
                 </Nodes>
                 <Edges>
                   <Edge From="0" To="1" Label="Source1" />
                   <Edge From="1" To="2" Label="Source1" />
-                  <Edge From="2" To="3" Label="Source1" />
                   <Edge From="3" To="4" Label="Source1" />
+                  <Edge From="2" To="7" Label="Source1" />
+                  <Edge From="7" To="8" Label="Source1" />
+                  <Edge From="8" To="9" Label="Source1" />
+                  <Edge From="2" To="10" Label="Source1" />
+                  <Edge From="9" To="10" Label="Source2" />
+                  <Edge From="10" To="11" Label="Source1" />
+                  <Edge From="5" To="11" Label="Source2" />
+                  <Edge From="11" To="12" Label="Source1" />
+                  <Edge From="6" To="12" Label="Source2" />
+                  <Edge From="12" To="13" Label="Source1" />
+                  <Edge From="13" To="3" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -8399,7 +8442,7 @@ it.Item2 as WasRewarded
                         </Expression>
                         <Expression xsi:type="scr:ExpressionTransform">
                           <scr:Name>WrongLickLimit</scr:Name>
-                          <scr:Expression>it.ShapingStage == 4 ? Convert.ToDouble(it.Punishment.Stage4PunishedLick) : it.ShapingStage == 5 ? Convert.ToDouble(it.Punishment.Stage5PunishedLick) : Convert.ToDouble(1000)</scr:Expression>
+                          <scr:Expression>it.ShapingStage == 4 ? Convert.ToDouble(it.Punishment.Stage4PunishedLick) : it.ShapingStage >= 5 ? Convert.ToDouble(it.Punishment.Stage5PunishedLick) : Convert.ToDouble(1000)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="rx:WithLatestFrom" />
@@ -8432,7 +8475,7 @@ it.Item2 as WasRewarded
                         <Expression xsi:type="Disable">
                           <Builder xsi:type="scr:ExpressionTransform">
                             <scr:Name>WrongLickLimit</scr:Name>
-                            <scr:Expression>it.Item2 == 4 ? Convert.ToDouble(it.Item1.Punishment.Stage4PunishedLick) : it.Item2 == 5 ? Convert.ToDouble(it.Item1.Punishment.Stage5PunishedLick) : Convert.ToDouble(1000)</scr:Expression>
+                            <scr:Expression>it.Item2 == 4 ? Convert.ToDouble(it.Item1.Punishment.Stage4PunishedLick) : it.Item2 >= 5 ? Convert.ToDouble(it.Item1.Punishment.Stage5PunishedLick) : Convert.ToDouble(1000)</scr:Expression>
                           </Builder>
                         </Expression>
                         <Expression xsi:type="Disable">
@@ -8908,7 +8951,7 @@ it.Item2 as WasRewarded
                           </Expression>
                           <Expression xsi:type="scr:ExpressionTransform">
                             <scr:Name>WrongLickLimit</scr:Name>
-                            <scr:Expression>it.ShapingStage == 4 ? Convert.ToDouble(it.Punishment.Stage4PunishedLick) : it.ShapingStage == 5 ? Convert.ToDouble(it.Punishment.Stage5PunishedLick) : Convert.ToDouble(1000)</scr:Expression>
+                            <scr:Expression>it.ShapingStage == 4 ? Convert.ToDouble(it.Punishment.Stage4PunishedLick) : it.ShapingStage >= 5 ? Convert.ToDouble(it.Punishment.Stage5PunishedLick) : Convert.ToDouble(1000)</scr:Expression>
                           </Expression>
                           <Expression xsi:type="Combinator">
                             <Combinator xsi:type="rx:WithLatestFrom" />
@@ -8941,7 +8984,7 @@ it.Item2 as WasRewarded
                           <Expression xsi:type="Disable">
                             <Builder xsi:type="scr:ExpressionTransform">
                               <scr:Name>WrongLickLimit</scr:Name>
-                              <scr:Expression>it.Item2 == 4 ? Convert.ToDouble(it.Item1.Punishment.Stage4PunishedLick) : it.Item2 == 5 ? Convert.ToDouble(it.Item1.Punishment.Stage5PunishedLick) : Convert.ToDouble(1000)</scr:Expression>
+                              <scr:Expression>it.Item2 == 4 ? Convert.ToDouble(it.Item1.Punishment.Stage4PunishedLick) : it.Item2 >= 5 ? Convert.ToDouble(it.Item1.Punishment.Stage5PunishedLick) : Convert.ToDouble(1000)</scr:Expression>
                             </Builder>
                           </Expression>
                           <Expression xsi:type="Disable">

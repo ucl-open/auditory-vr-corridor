@@ -91,6 +91,7 @@ temp_data/
 
 # Logs
 Logs/
+TestLogs/
 
 # Claude
 .claude*

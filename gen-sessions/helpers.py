@@ -255,7 +255,7 @@ def generate_waveforms(
         start_freq: int,
         end_freq: int,
         n_freq_bins: int,
-        sample_rate: int = 50000,
+        sample_rate: int = 48000,
         duration_ms: int = 50,
         amplitude: float = 0.5,
         out_dir: Path | str = "./src/waveforms",

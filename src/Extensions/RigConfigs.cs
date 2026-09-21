@@ -84,7 +84,7 @@ public class RigConfigs
         configs.MeshMapFilePath = @"C:\RigConfigs\MeshMap.csv";
 
         // Valve calibration
-        configs.ValveOpenTime = 55;  // in ms. ~10ms min.
+        configs.ValveOpenTime = 70;  // in ms. ~10ms min.
 
         // Spout start positions
         configs.Motor1InPosition = 3550;
@@ -113,11 +113,10 @@ public class RigConfigs
         configs.SerialNumberCamera3 = "23201540";  // Face
 
         // Audio and visual
-        configs.AudioDeviceName = "Speakers (7- XMOS xCORE-200 MC (UAC2.0))";  // TODO: check on this rig
         configs.MeshMapFilePath = @"C:\RigConfigs\MeshMap.csv";
 
         // Valve calibration
-        configs.ValveOpenTime = 55;  // in ms. ~10ms min. TODO: not calibrated on this rig
+        configs.ValveOpenTime = 80;  // in ms. ~10ms min. TODO: not calibrated on this rig
 
         // Spout start positions
         configs.Motor1InPosition = 3550;  // TODO: not set on this rig

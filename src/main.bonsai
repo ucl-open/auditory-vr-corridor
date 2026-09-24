@@ -69,7 +69,7 @@
                       <harp:VisualIndicators>On</harp:VisualIndicators>
                       <harp:Heartbeat>Enabled</harp:Heartbeat>
                       <harp:IgnoreErrors>false</harp:IgnoreErrors>
-                      <harp:PortName>COM9</harp:PortName>
+                      <harp:PortName>COM16</harp:PortName>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="rx:PublishSubject">
@@ -145,6 +145,14 @@
                   <Edge From="6" To="7" Label="Source1" />
                 </Edges>
               </Workflow>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="PortName" Selector="COMPortBehaviourBoard" />
+                <Property Name="PulseDO1" Selector="ValveOpenTime" />
+                <Property Name="PulseDO2" Selector="ValveOpenTime" />
+                <Property Name="PulseDO3" Selector="ValveOpenTime" />
+              </PropertyMappings>
             </Expression>
             <Expression xsi:type="GroupWorkflow">
               <Name>BehaviorBoard</Name>
@@ -300,36 +308,15 @@
                       </Edges>
                     </Workflow>
                   </Expression>
-                  <Expression xsi:type="SubscribeSubject">
-                    <Name>RigConfigs</Name>
-                  </Expression>
-                  <Expression xsi:type="PropertyMapping">
-                    <PropertyMappings>
-                      <Property Name="PortName" Selector="COMPortBehaviourBoard" />
-                    </PropertyMappings>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="PortName" />
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="UclOpen.Devices:BehaviorBoard.BehaviorBoard.bonsai">
                     <CommandsSubjectName>BehaviorCommands</CommandsSubjectName>
-                    <PortName>COM10</PortName>
+                    <PortName>COM11</PortName>
                     <DumpRegisters>true</DumpRegisters>
                     <Heartbeat>Enabled</Heartbeat>
                     <EventsSubjectName>BehaviorEvents</EventsSubjectName>
-                  </Expression>
-                  <Expression xsi:type="PropertyMapping">
-                    <PropertyMappings>
-                      <Property Name="PulseDO1" Selector="ValveOpenTime" />
-                      <Property Name="PulseDO2" Selector="ValveOpenTime" />
-                      <Property Name="PulseDO3" Selector="ValveOpenTime" />
-                    </PropertyMappings>
-                  </Expression>
-                  <Expression xsi:type="IncludeWorkflow" Path="UclOpen.Devices:BehaviorBoard.PulseController.bonsai">
-                    <BehaviorCommandsSubjectName>BehaviorCommands</BehaviorCommandsSubjectName>
-                    <OutputPulseEnable>DO1 DO2 DO3</OutputPulseEnable>
-                    <PulseDO1>70</PulseDO1>
-                    <PulseDO2>70</PulseDO2>
-                    <PulseDO3>70</PulseDO3>
-                    <BehaviorEventsSubjectName>BehaviorEvents</BehaviorEventsSubjectName>
-                    <TriggerPulseSubjectName>TriggerValve</TriggerPulseSubjectName>
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="UclOpen.Devices:BehaviorBoard.CameraTriggerController.bonsai">
                     <TriggerFrequency>50</TriggerFrequency>
@@ -337,12 +324,64 @@
                     <BehaviorEventsSubjectName>BehaviorEvents</BehaviorEventsSubjectName>
                     <CameraTriggerEventsSubjectName>CameraTriggerEvents</CameraTriggerEventsSubjectName>
                   </Expression>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="PulseDO1" />
+                    <Property Name="PulseDO2" />
+                    <Property Name="PulseDO3" />
+                  </Expression>
+                  <Expression xsi:type="IncludeWorkflow" Path="UclOpen.Devices:BehaviorBoard.PulseController.bonsai">
+                    <BehaviorCommandsSubjectName>BehaviorCommands</BehaviorCommandsSubjectName>
+                    <OutputPulseEnable>DO1 DO2 DO3</OutputPulseEnable>
+                    <PulseDO1>95</PulseDO1>
+                    <PulseDO2>95</PulseDO2>
+                    <PulseDO3>95</PulseDO3>
+                    <BehaviorEventsSubjectName>BehaviorEvents</BehaviorEventsSubjectName>
+                    <TriggerPulseSubjectName>TriggerValve</TriggerPulseSubjectName>
+                  </Expression>
                 </Nodes>
                 <Edges>
                   <Edge From="1" To="2" Label="Source1" />
-                  <Edge From="1" To="4" Label="Source1" />
-                  <Edge From="2" To="3" Label="Source1" />
                   <Edge From="4" To="5" Label="Source1" />
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="PortName" Selector="COMPortLicketySplit" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="GroupWorkflow">
+              <Name>LicketySplits</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="PortName" />
+                  </Expression>
+                  <Expression xsi:type="IncludeWorkflow" Path="UclOpen.Devices:LicketySplit.bonsai">
+                    <CommandsSubjectName>LickCommandsLeft</CommandsSubjectName>
+                    <PortName>COM15</PortName>
+                    <DumpRegisters>true</DumpRegisters>
+                    <Heartbeat>Enabled</Heartbeat>
+                    <EventsSubjectName>LickEventsLeft</EventsSubjectName>
+                    <Channel0TriggerThreshold>255</Channel0TriggerThreshold>
+                    <Channel0UntriggerThreshold>255</Channel0UntriggerThreshold>
+                    <LickStateSubjectName>LickStateLeft</LickStateSubjectName>
+                  </Expression>
+                  <Expression xsi:type="Disable">
+                    <Builder xsi:type="IncludeWorkflow" Path="UclOpen.Devices:LicketySplit.bonsai">
+                      <CommandsSubjectName>LickCommandsRight</CommandsSubjectName>
+                      <PortName>COM13</PortName>
+                      <DumpRegisters>true</DumpRegisters>
+                      <Heartbeat>Disabled</Heartbeat>
+                      <EventsSubjectName>LickEventsRight</EventsSubjectName>
+                      <Channel0TriggerThreshold>0</Channel0TriggerThreshold>
+                      <Channel0UntriggerThreshold>0</Channel0UntriggerThreshold>
+                      <LickStateSubjectName>LickStateRight</LickStateSubjectName>
+                    </Builder>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="1" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -377,7 +416,7 @@
                             <harp:VisualIndicators>On</harp:VisualIndicators>
                             <harp:Heartbeat>Enabled</harp:Heartbeat>
                             <harp:IgnoreErrors>false</harp:IgnoreErrors>
-                            <harp:PortName>COM7</harp:PortName>
+                            <harp:PortName>COM14</harp:PortName>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="rx:BehaviorSubject">
@@ -397,7 +436,7 @@
                             <harp:VisualIndicators>On</harp:VisualIndicators>
                             <harp:Heartbeat>Enabled</harp:Heartbeat>
                             <harp:IgnoreErrors>false</harp:IgnoreErrors>
-                            <harp:PortName>COM8</harp:PortName>
+                            <harp:PortName>COM12</harp:PortName>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="rx:BehaviorSubject">
@@ -1076,7 +1115,7 @@
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="aeon-video:SpinnakerCapture">
                             <spk:Index xsi:nil="true" />
-                            <spk:SerialNumber>23199185</spk:SerialNumber>
+                            <spk:SerialNumber>25366328</spk:SerialNumber>
                             <spk:ColorProcessing>Default</spk:ColorProcessing>
                             <aeon-video:ExposureTime>19000</aeon-video:ExposureTime>
                             <aeon-video:Gain>0</aeon-video:Gain>
@@ -1166,7 +1205,7 @@
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="aeon-video:SpinnakerCapture">
                             <spk:Index xsi:nil="true" />
-                            <spk:SerialNumber>25366329</spk:SerialNumber>
+                            <spk:SerialNumber>25366318</spk:SerialNumber>
                             <spk:ColorProcessing>Default</spk:ColorProcessing>
                             <aeon-video:ExposureTime>19000</aeon-video:ExposureTime>
                             <aeon-video:Gain>0</aeon-video:Gain>
@@ -1256,7 +1295,7 @@
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="aeon-video:SpinnakerCapture">
                             <spk:Index xsi:nil="true" />
-                            <spk:SerialNumber>23201540</spk:SerialNumber>
+                            <spk:SerialNumber>25366326</spk:SerialNumber>
                             <spk:ColorProcessing>Default</spk:ColorProcessing>
                             <aeon-video:ExposureTime>19000</aeon-video:ExposureTime>
                             <aeon-video:Gain>0</aeon-video:Gain>
@@ -1300,47 +1339,6 @@
                 </Edges>
               </Workflow>
             </Expression>
-            <Expression xsi:type="GroupWorkflow">
-              <Name>LicketySplits</Name>
-              <Workflow>
-                <Nodes>
-                  <Expression xsi:type="SubscribeSubject">
-                    <Name>RigConfigs</Name>
-                  </Expression>
-                  <Expression xsi:type="PropertyMapping">
-                    <PropertyMappings>
-                      <Property Name="PortName" Selector="COMPortLicketySplit" />
-                    </PropertyMappings>
-                  </Expression>
-                  <Expression xsi:type="IncludeWorkflow" Path="UclOpen.Devices:LicketySplit.bonsai">
-                    <CommandsSubjectName>LickCommandsLeft</CommandsSubjectName>
-                    <PortName>COM11</PortName>
-                    <DumpRegisters>true</DumpRegisters>
-                    <Heartbeat>Enabled</Heartbeat>
-                    <EventsSubjectName>LickEventsLeft</EventsSubjectName>
-                    <Channel0TriggerThreshold>255</Channel0TriggerThreshold>
-                    <Channel0UntriggerThreshold>255</Channel0UntriggerThreshold>
-                    <LickStateSubjectName>LickStateLeft</LickStateSubjectName>
-                  </Expression>
-                  <Expression xsi:type="Disable">
-                    <Builder xsi:type="IncludeWorkflow" Path="UclOpen.Devices:LicketySplit.bonsai">
-                      <CommandsSubjectName>LickCommandsRight</CommandsSubjectName>
-                      <PortName>COM13</PortName>
-                      <DumpRegisters>true</DumpRegisters>
-                      <Heartbeat>Disabled</Heartbeat>
-                      <EventsSubjectName>LickEventsRight</EventsSubjectName>
-                      <Channel0TriggerThreshold>0</Channel0TriggerThreshold>
-                      <Channel0UntriggerThreshold>0</Channel0UntriggerThreshold>
-                      <LickStateSubjectName>LickStateRight</LickStateSubjectName>
-                    </Builder>
-                  </Expression>
-                </Nodes>
-                <Edges>
-                  <Edge From="0" To="1" Label="Source1" />
-                  <Edge From="1" To="2" Label="Source1" />
-                </Edges>
-              </Workflow>
-            </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="BooleanProperty">
                 <Value>true</Value>
@@ -1354,18 +1352,15 @@
             <Expression xsi:type="MulticastSubject">
               <Name>StartCameras</Name>
             </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>RigConfigs</Name>
-            </Expression>
-            <Expression xsi:type="MemberSelector">
-              <Selector>COMPortLicketySplit</Selector>
-            </Expression>
           </Nodes>
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
+            <Edge From="0" To="3" Label="Source1" />
+            <Edge From="0" To="5" Label="Source1" />
             <Edge From="1" To="2" Label="Source1" />
-            <Edge From="7" To="8" Label="Source1" />
-            <Edge From="8" To="9" Label="Source1" />
+            <Edge From="3" To="4" Label="Source1" />
+            <Edge From="5" To="6" Label="Source1" />
+            <Edge From="9" To="10" Label="Source1" />
             <Edge From="10" To="11" Label="Source1" />
           </Edges>
         </Workflow>
@@ -1392,7 +1387,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>00:26:12</gui:Text>
+              <gui:Text>00:39:39</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1417,7 +1412,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>A30_TC003</gui:Text>
+              <gui:Text>A42_TC001</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1492,7 +1487,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>164</gui:Text>
+              <gui:Text>245</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1552,7 +1547,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>100</gui:Text>
+              <gui:Text>80</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1582,7 +1577,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>94.41</gui:Text>
+              <gui:Text>0.00</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1612,7 +1607,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>81.75</gui:Text>
+              <gui:Text>65.40</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1642,7 +1637,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>95.10</gui:Text>
+              <gui:Text>76.08</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1672,7 +1667,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>14242</gui:Text>
+              <gui:Text>0</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="Disable">
@@ -1784,7 +1779,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>0.18</gui:Text>
+              <gui:Text>0.00</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1809,7 +1804,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>34% (56/163)</gui:Text>
+              <gui:Text>43% (105/244)</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1834,7 +1829,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>29</gui:Text>
+              <gui:Text>38</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1859,7 +1854,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>00:04:39</gui:Text>
+              <gui:Text>00:05:50</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1909,7 +1904,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>54 trials / 00:08:57</gui:Text>
+              <gui:Text>25 trials / 00:04:02</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1934,7 +1929,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>45% (68/151)</gui:Text>
+              <gui:Text>67% (155/232)</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1959,7 +1954,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>60% (41/68)</gui:Text>
+              <gui:Text>68% (105/155)</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:TableLayoutPanelBuilder">
@@ -2127,7 +2122,7 @@
               <gui:Name>BLANK</gui:Name>
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>3550,8500,4700,1850,950;</gui:Text>
+              <gui:Text>1150,6400,4700,650,950;</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:ButtonBuilder">
@@ -3691,7 +3686,7 @@ means a saved position is never applied against an unknown motor origin.]]></Tex
                                       <Property Name="FileName" />
                                     </Expression>
                                     <Expression xsi:type="io:CsvReader">
-                                      <io:FileName>C:\RigConfigs\LickSpoutPositions\TC003.csv</io:FileName>
+                                      <io:FileName>C:\RigConfigs\LickSpoutPositions\TC001.csv</io:FileName>
                                       <io:ScanPattern>%i,%i,%i,%i,%i</io:ScanPattern>
                                       <io:SkipRows>0</io:SkipRows>
                                     </Expression>
@@ -3825,7 +3820,7 @@ means a saved position is never applied against an unknown motor origin.]]></Tex
                                 <Property Name="FileName" />
                               </Expression>
                               <Expression xsi:type="io:CsvWriter">
-                                <io:FileName>C:\RigConfigs\LickSpoutPositions\TC003.csv</io:FileName>
+                                <io:FileName>C:\RigConfigs\LickSpoutPositions\TC001.csv</io:FileName>
                                 <io:Delimiter>,</io:Delimiter>
                                 <io:ListSeparator>;</io:ListSeparator>
                                 <io:Append>false</io:Append>
@@ -5463,7 +5458,7 @@ means a saved position is never applied against an unknown motor origin.]]></Tex
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="p8:JsonWriter">
-                            <p8:Path>C:\dev\auditory-vr-corridor\Logs\sub-TC003\ses-A30_date-2026-09-21T15-14-36\TaskSchemaLog_A30_TC003_\TaskSchemaLog_A30_TC003_.json</p8:Path>
+                            <p8:Path>C:\dev\auditory-vr-corridor\Logs\sub-TC001\ses-A42_date-2026-09-23T13-48-00\TaskSchemaLog_A42_TC001_\TaskSchemaLog_A42_TC001_.json</p8:Path>
                             <p8:Suffix>None</p8:Suffix>
                             <p8:Overwrite>false</p8:Overwrite>
                           </Combinator>
@@ -5717,7 +5712,7 @@ it.Item2 as HitEndOfTrack
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC003\ses-A30_date-2026-09-21T15-14-36\TrialLog_A30_TC003_\TrialLog_A30_TC003_.csv</io:FileName>
+                    <io:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC001\ses-A42_date-2026-09-23T13-48-00\TrialLog_A42_TC001_\TrialLog_A42_TC001_.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>true</io:Overwrite>
                     <io:Suffix>Timestamp</io:Suffix>
@@ -5945,7 +5940,7 @@ it.Item2 as HitEndOfTrack
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="cv:VideoWriter">
-                            <cv:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC003\ses-A30_date-2026-09-21T15-14-36\Cameras\VideoData_Camera1.avi</cv:FileName>
+                            <cv:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC001\ses-A42_date-2026-09-23T13-48-00\Cameras\VideoData_Camera1.avi</cv:FileName>
                             <cv:Suffix>None</cv:Suffix>
                             <cv:Buffered>true</cv:Buffered>
                             <cv:Overwrite>true</cv:Overwrite>
@@ -6045,7 +6040,7 @@ Item4 as ExposureTime)</scr:Expression>
                           </PropertyMappings>
                         </Expression>
                         <Expression xsi:type="io:CsvWriter">
-                          <io:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC003\ses-A30_date-2026-09-21T15-14-36\Cameras\VideoData_Camera1.csv</io:FileName>
+                          <io:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC001\ses-A42_date-2026-09-23T13-48-00\Cameras\VideoData_Camera1.csv</io:FileName>
                           <io:Append>false</io:Append>
                           <io:Overwrite>true</io:Overwrite>
                           <io:Suffix>None</io:Suffix>
@@ -6164,7 +6159,7 @@ Item4 as ExposureTime)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="cv:VideoWriter">
-                            <cv:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC003\ses-A30_date-2026-09-21T15-14-36\Cameras\VideoData_Camera2.avi</cv:FileName>
+                            <cv:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC001\ses-A42_date-2026-09-23T13-48-00\Cameras\VideoData_Camera2.avi</cv:FileName>
                             <cv:Suffix>None</cv:Suffix>
                             <cv:Buffered>true</cv:Buffered>
                             <cv:Overwrite>true</cv:Overwrite>
@@ -6264,7 +6259,7 @@ Item4 as ExposureTime)</scr:Expression>
                           </PropertyMappings>
                         </Expression>
                         <Expression xsi:type="io:CsvWriter">
-                          <io:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC003\ses-A30_date-2026-09-21T15-14-36\Cameras\VideoData_Camera2.csv</io:FileName>
+                          <io:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC001\ses-A42_date-2026-09-23T13-48-00\Cameras\VideoData_Camera2.csv</io:FileName>
                           <io:Append>false</io:Append>
                           <io:Overwrite>true</io:Overwrite>
                           <io:Suffix>None</io:Suffix>
@@ -6383,7 +6378,7 @@ Item4 as ExposureTime)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="cv:VideoWriter">
-                            <cv:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC003\ses-A30_date-2026-09-21T15-14-36\Cameras\VideoData_Camera3.avi</cv:FileName>
+                            <cv:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC001\ses-A42_date-2026-09-23T13-48-00\Cameras\VideoData_Camera3.avi</cv:FileName>
                             <cv:Suffix>None</cv:Suffix>
                             <cv:Buffered>true</cv:Buffered>
                             <cv:Overwrite>true</cv:Overwrite>
@@ -6483,7 +6478,7 @@ Item4 as ExposureTime)</scr:Expression>
                           </PropertyMappings>
                         </Expression>
                         <Expression xsi:type="io:CsvWriter">
-                          <io:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC003\ses-A30_date-2026-09-21T15-14-36\Cameras\VideoData_Camera3.csv</io:FileName>
+                          <io:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC001\ses-A42_date-2026-09-23T13-48-00\Cameras\VideoData_Camera3.csv</io:FileName>
                           <io:Append>false</io:Append>
                           <io:Overwrite>true</io:Overwrite>
                           <io:Suffix>None</io:Suffix>
@@ -6762,7 +6757,7 @@ it.Item2 as WasRewarded
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC003\ses-A30_date-2026-09-21T15-14-36\IntervalLog_A30_TC003_\IntervalLog_A30_TC003_.csv</io:FileName>
+                    <io:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC001\ses-A42_date-2026-09-23T13-48-00\IntervalLog_A42_TC001_\IntervalLog_A42_TC001_.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>true</io:Overwrite>
                     <io:Suffix>Timestamp</io:Suffix>
@@ -6844,8 +6839,8 @@ it.Item2 as WasRewarded
               </PropertyMappings>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="UclOpen.Logging:LogController.bonsai">
-              <SubjectId>TC003</SubjectId>
-              <SessionId>A30</SessionId>
+              <SubjectId>TC001</SubjectId>
+              <SessionId>A42</SessionId>
               <Path>C:\dev\auditory-vr-corridor\Logs</Path>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
@@ -7195,7 +7190,7 @@ it.Item2 as WasRewarded
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="rx:Timer">
-                            <rx:DueTime>PT0S</rx:DueTime>
+                            <rx:DueTime>PT1S</rx:DueTime>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="rx:SelectMany">
@@ -7847,7 +7842,7 @@ it.Item2 as WasRewarded
                   </Expression>
                   <Expression xsi:type="Add">
                     <Operand xsi:type="DoubleProperty">
-                      <Value>2513.7070912462514</Value>
+                      <Value>2050.3207556014713</Value>
                     </Operand>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
@@ -7990,7 +7985,7 @@ it.Item2 as WasRewarded
                   </Expression>
                   <Expression xsi:type="Index">
                     <Operand xsi:type="IntProperty">
-                      <Value>92</Value>
+                      <Value>0</Value>
                     </Operand>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
@@ -10521,7 +10516,7 @@ it.Item2 as WasRewarded
                   </Expression>
                   <Expression xsi:type="Add">
                     <Operand xsi:type="DoubleProperty">
-                      <Value>0.037078423003335415</Value>
+                      <Value>0.030698789768422635</Value>
                     </Operand>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
@@ -10992,7 +10987,7 @@ Convert.ToBoolean(it.Item2) ? 0.0 : Math.Min((it.Item1.Item1.Item1 - Math.Min(it
         <Layer>1</Layer>
         <ExtentX>270</ExtentX>
         <ExtentY>105</ExtentY>
-        <SpatialFrequency>0.2612891</SpatialFrequency>
+        <SpatialFrequency>0.03</SpatialFrequency>
         <TemporalFrequency>0</TemporalFrequency>
         <Phase>16.8036766</Phase>
         <Angle>90</Angle>

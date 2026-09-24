@@ -84,7 +84,7 @@ public class RigConfigs
         configs.MeshMapFilePath = @"C:\RigConfigs\MeshMap.csv";
 
         // Valve calibration
-        configs.ValveOpenTime = 70;  // in ms. ~10ms min.
+        configs.ValveOpenTime = 95;  // in ms. ~10ms min.
 
         // Spout start positions
         configs.Motor1InPosition = 3550;

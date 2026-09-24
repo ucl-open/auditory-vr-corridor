@@ -3903,7 +3903,7 @@ means a saved position is never applied against an unknown motor origin.]]></Tex
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="io:ReadAllText">
-                <io:Path>C:\dev\auditory-vr-corridor\session-schemas\current-session\UclOpenAuditoryVrCorridorTaskLogic.json</io:Path>
+                <io:Path>../session-schemas/current-session/UclOpenAuditoryVrCorridorTaskLogic.json</io:Path>
               </Combinator>
             </Expression>
             <Expression xsi:type="p4:DeserializeFromJson">
@@ -6841,7 +6841,7 @@ it.Item2 as WasRewarded
             <Expression xsi:type="IncludeWorkflow" Path="UclOpen.Logging:LogController.bonsai">
               <SubjectId>TC001</SubjectId>
               <SessionId>A42</SessionId>
-              <Path>C:\dev\auditory-vr-corridor\Logs</Path>
+              <Path>../Logs</Path>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
               <Name>BehaviorEvents</Name>
@@ -9985,7 +9985,7 @@ it.Item2 as WasRewarded
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="al:AudioReader">
-                            <al:FileName>C:\dev\auditory-vr-corridor\src\waveforms\error_tone.wav</al:FileName>
+                            <al:FileName>./waveforms/error_tone.wav</al:FileName>
                             <al:BufferLength>0</al:BufferLength>
                             <al:SampleRate>0</al:SampleRate>
                           </Combinator>
@@ -10151,7 +10151,7 @@ it.Item2 as WasRewarded
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="al:AudioReader">
-                            <al:FileName>C:\dev\auditory-vr-corridor\src\waveforms\error_tone.wav</al:FileName>
+                            <al:FileName>./waveforms/error_tone.wav</al:FileName>
                             <al:BufferLength>0</al:BufferLength>
                             <al:SampleRate>0</al:SampleRate>
                           </Combinator>

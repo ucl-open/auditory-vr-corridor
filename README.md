@@ -7,7 +7,11 @@ uv run gen-sessions\gen_session.py
 
 Then enter: animal ID and modality (A/V/AV) when prompted.
 
+Then confirm the automatically selected shaping stage, or manually override it.
+
 Shaping Stages:
+
+Track length is picked at random each trial: 80, 100 or 120cm.
 
 Stage 1: slow frequency drift, no punishments, infinite licks permitted, trial ends whenever reward frequency is reached.
 
@@ -15,10 +19,10 @@ Stage 2: same as stage 1 but without frequency drift - mouse must run up until t
 
 Stage 3: Mouse must now lick within the reward zone to get a reward. No lick = no reward. Punishment if they run to end of track.
 
-Stage 4: Same as above, but now mice also punished for excess licking or being slow. Punished on 8th lick before the reward zone AND punished if not ended trial within 10 seconds, AND reward zone shrinks so that there is now also a small 'error zone' after the reward zone.
+Stage 4: Same as above, but now mice also punished for excess licking or being slow. Punished on 8th lick before the reward zone AND punished if not ended trial within 12 seconds, AND reward zone shrinks so that there is now also a small 'error zone' after the reward zone.
 
 Stage 5: Same as above, but punished for 5th wrong lick.
 
-Stage 6: Same as stage 5, but 15% of trials are 'probe' trials on a 120cm track instead of 80 or 100cm - same frequency sweep, just stretched over a longer distance, to check the mouse is following the sound rather than the distance run. Probe trials are rewarded as normal.
+Stage 6: Currently the same as stage 5.
 
 Stage 6 is never reached automatically - the experimenter must enter it manually at the shaping stage prompt. Once an animal is on stage 6 it stays there until experimenter manually changes the stage again during the shaping stage prompt.

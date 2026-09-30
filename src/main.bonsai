@@ -4420,7 +4420,7 @@ means a saved position is never applied against an unknown motor origin.]]></Tex
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="TimeSpanProperty">
-                            <Value>PT10S</Value>
+                            <Value>PT12S</Value>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="rx:BehaviorSubject">
@@ -7611,9 +7611,9 @@ it.Item2 as WasRewarded
               <Workflow>
                 <Nodes>
                   <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.ParameterRange.bonsai">
-                    <Count>2</Count>
+                    <Count>3</Count>
                     <RangeMin>80</RangeMin>
-                    <RangeMax>100</RangeMax>
+                    <RangeMax>120</RangeMax>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="num:Permutation" />
@@ -7653,8 +7653,8 @@ it.Item2 as WasRewarded
                     <Combinator xsi:type="rx:WithLatestFrom" />
                   </Expression>
                   <Expression xsi:type="scr:ExpressionTransform">
-                    <scr:Name>ProbeTrackLength</scr:Name>
-                    <scr:Expression>it.Item1.Item2 == 6 &amp;&amp; it.Item1.Item1.Item2 &lt; it.Item2.Probe.Fraction ? Convert.ToDouble(it.Item2.Probe.TrackLength) : Convert.ToDouble(it.Item1.Item1.Item1)</scr:Expression>
+                    <scr:Name>TrackLength</scr:Name>
+                    <scr:Expression>Convert.ToDouble(it.Item1.Item1.Item1)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="MulticastSubject">
                     <Name>TrackLength</Name>

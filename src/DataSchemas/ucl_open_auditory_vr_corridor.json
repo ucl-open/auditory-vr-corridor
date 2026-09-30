@@ -434,6 +434,35 @@
       "title": "ThresholdFrequencies",
       "type": "object"
     },
+    "TruncationConfig": {
+      "description": "Truncated trials, used in stage 6 only.\n\nOn a truncated trial the cue (tone and grating) switches off part way along the sweep. Everything else about the trial is unchanged, so it is still\nrewarded as normal - the animal has to keep going and find the reward zone without the cue.",
+      "properties": {
+        "fraction": {
+          "default": 0.24,
+          "description": "Fraction of stage 6 trials that are truncated, split evenly between the truncation points",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Fraction",
+          "type": "number"
+        },
+        "points": {
+          "default": [
+            0.2,
+            0.4,
+            0.6
+          ],
+          "description": "Where the cue switches off, as a fraction of the sweep on a log scale. The reward floor is at about 0.8",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 1,
+          "title": "Points",
+          "type": "array"
+        }
+      },
+      "title": "TruncationConfig",
+      "type": "object"
+    },
     "UclOpenAuditoryVrCorridorRig": {
       "properties": {
         "version": {
@@ -526,6 +555,14 @@
               "stage5PunishedLick": 5,
               "timeoutSec": 2
             },
+            "truncation": {
+              "fraction": 0.24,
+              "points": [
+                0.2,
+                0.4,
+                0.6
+              ]
+            },
             "engagement": {
               "minEpoch": 10,
               "rollThreshold": 0.5,
@@ -534,7 +571,7 @@
             "logConfig": {
               "animalId": "unknown_animal",
               "loggingRootPath": "..\\Logs",
-              "sessionId": "2026-09-30T16_51_02"
+              "sessionId": "2026-09-30T17_14_16"
             },
             "amplitude": 0.05,
             "quantizeBinSize": 1
@@ -561,7 +598,7 @@
         },
         "shapingStage": {
           "default": 1,
-          "description": "Shaping stage (1-6). Stage 6 is currently the same as stage 5 and is only ever selected by hand",
+          "description": "Shaping stage (1-6). Stage 6 is stage 5 with truncated trials and is only ever selected by hand",
           "maximum": 6,
           "minimum": 1,
           "title": "ShapingStage",
@@ -627,6 +664,18 @@
           },
           "title": "Punishment"
         },
+        "truncation": {
+          "$ref": "#/$defs/TruncationConfig",
+          "default": {
+            "fraction": 0.24,
+            "points": [
+              0.2,
+              0.4,
+              0.6
+            ]
+          },
+          "title": "Truncation"
+        },
         "engagement": {
           "$ref": "#/$defs/EngagementConfig",
           "default": {
@@ -640,7 +689,7 @@
           "$ref": "#/$defs/LogConfig",
           "default": {
             "loggingRootPath": "..\\Logs",
-            "sessionId": "2026-09-30T16_51_02",
+            "sessionId": "2026-09-30T17_14_16",
             "animalId": "unknown_animal"
           }
         },

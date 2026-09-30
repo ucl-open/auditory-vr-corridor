@@ -23,6 +23,6 @@ Stage 4: Same as above, but now mice also punished for excess licking or being s
 
 Stage 5: Same as above, but punished for 5th wrong lick.
 
-Stage 6: Currently the same as stage 5.
+Stage 6: Same as stage 5, but 24% of trials are 'truncated' - the cue (tone and grating) switches off part way along the track, at 0.2, 0.4 or 0.6 of the sweep (8% of trials each). Everything else about the trial is unchanged, so the mouse has to keep going and find the reward zone without the cue. Truncated trials are rewarded as normal.
 
 Stage 6 is never reached automatically - the experimenter must enter it manually at the shaping stage prompt. Once an animal is on stage 6 it stays there until experimenter manually changes the stage again during the shaping stage prompt.

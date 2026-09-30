@@ -15,8 +15,8 @@ MIN_EPOCH = 10
 
 # Highest shaping stage that can be run, matching shaping_stage in the task schema.
 MAX_SHAPING_STAGE = 6
-# Highest stage reached by advancing through the stages. Stage 6 is only ever chosen by hand, but it is kept once chosen, so an animal
-# stays on 6 until it is moved back to 5 by hand. Stages at or above this neither advance nor regress on their own.
+# Highest stage reached by advancing through the stages. Stage 6 adds truncated trials and is only ever chosen by hand, but it is kept once
+# chosen, so an animal stays on 6 until it is moved back to 5 by hand. Stages at or above this neither advance nor regress on their own.
 MAX_AUTO_STAGE = 5
 
 

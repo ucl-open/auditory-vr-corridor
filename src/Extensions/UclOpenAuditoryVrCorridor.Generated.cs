@@ -1585,6 +1585,107 @@ namespace UclOpenAuditoryVrCorridorDataSchema
     }
 
 
+    /// <summary>
+    /// Truncated trials, used in stage 6 only.
+    ///
+    ///On a truncated trial the cue (tone and grating) switches off part way along the sweep. Everything else about the trial is unchanged, so it is still
+    ///rewarded as normal - the animal has to keep going and find the reward zone without the cue.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.7.2.0 (Newtonsoft.Json v13.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute(@"Truncated trials, used in stage 6 only.
+
+    On a truncated trial the cue (tone and grating) switches off part way along the sweep. Everything else about the trial is unchanged, so it is still
+    rewarded as normal - the animal has to keep going and find the reward zone without the cue.")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class TruncationConfig
+    {
+    
+        private double _fraction;
+    
+        private System.Collections.Generic.List<double> _points;
+    
+        public TruncationConfig()
+        {
+            _fraction = 0.24D;
+            _points = new System.Collections.Generic.List<double>();
+        }
+    
+        protected TruncationConfig(TruncationConfig other)
+        {
+            _fraction = other._fraction;
+            _points = other._points;
+        }
+    
+        /// <summary>
+        /// Fraction of stage 6 trials that are truncated, split evenly between the truncation points
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("fraction")]
+        [System.ComponentModel.DescriptionAttribute("Fraction of stage 6 trials that are truncated, split evenly between the truncatio" +
+            "n points")]
+        public double Fraction
+        {
+            get
+            {
+                return _fraction;
+            }
+            set
+            {
+                _fraction = value;
+            }
+        }
+    
+        /// <summary>
+        /// Where the cue switches off, as a fraction of the sweep on a log scale. The reward floor is at about 0.8
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("points")]
+        [System.ComponentModel.DescriptionAttribute("Where the cue switches off, as a fraction of the sweep on a log scale. The reward" +
+            " floor is at about 0.8")]
+        public System.Collections.Generic.List<double> Points
+        {
+            get
+            {
+                return _points;
+            }
+            set
+            {
+                _points = value;
+            }
+        }
+    
+        public System.IObservable<TruncationConfig> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new TruncationConfig(this)));
+        }
+    
+        public System.IObservable<TruncationConfig> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new TruncationConfig(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("Fraction = " + _fraction + ", ");
+            stringBuilder.Append("Points = " + _points);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.7.2.0 (Newtonsoft.Json v13.0.0.0)")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     [Bonsai.CombinatorAttribute(MethodName="Generate")]
@@ -1877,6 +1978,8 @@ namespace UclOpenAuditoryVrCorridorDataSchema
     
         private PunishmentConfig _punishment;
     
+        private TruncationConfig _truncation;
+    
         private EngagementConfig _engagement;
     
         private LogConfig _logConfig;
@@ -1895,6 +1998,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             _centerFreq = 18000;
             _rewardWindowSize = 6000;
             _punishment = new PunishmentConfig();
+            _truncation = new TruncationConfig();
             _engagement = new EngagementConfig();
             _logConfig = new LogConfig();
             _amplitude = 0.05D;
@@ -1912,6 +2016,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             _rewardWindowSize = other._rewardWindowSize;
             _thresholdFrequencies = other._thresholdFrequencies;
             _punishment = other._punishment;
+            _truncation = other._truncation;
             _engagement = other._engagement;
             _logConfig = other._logConfig;
             _amplitude = other._amplitude;
@@ -1936,10 +2041,10 @@ namespace UclOpenAuditoryVrCorridorDataSchema
         }
     
         /// <summary>
-        /// Shaping stage (1-6). Stage 6 is currently the same as stage 5 and is only ever selected by hand
+        /// Shaping stage (1-6). Stage 6 is stage 5 with truncated trials and is only ever selected by hand
         /// </summary>
         [Newtonsoft.Json.JsonPropertyAttribute("shapingStage")]
-        [System.ComponentModel.DescriptionAttribute("Shaping stage (1-6). Stage 6 is currently the same as stage 5 and is only ever se" +
+        [System.ComponentModel.DescriptionAttribute("Shaping stage (1-6). Stage 6 is stage 5 with truncated trials and is only ever se" +
             "lected by hand")]
         public int ShapingStage
         {
@@ -2068,6 +2173,20 @@ namespace UclOpenAuditoryVrCorridorDataSchema
         }
     
         [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("truncation")]
+        public TruncationConfig Truncation
+        {
+            get
+            {
+                return _truncation;
+            }
+            set
+            {
+                _truncation = value;
+            }
+        }
+    
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
         [Newtonsoft.Json.JsonPropertyAttribute("engagement")]
         public EngagementConfig Engagement
         {
@@ -2150,6 +2269,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             stringBuilder.Append("RewardWindowSize = " + _rewardWindowSize + ", ");
             stringBuilder.Append("ThresholdFrequencies = " + _thresholdFrequencies + ", ");
             stringBuilder.Append("Punishment = " + _punishment + ", ");
+            stringBuilder.Append("Truncation = " + _truncation + ", ");
             stringBuilder.Append("Engagement = " + _engagement + ", ");
             stringBuilder.Append("LogConfig = " + _logConfig + ", ");
             stringBuilder.Append("Amplitude = " + _amplitude + ", ");
@@ -2276,6 +2396,11 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             return Process<ThresholdFrequencies>(source);
         }
 
+        public System.IObservable<string> Process(System.IObservable<TruncationConfig> source)
+        {
+            return Process<TruncationConfig>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<UclOpenAuditoryVrCorridorRig> source)
         {
             return Process<UclOpenAuditoryVrCorridorRig>(source);
@@ -2314,6 +2439,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<SpinnakerCamera>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Stage>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ThresholdFrequencies>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<TruncationConfig>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<UclOpenAuditoryVrCorridorRig>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<UclOpenAuditoryVrCorridorTaskLogic>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<UclOpenAuditoryVrCorridorTaskParameters>))]

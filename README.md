@@ -11,7 +11,7 @@ Then confirm the automatically selected shaping stage, or manually override it.
 
 Shaping Stages:
 
-Track length is picked at random each trial: 80, 100 or 120cm.
+Track length is picked at random each trial: 80, 100 or 120cm (halved to 40, 50 or 60cm in stages 1 and 2, to encourage running).
 
 Stage 1: slow frequency drift, no punishments, infinite licks permitted, trial ends whenever reward frequency is reached.
 

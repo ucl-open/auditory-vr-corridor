@@ -7653,8 +7653,8 @@ it.Item2 as WasRewarded
                     <Combinator xsi:type="rx:WithLatestFrom" />
                   </Expression>
                   <Expression xsi:type="scr:ExpressionTransform">
-                    <scr:Name>TrackLength</scr:Name>
-                    <scr:Expression>Convert.ToDouble(it.Item1.Item1.Item1)</scr:Expression>
+                    <scr:Name>HalveInStage1or2</scr:Name>
+                    <scr:Expression>it.Item1.Item2 &lt;= 2 ? 0.5 * Convert.ToDouble(it.Item1.Item1.Item1) : Convert.ToDouble(it.Item1.Item1.Item1)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="MulticastSubject">
                     <Name>TrackLength</Name>

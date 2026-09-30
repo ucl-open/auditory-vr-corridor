@@ -9985,7 +9985,7 @@ it.Item2 as WasRewarded
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="al:AudioReader">
-                            <al:FileName>./waveforms/error_tone.wav</al:FileName>
+                            <al:FileName>C:\dev\auditory-vr-corridor\src\waveforms\error_tone.wav</al:FileName>
                             <al:BufferLength>0</al:BufferLength>
                             <al:SampleRate>0</al:SampleRate>
                           </Combinator>
@@ -10151,7 +10151,7 @@ it.Item2 as WasRewarded
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="al:AudioReader">
-                            <al:FileName>./waveforms/error_tone.wav</al:FileName>
+                            <al:FileName>C:\dev\auditory-vr-corridor\src\waveforms\error_tone.wav</al:FileName>
                             <al:BufferLength>0</al:BufferLength>
                             <al:SampleRate>0</al:SampleRate>
                           </Combinator>
@@ -10625,8 +10625,8 @@ it.Item2 as WasRewarded
             <Expression xsi:type="MulticastSubject">
               <Name>CurrFreqV</Name>
             </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>BeepTimer</Name>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Item1</Selector>
             </Expression>
             <Expression xsi:type="GroupWorkflow">
               <Name>OpacityOnOff</Name>
@@ -10824,6 +10824,7 @@ it.Item2 as WasRewarded
             <Edge From="1" To="2" Label="Source2" />
             <Edge From="2" To="3" Label="Source1" />
             <Edge From="3" To="4" Label="Source1" />
+            <Edge From="3" To="49" Label="Source1" />
             <Edge From="4" To="7" Label="Source1" />
             <Edge From="5" To="6" Label="Source1" />
             <Edge From="5" To="10" Label="Source1" />

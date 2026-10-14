@@ -7796,7 +7796,7 @@ it.Item2 as CueActive
                   </Expression>
                   <Expression xsi:type="scr:ExpressionTransform">
                     <scr:Name>HalveInStage1or2</scr:Name>
-                    <scr:Expression>it.Item1.Item2 &lt;= 2 ? 0.5 * Convert.ToDouble(it.Item1.Item1.Item1) : Convert.ToDouble(it.Item1.Item1.Item1)</scr:Expression>
+                    <scr:Expression>it.Item1.Item2 &lt;= 2 ? 0.125 * Convert.ToDouble(it.Item1.Item1.Item1) : Convert.ToDouble(it.Item1.Item1.Item1)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="MulticastSubject">
                     <Name>TrackLength</Name>

@@ -7499,14 +7499,59 @@ it.Item2 as CueActive
               <Name>BeepTimer</Name>
               <Workflow>
                 <Nodes>
-                  <Expression xsi:type="ExternalizedMapping">
-                    <Property Name="Period" />
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:Timer">
-                      <rx:DueTime>PT0S</rx:DueTime>
-                      <rx:Period>PT0.05S</rx:Period>
-                    </Combinator>
+                  <Expression xsi:type="GroupWorkflow">
+                    <Name>HarpBeat</Name>
+                    <Description>Counts beeps (0, 1, 2, ...) every 50 ms of the Harp clock: every 50th Behavior board AnalogData sample (sent at 1 kHz), the first one straight away. This replaces a 50 ms rx:Timer, which Windows' 15.6 ms timer steps stretched to about 60 ms with jitter. ObserveOn hands each beep to its own thread, as the timer did, so the board's thread only counts samples.</Description>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>HarpTime</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Skip">
+                            <rx:Count>1</rx:Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:ElementIndex" />
+                        </Expression>
+                        <Expression xsi:type="rx:Condition">
+                          <Name>Every50thSample</Name>
+                          <Workflow>
+                            <Nodes>
+                              <Expression xsi:type="WorkflowInput">
+                                <Name>Source1</Name>
+                              </Expression>
+                              <Expression xsi:type="scr:ExpressionTransform">
+                                <scr:Expression>it.Index % 50 == 0</scr:Expression>
+                              </Expression>
+                              <Expression xsi:type="WorkflowOutput" />
+                            </Nodes>
+                            <Edges>
+                              <Edge From="0" To="1" Label="Source1" />
+                              <Edge From="1" To="2" Label="Source1" />
+                            </Edges>
+                          </Workflow>
+                        </Expression>
+                        <Expression xsi:type="scr:ExpressionTransform">
+                          <scr:Expression>Convert.ToInt64(it.Index / 50)</scr:Expression>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:ObserveOn">
+                            <rx:Scheduler>NewThreadScheduler</rx:Scheduler>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                      </Nodes>
+                      <Edges>
+                        <Edge From="0" To="1" Label="Source1" />
+                        <Edge From="1" To="2" Label="Source1" />
+                        <Edge From="2" To="3" Label="Source1" />
+                        <Edge From="3" To="4" Label="Source1" />
+                        <Edge From="4" To="5" Label="Source1" />
+                        <Edge From="5" To="6" Label="Source1" />
+                      </Edges>
+                    </Workflow>
                   </Expression>
                   <Expression xsi:type="ExternalizedMapping">
                     <Property Name="RangeMin" />
@@ -7949,8 +7994,8 @@ it.Item2 as CueActive
                   </Expression>
                 </Nodes>
                 <Edges>
-                  <Edge From="0" To="1" Label="Source1" />
-                  <Edge From="1" To="12" Label="Source1" />
+                  <Edge From="0" To="11" Label="Source1" />
+                  <Edge From="1" To="2" Label="Source1" />
                   <Edge From="2" To="3" Label="Source1" />
                   <Edge From="3" To="4" Label="Source1" />
                   <Edge From="4" To="5" Label="Source1" />
@@ -7959,38 +8004,37 @@ it.Item2 as CueActive
                   <Edge From="7" To="8" Label="Source1" />
                   <Edge From="8" To="9" Label="Source1" />
                   <Edge From="9" To="10" Label="Source1" />
-                  <Edge From="10" To="11" Label="Source1" />
-                  <Edge From="10" To="15" Label="Source1" />
-                  <Edge From="10" To="20" Label="Source1" />
-                  <Edge From="10" To="28" Label="Source1" />
-                  <Edge From="11" To="12" Label="Source2" />
+                  <Edge From="9" To="14" Label="Source1" />
+                  <Edge From="9" To="19" Label="Source1" />
+                  <Edge From="9" To="27" Label="Source1" />
+                  <Edge From="10" To="11" Label="Source2" />
+                  <Edge From="11" To="12" Label="Source1" />
                   <Edge From="12" To="13" Label="Source1" />
-                  <Edge From="13" To="14" Label="Source1" />
+                  <Edge From="14" To="15" Label="Source1" />
                   <Edge From="15" To="16" Label="Source1" />
                   <Edge From="16" To="17" Label="Source1" />
-                  <Edge From="17" To="18" Label="Source1" />
-                  <Edge From="19" To="20" Label="Source2" />
+                  <Edge From="18" To="19" Label="Source2" />
+                  <Edge From="19" To="20" Label="Source1" />
                   <Edge From="20" To="21" Label="Source1" />
                   <Edge From="21" To="22" Label="Source1" />
                   <Edge From="22" To="23" Label="Source1" />
                   <Edge From="23" To="24" Label="Source1" />
                   <Edge From="24" To="25" Label="Source1" />
                   <Edge From="25" To="26" Label="Source1" />
-                  <Edge From="26" To="27" Label="Source1" />
-                  <Edge From="28" To="29" Label="Source1" />
+                  <Edge From="27" To="28" Label="Source1" />
+                  <Edge From="29" To="30" Label="Source1" />
                   <Edge From="30" To="31" Label="Source1" />
                   <Edge From="31" To="32" Label="Source1" />
-                  <Edge From="32" To="33" Label="Source1" />
-                  <Edge From="34" To="35" Label="Source1" />
-                  <Edge From="36" To="37" Label="Source1" />
-                  <Edge From="38" To="39" Label="Source1" />
-                  <Edge From="40" To="41" Label="Source1" />
-                  <Edge From="42" To="43" Label="Source1" />
-                  <Edge From="44" To="45" Label="Source1" />
+                  <Edge From="33" To="34" Label="Source1" />
+                  <Edge From="35" To="36" Label="Source1" />
+                  <Edge From="37" To="38" Label="Source1" />
+                  <Edge From="39" To="40" Label="Source1" />
+                  <Edge From="41" To="42" Label="Source1" />
+                  <Edge From="43" To="44" Label="Source1" />
+                  <Edge From="45" To="46" Label="Source1" />
                   <Edge From="46" To="47" Label="Source1" />
-                  <Edge From="47" To="48" Label="Source1" />
-                  <Edge From="49" To="50" Label="Source1" />
-                  <Edge From="51" To="52" Label="Source1" />
+                  <Edge From="48" To="49" Label="Source1" />
+                  <Edge From="50" To="51" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -11218,7 +11262,8 @@ it.Item2 as CueActive
                   </Expression>
                   <Expression xsi:type="scr:ExpressionTransform">
                     <scr:Name>Opacity</scr:Name>
-                    <scr:Expression>it.Item2.Item1 &gt;= 1 || Math.Log(Convert.ToDouble(it.Item1.Item1) / Convert.ToDouble(it.Item2.Item2)) / Math.Log(Convert.ToDouble(it.Item2.Item3) / Convert.ToDouble(it.Item2.Item2)) &lt; it.Item2.Item1 ? it.Item1.Item2 : 0.0</scr:Expression>
+                    <scr:Description>Grating's sweep fraction, rounded to 3 decimals like the tone's in SilenceAfterTruncation, so both are hidden from the same position.</scr:Description>
+                    <scr:Expression>it.Item2.Item1 &gt;= 1 || Math.Round(Math.Log(Convert.ToDouble(it.Item1.Item1) / Convert.ToDouble(it.Item2.Item2)) / Math.Log(Convert.ToDouble(it.Item2.Item3) / Convert.ToDouble(it.Item2.Item2)), 3) &lt; it.Item2.Item1 ? it.Item1.Item2 : 0.0</scr:Expression>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
                 </Nodes>
@@ -11326,7 +11371,8 @@ it.Item2 as CueActive
                   </Expression>
                   <Expression xsi:type="scr:ExpressionTransform">
                     <scr:Name>CueActive</scr:Name>
-                    <scr:Expression>new(it.Item1 as Buffer, (it.Item2.Item2 &gt;= 1 || Math.Log(Convert.ToDouble(it.Item2.Item1) / Convert.ToDouble(it.Item2.Item3.StartFreq)) / Math.Log(Convert.ToDouble(it.Item2.Item3.EndFreq) / Convert.ToDouble(it.Item2.Item3.StartFreq)) &lt; it.Item2.Item2 ? 1.0 : 0.0) as Gain)</scr:Expression>
+                    <scr:Description>Tone's sweep fraction, compared with the truncation point. EndFreq / StartFreq is divided as whole numbers (25000 / 2000 = 12), exactly as in 'cm to Hz', so the fraction matches how the tone actually sweeps (2-24 kHz) and equals the grating's in HideAfterTruncation. Rounded to 3 decimals in both, so CurrFreq's whole-Hz rounding cannot put the tone and grating a beep apart.</scr:Description>
+                    <scr:Expression>new(it.Item1 as Buffer, (it.Item2.Item2 &gt;= 1 || Math.Round(Math.Log(Convert.ToDouble(it.Item2.Item1) / Convert.ToDouble(it.Item2.Item3.StartFreq)) / Math.Log(Convert.ToDouble(it.Item2.Item3.EndFreq / it.Item2.Item3.StartFreq)), 3) &lt; it.Item2.Item2 ? 1.0 : 0.0) as Gain)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="MemberSelector">
                     <Selector>Gain</Selector>
@@ -11610,15 +11656,15 @@ String.Format("{0:0.###}", it.Item1.Item1.Item1.Item1.Item1.Item3) as GratingOpa
               </Workflow>
             </Expression>
             <Expression xsi:type="GroupWorkflow">
-              <Name>FlashOff</Name>
-              <Description>Turns the grating off once it has been shown for 50 ms of projector frames, the length of a tone pip, so it flashes once per pip (12 frames at 240 Hz). Counting frame time rather than using a timer makes the on-time frame-exact. The opacity passes straight through to GratingOpacity.</Description>
+              <Name>PipFlash</Name>
+              <Description>Makes the grating's contrast follow each tone pip's envelope: sin(pi t / 50 ms) over the 50 ms after the beep, frame by frame (12 frames at 240 Hz), then 0. The beep itself sets 0, the start of the envelope; each projector frame then sets the next frame's value, timed from RenderFrame's frame times rather than a timer. The beep's opacity (1, or 0 when the grating is hidden) scales the envelope.</Description>
               <Workflow>
                 <Nodes>
                   <Expression xsi:type="WorkflowInput">
                     <Name>Source1</Name>
                   </Expression>
                   <Expression xsi:type="rx:SelectMany">
-                    <Name>OffAfter50ms</Name>
+                    <Name>PipEnvelope</Name>
                     <Workflow>
                       <Nodes>
                         <Expression xsi:type="Combinator">
@@ -11628,15 +11674,21 @@ String.Format("{0:0.###}", it.Item1.Item1.Item1.Item1.Item1.Item3) as GratingOpa
                           <Selector>TimeStep.ElapsedTime</Selector>
                         </Expression>
                         <Expression xsi:type="rx:Accumulate" />
-                        <Expression xsi:type="rx:Condition">
-                          <Name>Shown50ms</Name>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:CombineLatest" />
+                        </Expression>
+                        <Expression xsi:type="rx:TakeWhile">
+                          <Name>Within50ms</Name>
                           <Workflow>
                             <Nodes>
                               <Expression xsi:type="WorkflowInput">
                                 <Name>Source1</Name>
                               </Expression>
                               <Expression xsi:type="scr:ExpressionTransform">
-                                <scr:Expression>it &gt;= 0.048</scr:Expression>
+                                <scr:Expression>it.Item1 &lt; 0.048</scr:Expression>
                               </Expression>
                               <Expression xsi:type="WorkflowOutput" />
                             </Nodes>
@@ -11646,30 +11698,40 @@ String.Format("{0:0.###}", it.Item1.Item1.Item1.Item1.Item1.Item3) as GratingOpa
                             </Edges>
                           </Workflow>
                         </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="rx:Take">
-                            <rx:Count>1</rx:Count>
-                          </Combinator>
+                        <Expression xsi:type="scr:ExpressionTransform">
+                          <scr:Name>SineEnvelope</scr:Name>
+                          <scr:Expression>it.Item2 * Math.Sin(Math.PI * it.Item1 / 0.05)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="DoubleProperty">
                             <Value>0</Value>
                           </Combinator>
                         </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Concat" />
+                        </Expression>
                         <Expression xsi:type="WorkflowOutput" />
                       </Nodes>
                       <Edges>
                         <Edge From="0" To="1" Label="Source1" />
                         <Edge From="1" To="2" Label="Source1" />
-                        <Edge From="2" To="3" Label="Source1" />
-                        <Edge From="3" To="4" Label="Source1" />
+                        <Edge From="2" To="4" Label="Source1" />
+                        <Edge From="3" To="4" Label="Source2" />
                         <Edge From="4" To="5" Label="Source1" />
                         <Edge From="5" To="6" Label="Source1" />
+                        <Edge From="6" To="8" Label="Source1" />
+                        <Edge From="7" To="8" Label="Source2" />
+                        <Edge From="8" To="9" Label="Source1" />
                       </Edges>
                     </Workflow>
                   </Expression>
                   <Expression xsi:type="MulticastSubject">
                     <Name>GratingOpacity</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="DoubleProperty">
+                      <Value>0</Value>
+                    </Combinator>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
                 </Nodes>
@@ -11677,6 +11739,7 @@ String.Format("{0:0.###}", it.Item1.Item1.Item1.Item1.Item1.Item3) as GratingOpa
                   <Edge From="0" To="1" Label="Source1" />
                   <Edge From="1" To="2" Label="Source1" />
                   <Edge From="0" To="3" Label="Source1" />
+                  <Edge From="3" To="4" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>

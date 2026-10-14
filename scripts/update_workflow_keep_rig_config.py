@@ -60,11 +60,19 @@ RIG_SPECIFIC_TAGS = [
 # once above a SubscribeSubject that reads the position, and once above the IntProperty that
 # actually holds it. A loose pattern anchors on the first and runs on into a different motor's
 # value.
+#
+# Since the spout positions moved into RigConfigs.cs, a PropertyMapping from RigConfigs sits
+# between the annotation and the IntProperty (with the RigConfigs SubscribeSubject before it for
+# Motor1), and the IntProperty only holds the value Bonsai last saved. Both are optional here, so
+# the pattern matches the workflow from before and after that change.
 RIG_SPECIFIC_ANCHORED = [
     (f"Motor{n}_IN_position", re.compile(
         rf'(<Name>Motor{n}_IN_position</Name>\s*'
         rf'<Text><!\[CDATA\[Motor{n}_IN_position\]\]></Text>\s*'
         rf'</Expression>\s*'
+        rf'(?:<Expression xsi:type="SubscribeSubject">\s*<Name>RigConfigs</Name>\s*</Expression>\s*)?'
+        rf'(?:<Expression xsi:type="PropertyMapping">\s*<PropertyMappings>\s*'
+        rf'<Property Name="Value" Selector="Motor{n}InPosition" />\s*</PropertyMappings>\s*</Expression>\s*)?'
         rf'<Expression xsi:type="Combinator">\s*'
         rf'<Combinator xsi:type="IntProperty">\s*'
         rf'<Value>)([^<]*)(</Value>)'))

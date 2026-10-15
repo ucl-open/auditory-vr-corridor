@@ -4578,6 +4578,25 @@ means a saved position is never applied against an unknown motor origin.]]></Tex
                         <Expression xsi:type="rx:BehaviorSubject">
                           <Name>CueActive</Name>
                         </Expression>
+                        <Expression xsi:type="Annotation">
+                          <Name>ErrorTone loaded once</Name>
+                          <Text><![CDATA[Read into memory once at startup instead of from disk on every punishment, so the relative path cannot fail mid-session if the working directory changes and crash the workflow on an error trial.]]></Text>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="al:AudioReader">
+                            <al:FileName>waveforms\error_tone.wav</al:FileName>
+                            <al:BufferLength>0</al:BufferLength>
+                            <al:SampleRate>0</al:SampleRate>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Take">
+                            <rx:Count>1</rx:Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="rx:AsyncSubject">
+                          <Name>ErrorTone</Name>
+                        </Expression>
                       </Nodes>
                       <Edges>
                         <Edge From="13" To="14" Label="Source1" />
@@ -4616,6 +4635,8 @@ means a saved position is never applied against an unknown motor origin.]]></Tex
                         <Edge From="56" To="57" Label="Source1" />
                         <Edge From="59" To="60" Label="Source1" />
                         <Edge From="61" To="62" Label="Source1" />
+                        <Edge From="64" To="65" Label="Source1" />
+                        <Edge From="65" To="66" Label="Source1" />
                       </Edges>
                     </Workflow>
                   </Expression>
@@ -10134,12 +10155,8 @@ it.Item2 as CueActive
                             <Property Name="Mixer" />
                           </PropertyMappings>
                         </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="al:AudioReader">
-                            <al:FileName>C:\dev\auditory-vr-corridor\src\waveforms\error_tone.wav</al:FileName>
-                            <al:BufferLength>0</al:BufferLength>
-                            <al:SampleRate>0</al:SampleRate>
-                          </Combinator>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>ErrorTone</Name>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="DoubleProperty">
@@ -10300,12 +10317,8 @@ it.Item2 as CueActive
                             <Property Name="Mixer" />
                           </PropertyMappings>
                         </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="al:AudioReader">
-                            <al:FileName>C:\dev\auditory-vr-corridor\src\waveforms\error_tone.wav</al:FileName>
-                            <al:BufferLength>0</al:BufferLength>
-                            <al:SampleRate>0</al:SampleRate>
-                          </Combinator>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>ErrorTone</Name>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="DoubleProperty">

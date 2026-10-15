@@ -45,7 +45,6 @@ RIG_SPECIFIC_TAGS = [
                           # cv:FileName / io:FileName / al:FileName, which are different things.
     "GammaLut",           # Projector gamma lookup bitmap
     "io:Path",            # Session JSON that Bonsai reads at startup (depends on where the repo lives)
-    "al:FileName",        # Error tone wav (depends on where the repo lives)
     "PulseDO1",           # Reward valve open duration in ms. Calibrated per rig: the same duration
     "PulseDO2",           # gives a different volume on a different valve, tubing and water column.
     "PulseDO3",
@@ -74,7 +73,9 @@ RIG_SPECIFIC_ANCHORED = [
 # Deliberately NOT preserved: cv:FileName, io:FileName, p7:Path and p8:Path. Those are log
 # *outputs* - Bonsai rewrites them from PathPrefix on every run and saves whatever the last
 # session used back into the file. Carrying them across would just move one rig's stale session
-# paths onto another. dsp:Path is left alone too, being relative and so the same on every rig.
+# paths onto another. dsp:Path and al:FileName (the error tone wav) are left alone too, being
+# relative and so the same on every rig - preserving them would carry a rig's old absolute path
+# back into the shared workflow.
 
 # Lines matching these are worth a human look if they change and were not preserved above: they
 # are the shapes a rig-specific setting tends to take.

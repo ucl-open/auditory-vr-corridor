@@ -11655,94 +11655,6 @@ String.Format("{0:0.###}", it.Item1.Item1.Item1.Item1.Item1.Item3) as GratingOpa
                 </Edges>
               </Workflow>
             </Expression>
-            <Expression xsi:type="GroupWorkflow">
-              <Name>PipFlash</Name>
-              <Description>Makes the grating's contrast follow each tone pip's envelope: sin(pi t / 50 ms) over the 50 ms after the beep, frame by frame (12 frames at 240 Hz), then 0. The beep itself sets 0, the start of the envelope; each projector frame then sets the next frame's value, timed from RenderFrame's frame times rather than a timer. The beep's opacity (1, or 0 when the grating is hidden) scales the envelope.</Description>
-              <Workflow>
-                <Nodes>
-                  <Expression xsi:type="WorkflowInput">
-                    <Name>Source1</Name>
-                  </Expression>
-                  <Expression xsi:type="rx:SelectMany">
-                    <Name>PipEnvelope</Name>
-                    <Workflow>
-                      <Nodes>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="gl:RenderFrame" />
-                        </Expression>
-                        <Expression xsi:type="MemberSelector">
-                          <Selector>TimeStep.ElapsedTime</Selector>
-                        </Expression>
-                        <Expression xsi:type="rx:Accumulate" />
-                        <Expression xsi:type="WorkflowInput">
-                          <Name>Source1</Name>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="rx:CombineLatest" />
-                        </Expression>
-                        <Expression xsi:type="rx:TakeWhile">
-                          <Name>Within50ms</Name>
-                          <Workflow>
-                            <Nodes>
-                              <Expression xsi:type="WorkflowInput">
-                                <Name>Source1</Name>
-                              </Expression>
-                              <Expression xsi:type="scr:ExpressionTransform">
-                                <scr:Expression>it.Item1 &lt; 0.048</scr:Expression>
-                              </Expression>
-                              <Expression xsi:type="WorkflowOutput" />
-                            </Nodes>
-                            <Edges>
-                              <Edge From="0" To="1" Label="Source1" />
-                              <Edge From="1" To="2" Label="Source1" />
-                            </Edges>
-                          </Workflow>
-                        </Expression>
-                        <Expression xsi:type="scr:ExpressionTransform">
-                          <scr:Name>SineEnvelope</scr:Name>
-                          <scr:Expression>it.Item2 * Math.Sin(Math.PI * it.Item1 / 0.05)</scr:Expression>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="DoubleProperty">
-                            <Value>0</Value>
-                          </Combinator>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="rx:Concat" />
-                        </Expression>
-                        <Expression xsi:type="WorkflowOutput" />
-                      </Nodes>
-                      <Edges>
-                        <Edge From="0" To="1" Label="Source1" />
-                        <Edge From="1" To="2" Label="Source1" />
-                        <Edge From="2" To="4" Label="Source1" />
-                        <Edge From="3" To="4" Label="Source2" />
-                        <Edge From="4" To="5" Label="Source1" />
-                        <Edge From="5" To="6" Label="Source1" />
-                        <Edge From="6" To="8" Label="Source1" />
-                        <Edge From="7" To="8" Label="Source2" />
-                        <Edge From="8" To="9" Label="Source1" />
-                      </Edges>
-                    </Workflow>
-                  </Expression>
-                  <Expression xsi:type="MulticastSubject">
-                    <Name>GratingOpacity</Name>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="DoubleProperty">
-                      <Value>0</Value>
-                    </Combinator>
-                  </Expression>
-                  <Expression xsi:type="WorkflowOutput" />
-                </Nodes>
-                <Edges>
-                  <Edge From="0" To="1" Label="Source1" />
-                  <Edge From="1" To="2" Label="Source1" />
-                  <Edge From="0" To="3" Label="Source1" />
-                  <Edge From="3" To="4" Label="Source1" />
-                </Edges>
-              </Workflow>
-            </Expression>
           </Nodes>
           <Edges>
             <Edge From="0" To="2" Label="Source1" />
@@ -11819,8 +11731,7 @@ String.Format("{0:0.###}", it.Item1.Item1.Item1.Item1.Item1.Item3) as GratingOpa
             <Edge From="63" To="24" Label="Source1" />
             <Edge From="3" To="64" Label="Source2" />
             <Edge From="52" To="64" Label="Source3" />
-            <Edge From="64" To="66" Label="Source1" />
-            <Edge From="66" To="56" Label="Source1" />
+            <Edge From="64" To="56" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>

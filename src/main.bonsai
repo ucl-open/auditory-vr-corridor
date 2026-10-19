@@ -7341,6 +7341,361 @@ it.Item2 as CueActive
                 </Edges>
               </Workflow>
             </Expression>
+            <Expression xsi:type="GroupWorkflow">
+              <Name>RigLogger</Name>
+              <Description>Writes the RigLog once at the start of the session: this PC's name (COMPUTERNAME) and the rig settings in effect from RigConfigs (COM ports, camera serials, mesh map, valve open time and spout IN positions).</Description>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>RigConfigs</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="io:GetEnvironmentVariable">
+                      <io:Name>COMPUTERNAME</io:Name>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Zip" />
+                  </Expression>
+                  <Expression xsi:type="scr:ExpressionTransform">
+                    <scr:Name>FormatRigData</scr:Name>
+                    <scr:Expression>new(it.Item1 as RigName, it.Item2.COMPortTimestampGenerator as COMPortTimestampGenerator, it.Item2.COMPortBehaviourBoard as COMPortBehaviourBoard, it.Item2.COMPortStepperDriver1 as COMPortStepperDriver1, it.Item2.COMPortStepperDriver2 as COMPortStepperDriver2, it.Item2.COMPortLicketySplit as COMPortLicketySplit, it.Item2.SerialNumberCamera1 as SerialNumberCamera1, it.Item2.SerialNumberCamera2 as SerialNumberCamera2, it.Item2.SerialNumberCamera3 as SerialNumberCamera3, it.Item2.AudioDeviceName as AudioDeviceName, it.Item2.MeshMapFilePath as MeshMapFilePath, it.Item2.ValveOpenTime as ValveOpenTime, it.Item2.Motor1InPosition as Motor1InPosition, it.Item2.Motor2InPosition as Motor2InPosition, it.Item2.Motor3InPosition as Motor3InPosition, it.Item2.Motor4InPosition as Motor4InPosition, it.Item2.Motor5InPosition as Motor5InPosition)</scr:Expression>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="Name" />
+                    <Property Name="Extension" />
+                  </Expression>
+                  <Expression xsi:type="GroupWorkflow">
+                    <Name>FormatFileName</Name>
+                    <Description>Generates a log filename based on the input timestamp.</Description>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>PathPrefix</Name>
+                        </Expression>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="ExternalizedMapping">
+                          <Property Name="Value" DisplayName="Name" Description="The base name of the log file." />
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="StringProperty">
+                            <Value>RigLog</Value>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>AnimalAndSessionID</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Zip" />
+                        </Expression>
+                        <Expression xsi:type="Format">
+                          <Format>{0}_{1}_</Format>
+                          <Selector>Item1, Item2</Selector>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Take">
+                            <rx:Count>1</rx:Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="p6:StripSubstring" />
+                        </Expression>
+                        <Expression xsi:type="ExternalizedMapping">
+                          <Property Name="Value" DisplayName="Extension" Description="The file extension" />
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="StringProperty">
+                            <Value>csv</Value>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Take">
+                            <rx:Count>1</rx:Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Zip" />
+                        </Expression>
+                        <Expression xsi:type="Format">
+                          <Format>{0}\{1}\{2}.{3}</Format>
+                          <Selector>Item1,Item2,Item3,Item4</Selector>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                      </Nodes>
+                      <Edges>
+                        <Edge From="0" To="12" Label="Source1" />
+                        <Edge From="1" To="3" Label="Source1" />
+                        <Edge From="2" To="3" Label="Source2" />
+                        <Edge From="3" To="5" Label="Source1" />
+                        <Edge From="4" To="5" Label="Source2" />
+                        <Edge From="5" To="6" Label="Source1" />
+                        <Edge From="6" To="7" Label="Source1" />
+                        <Edge From="7" To="8" Label="Source1" />
+                        <Edge From="7" To="12" Label="Source3" />
+                        <Edge From="8" To="12" Label="Source2" />
+                        <Edge From="9" To="10" Label="Source1" />
+                        <Edge From="10" To="11" Label="Source1" />
+                        <Edge From="11" To="12" Label="Source4" />
+                        <Edge From="12" To="13" Label="Source1" />
+                        <Edge From="13" To="14" Label="Source1" />
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                  <Expression xsi:type="PropertyMapping">
+                    <PropertyMappings>
+                      <Property Name="FileName" />
+                    </PropertyMappings>
+                  </Expression>
+                  <Expression xsi:type="io:CsvWriter">
+                    <io:FileName>RigLog.csv</io:FileName>
+                    <io:Append>false</io:Append>
+                    <io:Overwrite>true</io:Overwrite>
+                    <io:Suffix>Timestamp</io:Suffix>
+                    <io:IncludeHeader>true</io:IncludeHeader>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="1" Label="Source1" />
+                  <Edge From="0" To="2" Label="Source2" />
+                  <Edge From="1" To="2" Label="Source1" />
+                  <Edge From="2" To="3" Label="Source1" />
+                  <Edge From="3" To="7" Label="Source1" />
+                  <Edge From="4" To="5" Label="Source1" />
+                  <Edge From="5" To="6" Label="Source1" />
+                  <Edge From="6" To="7" Label="Source2" />
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="GroupWorkflow">
+              <Name>WorkflowCopyLogger</Name>
+              <Description>Saves a copy of main.bonsai, as it is on disk at the start of the session, so each session records the exact workflow and hard-coded settings it ran with. It is copied line by line, so characters outside plain ASCII (the arrows on the spout buttons) come out as ?.</Description>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="io:CsvReader">
+                    <io:FileName>main.bonsai</io:FileName>
+                    <io:SkipRows>0</io:SkipRows>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="Name" />
+                    <Property Name="Extension" />
+                  </Expression>
+                  <Expression xsi:type="GroupWorkflow">
+                    <Name>FormatFileName</Name>
+                    <Description>Generates a log filename based on the input timestamp.</Description>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>PathPrefix</Name>
+                        </Expression>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="ExternalizedMapping">
+                          <Property Name="Value" DisplayName="Name" Description="The base name of the log file." />
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="StringProperty">
+                            <Value>WorkflowCopy</Value>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>AnimalAndSessionID</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Zip" />
+                        </Expression>
+                        <Expression xsi:type="Format">
+                          <Format>{0}_{1}_</Format>
+                          <Selector>Item1, Item2</Selector>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Take">
+                            <rx:Count>1</rx:Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="p6:StripSubstring" />
+                        </Expression>
+                        <Expression xsi:type="ExternalizedMapping">
+                          <Property Name="Value" DisplayName="Extension" Description="The file extension" />
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="StringProperty">
+                            <Value>bonsai</Value>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Take">
+                            <rx:Count>1</rx:Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Zip" />
+                        </Expression>
+                        <Expression xsi:type="Format">
+                          <Format>{0}\{1}\{2}.{3}</Format>
+                          <Selector>Item1,Item2,Item3,Item4</Selector>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                      </Nodes>
+                      <Edges>
+                        <Edge From="0" To="12" Label="Source1" />
+                        <Edge From="1" To="3" Label="Source1" />
+                        <Edge From="2" To="3" Label="Source2" />
+                        <Edge From="3" To="5" Label="Source1" />
+                        <Edge From="4" To="5" Label="Source2" />
+                        <Edge From="5" To="6" Label="Source1" />
+                        <Edge From="6" To="7" Label="Source1" />
+                        <Edge From="7" To="8" Label="Source1" />
+                        <Edge From="7" To="12" Label="Source3" />
+                        <Edge From="8" To="12" Label="Source2" />
+                        <Edge From="9" To="10" Label="Source1" />
+                        <Edge From="10" To="11" Label="Source1" />
+                        <Edge From="11" To="12" Label="Source4" />
+                        <Edge From="12" To="13" Label="Source1" />
+                        <Edge From="13" To="14" Label="Source1" />
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                  <Expression xsi:type="PropertyMapping">
+                    <PropertyMappings>
+                      <Property Name="FileName" />
+                    </PropertyMappings>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="io:TextWriter">
+                      <io:FileName>WorkflowCopy.bonsai</io:FileName>
+                      <io:Suffix>None</io:Suffix>
+                      <io:Buffered>true</io:Buffered>
+                      <io:Overwrite>true</io:Overwrite>
+                      <io:Append>false</io:Append>
+                    </Combinator>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="4" Label="Source1" />
+                  <Edge From="1" To="2" Label="Source1" />
+                  <Edge From="2" To="3" Label="Source1" />
+                  <Edge From="3" To="4" Label="Source2" />
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="GroupWorkflow">
+              <Name>RigConfigsCopyLogger</Name>
+              <Description>Saves a copy of Extensions\RigConfigs.cs, as it is on disk at the start of the session, so each session records every rig's settings as they were then.</Description>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="io:CsvReader">
+                    <io:FileName>Extensions\RigConfigs.cs</io:FileName>
+                    <io:SkipRows>0</io:SkipRows>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="Name" />
+                    <Property Name="Extension" />
+                  </Expression>
+                  <Expression xsi:type="GroupWorkflow">
+                    <Name>FormatFileName</Name>
+                    <Description>Generates a log filename based on the input timestamp.</Description>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>PathPrefix</Name>
+                        </Expression>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="ExternalizedMapping">
+                          <Property Name="Value" DisplayName="Name" Description="The base name of the log file." />
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="StringProperty">
+                            <Value>RigConfigsCopy</Value>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>AnimalAndSessionID</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Zip" />
+                        </Expression>
+                        <Expression xsi:type="Format">
+                          <Format>{0}_{1}_</Format>
+                          <Selector>Item1, Item2</Selector>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Take">
+                            <rx:Count>1</rx:Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="p6:StripSubstring" />
+                        </Expression>
+                        <Expression xsi:type="ExternalizedMapping">
+                          <Property Name="Value" DisplayName="Extension" Description="The file extension" />
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="StringProperty">
+                            <Value>cs</Value>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Take">
+                            <rx:Count>1</rx:Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Zip" />
+                        </Expression>
+                        <Expression xsi:type="Format">
+                          <Format>{0}\{1}\{2}.{3}</Format>
+                          <Selector>Item1,Item2,Item3,Item4</Selector>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                      </Nodes>
+                      <Edges>
+                        <Edge From="0" To="12" Label="Source1" />
+                        <Edge From="1" To="3" Label="Source1" />
+                        <Edge From="2" To="3" Label="Source2" />
+                        <Edge From="3" To="5" Label="Source1" />
+                        <Edge From="4" To="5" Label="Source2" />
+                        <Edge From="5" To="6" Label="Source1" />
+                        <Edge From="6" To="7" Label="Source1" />
+                        <Edge From="7" To="8" Label="Source1" />
+                        <Edge From="7" To="12" Label="Source3" />
+                        <Edge From="8" To="12" Label="Source2" />
+                        <Edge From="9" To="10" Label="Source1" />
+                        <Edge From="10" To="11" Label="Source1" />
+                        <Edge From="11" To="12" Label="Source4" />
+                        <Edge From="12" To="13" Label="Source1" />
+                        <Edge From="13" To="14" Label="Source1" />
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                  <Expression xsi:type="PropertyMapping">
+                    <PropertyMappings>
+                      <Property Name="FileName" />
+                    </PropertyMappings>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="io:TextWriter">
+                      <io:FileName>RigConfigsCopy.cs</io:FileName>
+                      <io:Suffix>None</io:Suffix>
+                      <io:Buffered>true</io:Buffered>
+                      <io:Overwrite>true</io:Overwrite>
+                      <io:Append>false</io:Append>
+                    </Combinator>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="4" Label="Source1" />
+                  <Edge From="1" To="2" Label="Source1" />
+                  <Edge From="2" To="3" Label="Source1" />
+                  <Edge From="3" To="4" Label="Source2" />
+                </Edges>
+              </Workflow>
+            </Expression>
           </Nodes>
           <Edges>
             <Edge From="5" To="6" Label="Source1" />
@@ -12211,6 +12566,298 @@ it.EngagedTrials as Total
             <Edge From="24" To="25" Label="Source1" />
             <Edge From="26" To="27" Label="Source1" />
             <Edge From="27" To="28" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="GroupWorkflow">
+        <Name>EventLogger</Name>
+        <Description>Writes the EventLog: one row per experimenter action or spout change, on the Harp clock. Session start, manual valve flushes, spout buttons (motor up/down, HOME, IN, OUT), saving spout positions (Detail: the five saved positions), the animal's spout position file, the steppers being ZEROed, and every position command sent to the spout motors (Detail: the five positions). Manual flushes look like rewards in the valve binary, so this is where they can be told apart. Sits at the top level rather than in Logging because the GUI reads subjects declared in Logging, so a logger there cannot subscribe to the GUI's buttons (Bonsai reports a circular definition).</Description>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>StartSession</Name>
+            </Expression>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Expression>new("SessionStart" as Event, "" as Detail)</scr:Expression>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>GUI_Callback_Left_flush</Name>
+            </Expression>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Expression>new("LeftFlush" as Event, "" as Detail)</scr:Expression>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>GUI_Callback_Right_flush</Name>
+            </Expression>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Expression>new("RightFlush" as Event, "" as Detail)</scr:Expression>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>Motor1_UP</Name>
+            </Expression>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Expression>new("Motor1Up" as Event, "" as Detail)</scr:Expression>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>Motor1_DOWN</Name>
+            </Expression>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Expression>new("Motor1Down" as Event, "" as Detail)</scr:Expression>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>Motor2_UP</Name>
+            </Expression>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Expression>new("Motor2Up" as Event, "" as Detail)</scr:Expression>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>Motor2_DOWN</Name>
+            </Expression>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Expression>new("Motor2Down" as Event, "" as Detail)</scr:Expression>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>Motor3_UP</Name>
+            </Expression>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Expression>new("Motor3Up" as Event, "" as Detail)</scr:Expression>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>Motor3_DOWN</Name>
+            </Expression>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Expression>new("Motor3Down" as Event, "" as Detail)</scr:Expression>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>Motor4_UP</Name>
+            </Expression>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Expression>new("Motor4Up" as Event, "" as Detail)</scr:Expression>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>Motor4_DOWN</Name>
+            </Expression>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Expression>new("Motor4Down" as Event, "" as Detail)</scr:Expression>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>Motor5_UP</Name>
+            </Expression>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Expression>new("Motor5Up" as Event, "" as Detail)</scr:Expression>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>Motor5_DOWN</Name>
+            </Expression>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Expression>new("Motor5Down" as Event, "" as Detail)</scr:Expression>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>GUICallbackStepperHOME</Name>
+            </Expression>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Expression>new("Home" as Event, "" as Detail)</scr:Expression>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>GUICallbackStepperIN</Name>
+            </Expression>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Expression>new("In" as Event, "" as Detail)</scr:Expression>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>GUICallbackStepperOUT</Name>
+            </Expression>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Expression>new("Out" as Event, "" as Detail)</scr:Expression>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>SpoutPositionFileName</Name>
+            </Expression>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Expression>new("SpoutPositionFile" as Event, it as Detail)</scr:Expression>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>SteppersZEROed</Name>
+            </Expression>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Expression>new("SteppersZEROed" as Event, "" as Detail)</scr:Expression>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>StepperPositionCommand</Name>
+            </Expression>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Expression>new("SpoutCommand" as Event, Convert.ToString(it.Item1) + ";" + Convert.ToString(it.Item2) + ";" + Convert.ToString(it.Item3) + ";" + Convert.ToString(it.Item4) + ";" + Convert.ToString(it.Item5) as Detail)</scr:Expression>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>SaveSpoutPositions</Name>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>StepperPosition_BothIn</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:WithLatestFrom" />
+            </Expression>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Expression>new("SaveSpoutPositions" as Event, Convert.ToString(it.Item2.Item1) + ";" + Convert.ToString(it.Item2.Item2) + ";" + Convert.ToString(it.Item2.Item3) + ";" + Convert.ToString(it.Item2.Item4) + ";" + Convert.ToString(it.Item2.Item5) as Detail)</scr:Expression>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Merge" />
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>HarpTime</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:WithLatestFrom" />
+            </Expression>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Name>FormatEventData</scr:Name>
+              <scr:Expression>new(String.Format("{0:F6}", it.Item2) as HarpTime, it.Item1.Event as Event, it.Item1.Detail as Detail)</scr:Expression>
+            </Expression>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="Name" />
+              <Property Name="Extension" />
+            </Expression>
+            <Expression xsi:type="GroupWorkflow">
+              <Name>FormatFileName</Name>
+              <Description>Generates a log filename based on the input timestamp.</Description>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>PathPrefix</Name>
+                  </Expression>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="Value" DisplayName="Name" Description="The base name of the log file." />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="StringProperty">
+                      <Value>EventLog</Value>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>AnimalAndSessionID</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Zip" />
+                  </Expression>
+                  <Expression xsi:type="Format">
+                    <Format>{0}_{1}_</Format>
+                    <Selector>Item1, Item2</Selector>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Take">
+                      <rx:Count>1</rx:Count>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="p6:StripSubstring" />
+                  </Expression>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="Value" DisplayName="Extension" Description="The file extension" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="StringProperty">
+                      <Value>csv</Value>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Take">
+                      <rx:Count>1</rx:Count>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Zip" />
+                  </Expression>
+                  <Expression xsi:type="Format">
+                    <Format>{0}\{1}\{2}.{3}</Format>
+                    <Selector>Item1,Item2,Item3,Item4</Selector>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="12" Label="Source1" />
+                  <Edge From="1" To="3" Label="Source1" />
+                  <Edge From="2" To="3" Label="Source2" />
+                  <Edge From="3" To="5" Label="Source1" />
+                  <Edge From="4" To="5" Label="Source2" />
+                  <Edge From="5" To="6" Label="Source1" />
+                  <Edge From="6" To="7" Label="Source1" />
+                  <Edge From="7" To="8" Label="Source1" />
+                  <Edge From="7" To="12" Label="Source3" />
+                  <Edge From="8" To="12" Label="Source2" />
+                  <Edge From="9" To="10" Label="Source1" />
+                  <Edge From="10" To="11" Label="Source1" />
+                  <Edge From="11" To="12" Label="Source4" />
+                  <Edge From="12" To="13" Label="Source1" />
+                  <Edge From="13" To="14" Label="Source1" />
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="FileName" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="io:CsvWriter">
+              <io:FileName>EventLog.csv</io:FileName>
+              <io:Append>false</io:Append>
+              <io:Overwrite>true</io:Overwrite>
+              <io:Suffix>Timestamp</io:Suffix>
+              <io:IncludeHeader>true</io:IncludeHeader>
+            </Expression>
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+            <Edge From="1" To="42" Label="Source1" />
+            <Edge From="2" To="3" Label="Source1" />
+            <Edge From="3" To="42" Label="Source2" />
+            <Edge From="4" To="5" Label="Source1" />
+            <Edge From="5" To="42" Label="Source3" />
+            <Edge From="6" To="7" Label="Source1" />
+            <Edge From="7" To="42" Label="Source4" />
+            <Edge From="8" To="9" Label="Source1" />
+            <Edge From="9" To="42" Label="Source5" />
+            <Edge From="10" To="11" Label="Source1" />
+            <Edge From="11" To="42" Label="Source6" />
+            <Edge From="12" To="13" Label="Source1" />
+            <Edge From="13" To="42" Label="Source7" />
+            <Edge From="14" To="15" Label="Source1" />
+            <Edge From="15" To="42" Label="Source8" />
+            <Edge From="16" To="17" Label="Source1" />
+            <Edge From="17" To="42" Label="Source9" />
+            <Edge From="18" To="19" Label="Source1" />
+            <Edge From="19" To="42" Label="Source10" />
+            <Edge From="20" To="21" Label="Source1" />
+            <Edge From="21" To="42" Label="Source11" />
+            <Edge From="22" To="23" Label="Source1" />
+            <Edge From="23" To="42" Label="Source12" />
+            <Edge From="24" To="25" Label="Source1" />
+            <Edge From="25" To="42" Label="Source13" />
+            <Edge From="26" To="27" Label="Source1" />
+            <Edge From="27" To="42" Label="Source14" />
+            <Edge From="28" To="29" Label="Source1" />
+            <Edge From="29" To="42" Label="Source15" />
+            <Edge From="30" To="31" Label="Source1" />
+            <Edge From="31" To="42" Label="Source16" />
+            <Edge From="32" To="33" Label="Source1" />
+            <Edge From="33" To="42" Label="Source17" />
+            <Edge From="34" To="35" Label="Source1" />
+            <Edge From="35" To="42" Label="Source18" />
+            <Edge From="36" To="37" Label="Source1" />
+            <Edge From="37" To="42" Label="Source19" />
+            <Edge From="38" To="40" Label="Source1" />
+            <Edge From="39" To="40" Label="Source2" />
+            <Edge From="40" To="41" Label="Source1" />
+            <Edge From="41" To="42" Label="Source20" />
+            <Edge From="42" To="44" Label="Source1" />
+            <Edge From="43" To="44" Label="Source2" />
+            <Edge From="44" To="45" Label="Source1" />
+            <Edge From="45" To="49" Label="Source1" />
+            <Edge From="46" To="47" Label="Source1" />
+            <Edge From="47" To="48" Label="Source1" />
+            <Edge From="48" To="49" Label="Source2" />
           </Edges>
         </Workflow>
       </Expression>

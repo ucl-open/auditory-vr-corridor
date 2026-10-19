@@ -42,8 +42,8 @@ class TruncationConfig(BaseSchema):
     On a truncated trial the cue (tone and grating) switches off part way along the sweep. Everything else about the trial is unchanged, so it is still
     rewarded as normal - the animal has to keep going and find the reward zone without the cue.
     '''
-    fraction: float = Field(default=0.24, description='Fraction of stage 6 trials that are truncated, split evenly between the truncation points', ge=0.0, le=1.0)
-    points: list[float] = Field(default=[0.2, 0.4, 0.6], description='Where the cue switches off, as a fraction of the sweep on a log scale. The reward floor is at about 0.8', min_length=1)
+    fraction: float = Field(default=0.16, description='Fraction of stage 6 trials that are truncated, split evenly between the truncation points', ge=0.0, le=1.0)
+    points: list[float] = Field(default=[0.4, 0.6], description='Where the cue switches off, as a fraction of the sweep on a log scale. The reward floor is at about 0.8', min_length=1)
 
     @model_validator(mode="after")
     def validate_points(self):

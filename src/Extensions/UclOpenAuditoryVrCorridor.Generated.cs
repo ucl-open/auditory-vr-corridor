@@ -1607,7 +1607,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
     
         public TruncationConfig()
         {
-            _fraction = 0.24D;
+            _fraction = 0.16D;
             _points = new System.Collections.Generic.List<double>();
         }
     

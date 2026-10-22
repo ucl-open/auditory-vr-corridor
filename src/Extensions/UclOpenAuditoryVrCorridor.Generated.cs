@@ -1986,6 +1986,8 @@ namespace UclOpenAuditoryVrCorridorDataSchema
     
         private double _amplitude;
     
+        private double _backgroundNoiseLevel;
+    
         private int _quantizeBinSize;
     
         public UclOpenAuditoryVrCorridorTaskParameters()
@@ -2002,6 +2004,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             _engagement = new EngagementConfig();
             _logConfig = new LogConfig();
             _amplitude = 0.05D;
+            _backgroundNoiseLevel = 0.5D;
             _quantizeBinSize = 1;
         }
     
@@ -2020,6 +2023,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             _engagement = other._engagement;
             _logConfig = other._logConfig;
             _amplitude = other._amplitude;
+            _backgroundNoiseLevel = other._backgroundNoiseLevel;
             _quantizeBinSize = other._quantizeBinSize;
         }
     
@@ -2232,6 +2236,23 @@ namespace UclOpenAuditoryVrCorridorDataSchema
         }
     
         /// <summary>
+        /// Constant background white noise RMS, as a fraction of the beep RMS (0 = off)
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("backgroundNoiseLevel")]
+        [System.ComponentModel.DescriptionAttribute("Constant background white noise RMS, as a fraction of the beep RMS (0 = off)")]
+        public double BackgroundNoiseLevel
+        {
+            get
+            {
+                return _backgroundNoiseLevel;
+            }
+            set
+            {
+                _backgroundNoiseLevel = value;
+            }
+        }
+    
+        /// <summary>
         /// Bin size for frequency quantization (Hz)
         /// </summary>
         [Newtonsoft.Json.JsonPropertyAttribute("quantizeBinSize")]
@@ -2273,6 +2294,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             stringBuilder.Append("Engagement = " + _engagement + ", ");
             stringBuilder.Append("LogConfig = " + _logConfig + ", ");
             stringBuilder.Append("Amplitude = " + _amplitude + ", ");
+            stringBuilder.Append("BackgroundNoiseLevel = " + _backgroundNoiseLevel + ", ");
             stringBuilder.Append("QuantizeBinSize = " + _quantizeBinSize);
             return true;
         }

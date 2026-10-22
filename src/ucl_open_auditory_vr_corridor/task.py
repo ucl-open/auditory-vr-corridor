@@ -91,6 +91,7 @@ class UclOpenAuditoryVrCorridorTaskParameters(BaseSchema):
     engagement: EngagementConfig = EngagementConfig()
     log_config: LogConfig = LogConfig()
     amplitude: float = Field(default=0.05, description='Audio amplitude (0.0 to 1.0)', ge=0.0, le=1.0)
+    background_noise_level: float = Field(default=0.5, description='Constant background white noise RMS, as a fraction of the beep RMS (0 = off)', ge=0.0, le=1.0)
     quantize_bin_size: int = Field(default=1, description='Bin size for frequency quantization (Hz)', ge=1)
 
     @model_validator(mode="after")

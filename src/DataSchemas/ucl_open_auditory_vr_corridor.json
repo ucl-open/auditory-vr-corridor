@@ -569,9 +569,10 @@
             "logConfig": {
               "animalId": "unknown_animal",
               "loggingRootPath": "..\\Logs",
-              "sessionId": "2026-10-19T13_58_09"
+              "sessionId": "2026-10-22T18_34_27"
             },
             "amplitude": 0.05,
+            "backgroundNoiseLevel": 0.5,
             "quantizeBinSize": 1
           },
           "title": "TaskParameters"
@@ -686,7 +687,7 @@
           "$ref": "#/$defs/LogConfig",
           "default": {
             "loggingRootPath": "..\\Logs",
-            "sessionId": "2026-10-19T13_58_09",
+            "sessionId": "2026-10-22T18_34_27",
             "animalId": "unknown_animal"
           }
         },
@@ -696,6 +697,14 @@
           "maximum": 1.0,
           "minimum": 0.0,
           "title": "Amplitude",
+          "type": "number"
+        },
+        "backgroundNoiseLevel": {
+          "default": 0.5,
+          "description": "Constant background white noise RMS, as a fraction of the beep RMS (0 = off)",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "BackgroundNoiseLevel",
           "type": "number"
         },
         "quantizeBinSize": {

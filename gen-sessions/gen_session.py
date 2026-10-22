@@ -1,11 +1,14 @@
 from helpers import MAX_SHAPING_STAGE, determine_shaping_stage, generate_waveforms, next_session_id
 from pathlib import Path
+import json
+import re
 
 
 from ucl_open_auditory_vr_corridor.task import (
     UclOpenAuditoryVrCorridorTaskLogic,
     UclOpenAuditoryVrCorridorTaskParameters,
-    LogConfig
+    LogConfig,
+    OptogeneticsConfig
 )
 
 TEST_ANIMAL_PREFIX = "TEST" # Animal IDs starting with this are test sessions, e.g. 'TEST' or 'TEST2'
@@ -20,6 +23,39 @@ def prompt_shaping_stage(auto_stage: int):
         if answer.isdigit() and 1 <= int(answer) <= MAX_SHAPING_STAGE:
             return int(answer)
         print(f"Shaping stage must be a whole number from 1 to {MAX_SHAPING_STAGE}.")
+
+
+def count_zapit_conditions(config_path: str):
+    '''Number of stimulation conditions in a Zapit stimulus config: its top-level stimLocations01, stimLocations02, ... entries, which Bonsai reads too.'''
+    text = Path(config_path).read_text(encoding="utf-8")
+    return len(set(re.findall(r"^stimLocations(\d+)\s*:", text, flags=re.MULTILINE)))
+
+
+def previous_zapit_config_path(bonsai_path: Path):
+    '''Zapit stimulus config used by the last session generated on this PC, offered as the default so it does not have to be typed every session.'''
+    try:
+        return json.loads(bonsai_path.read_text(encoding="utf-8"))["taskParameters"]["optogenetics"]["zapitConfigPath"]
+    except (OSError, ValueError, KeyError, TypeError):
+        return ""
+
+
+def prompt_optogenetics(previous_config_path: str):
+    '''Asks whether this session stimulates with Zapit and, if so, which stimulus config. Checked here so a session never starts with a missing or empty one.'''
+    if input("Optogenetics (Zapit)? (y/N): ").strip().lower() not in ("y", "yes"):
+        return OptogeneticsConfig()
+    while True:
+        default = f" [default={previous_config_path}]" if previous_config_path else ""
+        config_path = input(f"Zapit stimulus config file{default}: ").strip().strip('"') or previous_config_path
+        if not config_path or not Path(config_path).is_file():
+            print(f"File not found: '{config_path}'")
+            continue
+        n_conditions = count_zapit_conditions(config_path)
+        if n_conditions == 0:
+            print(f"No stimLocations entries in '{config_path}' - is this a Zapit stimulus config?")
+            continue
+        optogenetics = OptogeneticsConfig(enabled=True, zapit_config_path=str(Path(config_path).resolve()))
+        print(f"\n***!!! OPTOGENETICS ON: {n_conditions} Zapit conditions, {optogenetics.stim_probability:.0%} of trials, laser on {optogenetics.lead_time * 1000:.0f} ms before the cue until the outcome (at most {optogenetics.stim_duration:g} s). Load the same file in Zapit before starting Bonsai !!!***\n")
+        return optogenetics
 
 
 def main():
@@ -49,6 +85,10 @@ def main():
     if shaping_stage != auto_stage:
         print(f"\n***!!! OVERRIDING shaping stage {auto_stage} with {shaping_stage} !!!***\n")
 
+    # Session JSON that Bonsai reads at startup. It still holds the last session's settings at this point, which supplies the default Zapit config
+    bonsai_path = project_root / "session-schemas" / "current-session" / f"{UclOpenAuditoryVrCorridorTaskLogic.__name__}.json"
+    optogenetics = prompt_optogenetics(previous_zapit_config_path(bonsai_path))
+
     task_logic = UclOpenAuditoryVrCorridorTaskLogic(
         task_parameters=UclOpenAuditoryVrCorridorTaskParameters(
             log_config=LogConfig(
@@ -58,12 +98,11 @@ def main():
             ),
             shaping_stage=shaping_stage,
             modality=modality,
+            optogenetics=optogenetics,
         ),
     )
 
     # Save generated task logic to json that will be read by Bonsai at the start of the session
-    filename = task_logic.__class__.__name__
-    bonsai_path = project_root / "session-schemas" / "current-session" / f"{filename}.json"
     bonsai_path.parent.mkdir(parents=True, exist_ok=True)
     with open(bonsai_path, "w", encoding="utf-8") as f:
         f.write(task_logic.model_dump_json(indent=2, by_alias=True))

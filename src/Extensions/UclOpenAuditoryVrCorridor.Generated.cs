@@ -779,6 +779,223 @@ namespace UclOpenAuditoryVrCorridorDataSchema
 
 
     /// <summary>
+    /// Zapit optogenetic stimulation. Field names follow the av-dome task schema.
+    ///
+    ///The stimulation sites, laser power and ramp-down are set in the Zapit stimulus config loaded in Zapit, not here. Bonsai reads the same file only to
+    ///list its conditions (stimLocations01, stimLocations02, ...), and draws one per stimulated trial. On a stimulated trial the laser comes on lead_time
+    ///before the first tone pip and is stopped at the trial outcome, or after stim_duration if that comes first.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.7.2.0 (Newtonsoft.Json v13.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute(@"Zapit optogenetic stimulation. Field names follow the av-dome task schema.
+
+    The stimulation sites, laser power and ramp-down are set in the Zapit stimulus config loaded in Zapit, not here. Bonsai reads the same file only to
+    list its conditions (stimLocations01, stimLocations02, ...), and draws one per stimulated trial. On a stimulated trial the laser comes on lead_time
+    before the first tone pip and is stopped at the trial outcome, or after stim_duration if that comes first.")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class OptogeneticsConfig
+    {
+    
+        private bool _enabled;
+    
+        private string _zapitConfigPath;
+    
+        private double _stimProbability;
+    
+        private double _stimDuration;
+    
+        private double _leadTime;
+    
+        private bool _pseudorandomSelection;
+    
+        private int _warmupTrials;
+    
+        public OptogeneticsConfig()
+        {
+            _enabled = false;
+            _zapitConfigPath = "";
+            _stimProbability = 0.75D;
+            _stimDuration = 12D;
+            _leadTime = 0.1D;
+            _pseudorandomSelection = true;
+            _warmupTrials = 0;
+        }
+    
+        protected OptogeneticsConfig(OptogeneticsConfig other)
+        {
+            _enabled = other._enabled;
+            _zapitConfigPath = other._zapitConfigPath;
+            _stimProbability = other._stimProbability;
+            _stimDuration = other._stimDuration;
+            _leadTime = other._leadTime;
+            _pseudorandomSelection = other._pseudorandomSelection;
+            _warmupTrials = other._warmupTrials;
+        }
+    
+        /// <summary>
+        /// Whether optogenetic stimulation runs this session. When false, Bonsai does not connect to Zapit
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("enabled")]
+        [System.ComponentModel.DescriptionAttribute("Whether optogenetic stimulation runs this session. When false, Bonsai does not co" +
+            "nnect to Zapit")]
+        public bool Enabled
+        {
+            get
+            {
+                return _enabled;
+            }
+            set
+            {
+                _enabled = value;
+            }
+        }
+    
+        /// <summary>
+        /// Path to the Zapit stimulus config YAML loaded in Zapit, listing the stimulation conditions
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("zapitConfigPath")]
+        [System.ComponentModel.DescriptionAttribute("Path to the Zapit stimulus config YAML loaded in Zapit, listing the stimulation c" +
+            "onditions")]
+        public string ZapitConfigPath
+        {
+            get
+            {
+                return _zapitConfigPath;
+            }
+            set
+            {
+                _zapitConfigPath = value;
+            }
+        }
+    
+        /// <summary>
+        /// Probability that a trial receives stimulation
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("stimProbability")]
+        [System.ComponentModel.DescriptionAttribute("Probability that a trial receives stimulation")]
+        public double StimProbability
+        {
+            get
+            {
+                return _stimProbability;
+            }
+            set
+            {
+                _stimProbability = value;
+            }
+        }
+    
+        /// <summary>
+        /// Longest the laser stays on in one trial, in seconds. It normally stops earlier, at the trial outcome
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("stimDuration")]
+        [System.ComponentModel.DescriptionAttribute("Longest the laser stays on in one trial, in seconds. It normally stops earlier, a" +
+            "t the trial outcome")]
+        public double StimDuration
+        {
+            get
+            {
+                return _stimDuration;
+            }
+            set
+            {
+                _stimDuration = value;
+            }
+        }
+    
+        /// <summary>
+        /// How long before the first tone pip the laser comes on, in seconds. A multiple of the 50 ms beep interval, from 0.05 to 1. Applied to every trial of an optogenetics session, stimulated or not, so trial timing does not reveal which trials are stimulated
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("leadTime")]
+        [System.ComponentModel.DescriptionAttribute("How long before the first tone pip the laser comes on, in seconds. A multiple of " +
+            "the 50 ms beep interval, from 0.05 to 1. Applied to every trial of an optogeneti" +
+            "cs session, stimulated or not, so trial timing does not reveal which trials are " +
+            "stimulated")]
+        public double LeadTime
+        {
+            get
+            {
+                return _leadTime;
+            }
+            set
+            {
+                _leadTime = value;
+            }
+        }
+    
+        /// <summary>
+        /// Draw conditions from a shuffled queue, so each is used equally often, rather than independently each trial
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("pseudorandomSelection")]
+        [System.ComponentModel.DescriptionAttribute("Draw conditions from a shuffled queue, so each is used equally often, rather than" +
+            " independently each trial")]
+        public bool PseudorandomSelection
+        {
+            get
+            {
+                return _pseudorandomSelection;
+            }
+            set
+            {
+                _pseudorandomSelection = value;
+            }
+        }
+    
+        /// <summary>
+        /// Trials at session start with no stimulation
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("warmupTrials")]
+        [System.ComponentModel.DescriptionAttribute("Trials at session start with no stimulation")]
+        public int WarmupTrials
+        {
+            get
+            {
+                return _warmupTrials;
+            }
+            set
+            {
+                _warmupTrials = value;
+            }
+        }
+    
+        public System.IObservable<OptogeneticsConfig> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new OptogeneticsConfig(this)));
+        }
+    
+        public System.IObservable<OptogeneticsConfig> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new OptogeneticsConfig(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("Enabled = " + _enabled + ", ");
+            stringBuilder.Append("ZapitConfigPath = " + _zapitConfigPath + ", ");
+            stringBuilder.Append("StimProbability = " + _stimProbability + ", ");
+            stringBuilder.Append("StimDuration = " + _stimDuration + ", ");
+            stringBuilder.Append("LeadTime = " + _leadTime + ", ");
+            stringBuilder.Append("PseudorandomSelection = " + _pseudorandomSelection + ", ");
+            stringBuilder.Append("WarmupTrials = " + _warmupTrials);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    /// <summary>
     /// Represents the PulseController module on the BehaviourBoard.
     ///Mirrors the externalized properties of the Bonsai workflow of the same name,
     ///excluding subject name properties.
@@ -1982,6 +2199,8 @@ namespace UclOpenAuditoryVrCorridorDataSchema
     
         private EngagementConfig _engagement;
     
+        private OptogeneticsConfig _optogenetics;
+    
         private LogConfig _logConfig;
     
         private double _amplitude;
@@ -2000,6 +2219,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             _punishment = new PunishmentConfig();
             _truncation = new TruncationConfig();
             _engagement = new EngagementConfig();
+            _optogenetics = new OptogeneticsConfig();
             _logConfig = new LogConfig();
             _amplitude = 0.05D;
             _quantizeBinSize = 1;
@@ -2018,6 +2238,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             _punishment = other._punishment;
             _truncation = other._truncation;
             _engagement = other._engagement;
+            _optogenetics = other._optogenetics;
             _logConfig = other._logConfig;
             _amplitude = other._amplitude;
             _quantizeBinSize = other._quantizeBinSize;
@@ -2201,6 +2422,20 @@ namespace UclOpenAuditoryVrCorridorDataSchema
         }
     
         [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("optogenetics")]
+        public OptogeneticsConfig Optogenetics
+        {
+            get
+            {
+                return _optogenetics;
+            }
+            set
+            {
+                _optogenetics = value;
+            }
+        }
+    
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
         [Newtonsoft.Json.JsonPropertyAttribute("logConfig")]
         public LogConfig LogConfig
         {
@@ -2271,6 +2506,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             stringBuilder.Append("Punishment = " + _punishment + ", ");
             stringBuilder.Append("Truncation = " + _truncation + ", ");
             stringBuilder.Append("Engagement = " + _engagement + ", ");
+            stringBuilder.Append("Optogenetics = " + _optogenetics + ", ");
             stringBuilder.Append("LogConfig = " + _logConfig + ", ");
             stringBuilder.Append("Amplitude = " + _amplitude + ", ");
             stringBuilder.Append("QuantizeBinSize = " + _quantizeBinSize);
@@ -2361,6 +2597,11 @@ namespace UclOpenAuditoryVrCorridorDataSchema
             return Process<LogConfig>(source);
         }
 
+        public System.IObservable<string> Process(System.IObservable<OptogeneticsConfig> source)
+        {
+            return Process<OptogeneticsConfig>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<PulseController> source)
         {
             return Process<PulseController>(source);
@@ -2432,6 +2673,7 @@ namespace UclOpenAuditoryVrCorridorDataSchema
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<LedDriver>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<LicketySplit>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<LogConfig>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<OptogeneticsConfig>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PulseController>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PulseWidths>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PunishmentConfig>))]

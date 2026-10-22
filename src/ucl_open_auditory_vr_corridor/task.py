@@ -7,6 +7,8 @@ from ucl_open_auditory_vr_corridor.helpers import calc_log_window
 
 from ucl_open_auditory_vr_corridor import __semver__
 
+BEEP_INTERVAL_SEC = 0.05 # The tone pips are 50 ms apart on the Harp clock (every 50th Behavior board sample in main.bonsai's HarpBeat)
+
 
 class Stage(BaseSchema):
     '''Frequency boundaries for a single shaping stage.'''
@@ -64,6 +66,31 @@ class EngagementConfig(BaseSchema):
     min_epoch: int = Field(default=10, description='Shortest run of trials that can be called engaged or disengaged - shorter runs are absorbed into their neighbours. Above 20 this starts swallowing real working periods', ge=1, le=20)
 
 
+class OptogeneticsConfig(BaseSchema):
+    '''Zapit optogenetic stimulation. Field names follow the av-dome task schema.
+
+    The stimulation sites, laser power and ramp-down are set in the Zapit stimulus config loaded in Zapit, not here. Bonsai reads the same file only to
+    list its conditions (stimLocations01, stimLocations02, ...), and draws one per stimulated trial. On a stimulated trial the laser comes on lead_time
+    before the first tone pip and is stopped at the trial outcome, or after stim_duration if that comes first.
+    '''
+    enabled: bool = Field(default=False, description='Whether optogenetic stimulation runs this session. When false, Bonsai does not connect to Zapit')
+    zapit_config_path: str = Field(default='', description='Path to the Zapit stimulus config YAML loaded in Zapit, listing the stimulation conditions')
+    stim_probability: float = Field(default=0.75, ge=0.0, le=1.0, description='Probability that a trial receives stimulation')
+    stim_duration: float = Field(default=12.0, gt=0, description='Longest the laser stays on in one trial, in seconds. It normally stops earlier, at the trial outcome')
+    lead_time: float = Field(default=0.1, description='How long before the first tone pip the laser comes on, in seconds. A multiple of the 50 ms beep interval, from 0.05 to 1. Applied to every trial of an optogenetics session, stimulated or not, so trial timing does not reveal which trials are stimulated')
+    pseudorandom_selection: bool = Field(default=True, description='Draw conditions from a shuffled queue, so each is used equally often, rather than independently each trial')
+    warmup_trials: int = Field(default=0, ge=0, description='Trials at session start with no stimulation')
+
+    @model_validator(mode="after")
+    def validate_lead_time(self):
+        beeps = self.lead_time / BEEP_INTERVAL_SEC
+        if abs(beeps - round(beeps)) > 1e-6 or not 1 <= round(beeps) <= 20:
+            raise ValueError(f'lead_time ({self.lead_time}) must be a multiple of the {BEEP_INTERVAL_SEC} s beep interval, from 0.05 to 1 s')
+        if self.enabled and not self.zapit_config_path:
+            raise ValueError('optogenetics is enabled but zapit_config_path is empty')
+        return self
+
+
 class LogConfig(BaseSchema):
     '''Logging params.'''
     logging_root_path: str = Field(default=r"..\Logs", description="Root path for logs")
@@ -89,6 +116,7 @@ class UclOpenAuditoryVrCorridorTaskParameters(BaseSchema):
     punishment: PunishmentConfig = PunishmentConfig()
     truncation: TruncationConfig = TruncationConfig()
     engagement: EngagementConfig = EngagementConfig()
+    optogenetics: OptogeneticsConfig = OptogeneticsConfig()
     log_config: LogConfig = LogConfig()
     amplitude: float = Field(default=0.05, description='Audio amplitude (0.0 to 1.0)', ge=0.0, le=1.0)
     quantize_bin_size: int = Field(default=1, description='Bin size for frequency quantization (Hz)', ge=1)

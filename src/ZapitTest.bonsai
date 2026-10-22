@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.9.1"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
+                 xmlns:p1="clr-namespace:;assembly=Extensions"
+                 xmlns:io="clr-namespace:Bonsai.IO;assembly=Bonsai.System"
+                 xmlns="https://bonsai-rx.org/2018/workflow">
+  <Workflow>
+    <Nodes>
+      <Expression xsi:type="Annotation">
+        <Name>How to use</Name>
+        <Text><![CDATA[Checks that Bonsai can talk to Zapit, without any rig hardware. Nothing here touches main.bonsai.
+
+1. In MATLAB: start_zapit('simulated', true), then hZP.applyUnityStereotaxicCalib, then load a stim config in the Zapit GUI. Zapit's settings YAML needs tcpServer.enable: true.
+2. Set Host and Port on the Zapit include below (127.0.0.1 and 1488 when Zapit runs on this PC).
+3. Start. Replies are printed to the console, in this order:
+   IsStimConfigLoaded value=1, GetNumConditions value=N (on connect)
+   StartStimulus value=1 laserOn=1 (at 3 s, condition 1 for 1 s, software-timed)
+   GetState value=1 (at 3.5 s, stimulating)
+   StopStimulus value=1 (at 6 s)
+Any error=True, or the workflow stopping with a Zapit error, is a fail. If replies time out, another client is probably connected to Zapit (it accepts one at a time).
+
+Only run this against a real laser with the shutter closed.]]></Text>
+      </Expression>
+      <Expression xsi:type="rx:BehaviorSubject" TypeArguments="p1:ZapitCommand">
+        <rx:Name>ZapitCommands</rx:Name>
+      </Expression>
+      <Expression xsi:type="rx:BehaviorSubject" TypeArguments="p1:ZapitReply">
+        <rx:Name>ZapitReplies</rx:Name>
+      </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="Extensions\Zapit.bonsai">
+        <Host>127.0.0.1</Host>
+        <Port>1488</Port>
+        <ReceiveTimeout>5000</ReceiveTimeout>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Timer">
+          <rx:DueTime>PT3S</rx:DueTime>
+          <rx:Period>PT0S</rx:Period>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="p1:CreateStartStimulus">
+          <p1:ConditionNumber>1</p1:ConditionNumber>
+          <p1:LaserOn>true</p1:LaserOn>
+          <p1:HardwareTriggered>false</p1:HardwareTriggered>
+          <p1:Logging>true</p1:Logging>
+          <p1:StimDuration>1</p1:StimDuration>
+          <p1:LaserPower>0</p1:LaserPower>
+          <p1:StartDelay>0</p1:StartDelay>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="MulticastSubject">
+        <Name>ZapitCommands</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Timer">
+          <rx:DueTime>PT3.5S</rx:DueTime>
+          <rx:Period>PT0S</rx:Period>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="p1:CreateZapitQuery">
+          <p1:Query>GetState</p1:Query>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="MulticastSubject">
+        <Name>ZapitCommands</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Timer">
+          <rx:DueTime>PT6S</rx:DueTime>
+          <rx:Period>PT0S</rx:Period>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="p1:CreateStopStimulus" />
+      </Expression>
+      <Expression xsi:type="MulticastSubject">
+        <Name>ZapitCommands</Name>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>ZapitReplies</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="io:WriteLine" />
+      </Expression>
+    </Nodes>
+    <Edges>
+      <Edge From="4" To="5" Label="Source1" />
+      <Edge From="5" To="6" Label="Source1" />
+      <Edge From="7" To="8" Label="Source1" />
+      <Edge From="8" To="9" Label="Source1" />
+      <Edge From="10" To="11" Label="Source1" />
+      <Edge From="11" To="12" Label="Source1" />
+      <Edge From="13" To="14" Label="Source1" />
+    </Edges>
+  </Workflow>
+</WorkflowBuilder>

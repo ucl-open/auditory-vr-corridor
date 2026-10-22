@@ -17,6 +17,7 @@
                  xmlns:io="clr-namespace:Bonsai.IO;assembly=Bonsai.System"
                  xmlns:p4="clr-namespace:UclOpenAuditoryVrCorridorDataSchema;assembly=Extensions"
                  xmlns:p5="clr-namespace:OpenCV.Net;assembly=OpenCV.Net"
+                 xmlns:al="clr-namespace:Bonsai.Audio;assembly=Bonsai.Audio"
                  xmlns:p6="clr-namespace:UclOpen.Core;assembly=UclOpen.Core"
                  xmlns:p7="clr-namespace:UclOpen.Logging;assembly=UclOpen.Logging"
                  xmlns:p8="clr-namespace:UclOpen.Loggingv2;assembly=Extensions"
@@ -25,7 +26,6 @@
                  xmlns:res="clr-namespace:Bonsai.Resources;assembly=Bonsai.System"
                  xmlns:num="clr-namespace:Bonsai.Numerics;assembly=Bonsai.Numerics"
                  xmlns:p10="clr-namespace:Bonsai.Numerics.Distributions;assembly=Bonsai.Numerics"
-                 xmlns:al="clr-namespace:Bonsai.Audio;assembly=Bonsai.Audio"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Workflow>
     <Nodes>
@@ -69,7 +69,7 @@
                       <harp:VisualIndicators>On</harp:VisualIndicators>
                       <harp:Heartbeat>Enabled</harp:Heartbeat>
                       <harp:IgnoreErrors>false</harp:IgnoreErrors>
-                      <harp:PortName>COM16</harp:PortName>
+                      <harp:PortName>COM5</harp:PortName>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="rx:PublishSubject">
@@ -151,7 +151,7 @@
                 <Property Name="PortName" Selector="COMPortBehaviourBoard" />
                 <Property Name="PulseDO1" Selector="ValveOpenTime" />
                 <Property Name="PulseDO2" Selector="ValveOpenTime" />
-                <Property Name="PulseDO3" Selector="ValveOpenTime" />
+                <Property Name="PulseDO3" Selector="ZapitTriggerPulseWidth" />
               </PropertyMappings>
             </Expression>
             <Expression xsi:type="GroupWorkflow">
@@ -313,7 +313,7 @@
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="UclOpen.Devices:BehaviorBoard.BehaviorBoard.bonsai">
                     <CommandsSubjectName>BehaviorCommands</CommandsSubjectName>
-                    <PortName>COM11</PortName>
+                    <PortName>COM6</PortName>
                     <DumpRegisters>true</DumpRegisters>
                     <Heartbeat>Enabled</Heartbeat>
                     <EventsSubjectName>BehaviorEvents</EventsSubjectName>
@@ -332,9 +332,9 @@
                   <Expression xsi:type="IncludeWorkflow" Path="UclOpen.Devices:BehaviorBoard.PulseController.bonsai">
                     <BehaviorCommandsSubjectName>BehaviorCommands</BehaviorCommandsSubjectName>
                     <OutputPulseEnable>DO1 DO2 DO3</OutputPulseEnable>
-                    <PulseDO1>95</PulseDO1>
-                    <PulseDO2>95</PulseDO2>
-                    <PulseDO3>95</PulseDO3>
+                    <PulseDO1>80</PulseDO1>
+                    <PulseDO2>80</PulseDO2>
+                    <PulseDO3>80</PulseDO3>
                     <BehaviorEventsSubjectName>BehaviorEvents</BehaviorEventsSubjectName>
                     <TriggerPulseSubjectName>TriggerValve</TriggerPulseSubjectName>
                   </Expression>
@@ -359,7 +359,7 @@
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="UclOpen.Devices:LicketySplit.bonsai">
                     <CommandsSubjectName>LickCommandsLeft</CommandsSubjectName>
-                    <PortName>COM15</PortName>
+                    <PortName>COM7</PortName>
                     <DumpRegisters>true</DumpRegisters>
                     <Heartbeat>Enabled</Heartbeat>
                     <EventsSubjectName>LickEventsLeft</EventsSubjectName>
@@ -416,7 +416,7 @@
                             <harp:VisualIndicators>On</harp:VisualIndicators>
                             <harp:Heartbeat>Enabled</harp:Heartbeat>
                             <harp:IgnoreErrors>false</harp:IgnoreErrors>
-                            <harp:PortName>COM14</harp:PortName>
+                            <harp:PortName>COM3</harp:PortName>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="rx:BehaviorSubject">
@@ -436,7 +436,7 @@
                             <harp:VisualIndicators>On</harp:VisualIndicators>
                             <harp:Heartbeat>Enabled</harp:Heartbeat>
                             <harp:IgnoreErrors>false</harp:IgnoreErrors>
-                            <harp:PortName>COM12</harp:PortName>
+                            <harp:PortName>COM4</harp:PortName>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="rx:BehaviorSubject">
@@ -1115,7 +1115,7 @@
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="aeon-video:SpinnakerCapture">
                             <spk:Index xsi:nil="true" />
-                            <spk:SerialNumber>25366328</spk:SerialNumber>
+                            <spk:SerialNumber>26120781</spk:SerialNumber>
                             <spk:ColorProcessing>Default</spk:ColorProcessing>
                             <aeon-video:ExposureTime>19000</aeon-video:ExposureTime>
                             <aeon-video:Gain>0</aeon-video:Gain>
@@ -1205,7 +1205,7 @@
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="aeon-video:SpinnakerCapture">
                             <spk:Index xsi:nil="true" />
-                            <spk:SerialNumber>25366318</spk:SerialNumber>
+                            <spk:SerialNumber>23199186</spk:SerialNumber>
                             <spk:ColorProcessing>Default</spk:ColorProcessing>
                             <aeon-video:ExposureTime>19000</aeon-video:ExposureTime>
                             <aeon-video:Gain>0</aeon-video:Gain>
@@ -1295,7 +1295,7 @@
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="aeon-video:SpinnakerCapture">
                             <spk:Index xsi:nil="true" />
-                            <spk:SerialNumber>25366326</spk:SerialNumber>
+                            <spk:SerialNumber>23201535</spk:SerialNumber>
                             <spk:ColorProcessing>Default</spk:ColorProcessing>
                             <aeon-video:ExposureTime>19000</aeon-video:ExposureTime>
                             <aeon-video:Gain>0</aeon-video:Gain>
@@ -1352,6 +1352,75 @@
             <Expression xsi:type="MulticastSubject">
               <Name>StartCameras</Name>
             </Expression>
+            <Expression xsi:type="GroupWorkflow">
+              <Name>Zapit</Name>
+              <Description>Connects to the Zapit optogenetics server only when the session JSON enables optogenetics, as in av-dome. Commands arrive on ZapitCommands, replies leave on ZapitReplies. Host and port come from RigConfigs. On connect the include checks a stimulus config is loaded in Zapit and stops the workflow if not.</Description>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>TaskParams</Name>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Optogenetics.Enabled</Selector>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Take">
+                      <rx:Count>1</rx:Count>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="rx:Condition">
+                    <Name>OptogeneticsEnabled?</Name>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                      </Nodes>
+                      <Edges>
+                        <Edge From="0" To="1" Label="Source1" />
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                  <Expression xsi:type="rx:SelectMany">
+                    <Name>ConnectZapit</Name>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>RigConfigs</Name>
+                        </Expression>
+                        <Expression xsi:type="PropertyMapping">
+                          <PropertyMappings>
+                            <Property Name="Host" Selector="ZapitHost" />
+                            <Property Name="Port" Selector="ZapitPort" />
+                          </PropertyMappings>
+                        </Expression>
+                        <Expression xsi:type="IncludeWorkflow" Path="Extensions\Zapit.bonsai">
+                          <Host>127.0.0.1</Host>
+                          <Port>1488</Port>
+                          <ReceiveTimeout>5000</ReceiveTimeout>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                      </Nodes>
+                      <Edges>
+                        <Edge From="1" To="2" Label="Source1" />
+                        <Edge From="2" To="3" Label="Source1" />
+                        <Edge From="3" To="4" Label="Source1" />
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="1" Label="Source1" />
+                  <Edge From="1" To="2" Label="Source1" />
+                  <Edge From="2" To="3" Label="Source1" />
+                  <Edge From="3" To="4" Label="Source1" />
+                </Edges>
+              </Workflow>
+            </Expression>
           </Nodes>
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
@@ -1387,7 +1456,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>00:39:39</gui:Text>
+              <gui:Text>01:18:02</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1412,7 +1481,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>A42_TC001</gui:Text>
+              <gui:Text>A49_TC003</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1462,7 +1531,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>5</gui:Text>
+              <gui:Text>6</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1487,7 +1556,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>245</gui:Text>
+              <gui:Text>445</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1517,7 +1586,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>0</gui:Text>
+              <gui:Text>1</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1548,6 +1617,76 @@
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
               <gui:Text>80</gui:Text>
+            </Expression>
+            <Expression xsi:type="VisualizerMapping" />
+            <Expression xsi:type="gui:LabelBuilder">
+              <gui:Name>TruncationPoint</gui:Name>
+              <gui:Enabled>true</gui:Enabled>
+              <gui:Visible>true</gui:Visible>
+              <gui:Text>TruncationPoint (1 = none)</gui:Text>
+            </Expression>
+            <Expression xsi:type="VisualizerMapping" />
+            <Expression xsi:type="SubscribeSubject">
+              <Name>TruncationPoint</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:SampleInterval">
+                <rx:Interval>PT0.1S</rx:Interval>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Format">
+              <Format>{0}</Format>
+              <Selector>it</Selector>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="Text" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="gui:LabelBuilder">
+              <gui:Enabled>true</gui:Enabled>
+              <gui:Visible>true</gui:Visible>
+              <gui:Text>1</gui:Text>
+            </Expression>
+            <Expression xsi:type="VisualizerMapping" />
+            <Expression xsi:type="gui:LabelBuilder">
+              <gui:Name>NormAudFreq</gui:Name>
+              <gui:Enabled>true</gui:Enabled>
+              <gui:Visible>true</gui:Visible>
+              <gui:Text>NormAudFreq (0-1)</gui:Text>
+            </Expression>
+            <Expression xsi:type="VisualizerMapping" />
+            <Expression xsi:type="SubscribeSubject">
+              <Name>CurrFreq</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:SampleInterval">
+                <rx:Interval>PT0.1S</rx:Interval>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>TaskParams</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:WithLatestFrom" />
+            </Expression>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Name>NormAudFreq</scr:Name>
+              <scr:Expression>Convert.ToDouble(it.Item1) &lt;= 0 ? 0.0 : Math.Log(Convert.ToDouble(it.Item1) / Convert.ToDouble(it.Item2.StartFreq)) / Math.Log(Convert.ToDouble(it.Item2.EndFreq) / Convert.ToDouble(it.Item2.StartFreq))</scr:Expression>
+            </Expression>
+            <Expression xsi:type="Format">
+              <Format>{0:0.00}</Format>
+              <Selector>it</Selector>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="Text" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="gui:LabelBuilder">
+              <gui:Enabled>true</gui:Enabled>
+              <gui:Visible>true</gui:Visible>
+              <gui:Text>0.00</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1804,7 +1943,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>43% (105/244)</gui:Text>
+              <gui:Text>27% (119/444)</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1829,7 +1968,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>38</gui:Text>
+              <gui:Text>10</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1854,7 +1993,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>00:05:50</gui:Text>
+              <gui:Text>00:01:45</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1879,7 +2018,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>Disengaged</gui:Text>
+              <gui:Text>Engaged</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1904,7 +2043,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>25 trials / 00:04:02</gui:Text>
+              <gui:Text>15 trials / 00:02:46</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1929,7 +2068,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>67% (155/232)</gui:Text>
+              <gui:Text>77% (333/432)</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:LabelBuilder">
@@ -1954,7 +2093,7 @@
             <Expression xsi:type="gui:LabelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>68% (105/155)</gui:Text>
+              <gui:Text>33% (110/333)</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:TableLayoutPanelBuilder">
@@ -2122,7 +2261,7 @@
               <gui:Name>BLANK</gui:Name>
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:Text>1150,6400,4700,650,950;</gui:Text>
+              <gui:Text>3850,13000,4700,3650,950;</gui:Text>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:ButtonBuilder">
@@ -2485,385 +2624,315 @@
             <Expression xsi:type="rx:BehaviorSubject">
               <Name>StepperStepSize</Name>
             </Expression>
-            <Expression xsi:type="gui:LabelBuilder">
-              <gui:Name>TruncationPoint</gui:Name>
-              <gui:Enabled>true</gui:Enabled>
-              <gui:Visible>true</gui:Visible>
-              <gui:Text>TruncationPoint (1 = none)</gui:Text>
-            </Expression>
-            <Expression xsi:type="VisualizerMapping" />
-            <Expression xsi:type="SubscribeSubject">
-              <Name>TruncationPoint</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:SampleInterval">
-                <rx:Interval>PT0.1S</rx:Interval>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="Format">
-              <Format>{0}</Format>
-              <Selector>it</Selector>
-            </Expression>
-            <Expression xsi:type="PropertyMapping">
-              <PropertyMappings>
-                <Property Name="Text" />
-              </PropertyMappings>
-            </Expression>
-            <Expression xsi:type="gui:LabelBuilder">
-              <gui:Enabled>true</gui:Enabled>
-              <gui:Visible>true</gui:Visible>
-              <gui:Text>1</gui:Text>
-            </Expression>
-            <Expression xsi:type="VisualizerMapping" />
-            <Expression xsi:type="gui:LabelBuilder">
-              <gui:Name>NormAudFreq</gui:Name>
-              <gui:Enabled>true</gui:Enabled>
-              <gui:Visible>true</gui:Visible>
-              <gui:Text>NormAudFreq (0-1)</gui:Text>
-            </Expression>
-            <Expression xsi:type="VisualizerMapping" />
-            <Expression xsi:type="SubscribeSubject">
-              <Name>CurrFreq</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:SampleInterval">
-                <rx:Interval>PT0.1S</rx:Interval>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>TaskParams</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:WithLatestFrom" />
-            </Expression>
-            <Expression xsi:type="scr:ExpressionTransform">
-              <scr:Name>NormAudFreq</scr:Name>
-              <scr:Expression>Convert.ToDouble(it.Item1) &lt;= 0 ? 0.0 : Math.Log(Convert.ToDouble(it.Item1) / Convert.ToDouble(it.Item2.StartFreq)) / Math.Log(Convert.ToDouble(it.Item2.EndFreq) / Convert.ToDouble(it.Item2.StartFreq))</scr:Expression>
-            </Expression>
-            <Expression xsi:type="Format">
-              <Format>{0:0.00}</Format>
-              <Selector>it</Selector>
-            </Expression>
-            <Expression xsi:type="PropertyMapping">
-              <PropertyMappings>
-                <Property Name="Text" />
-              </PropertyMappings>
-            </Expression>
-            <Expression xsi:type="gui:LabelBuilder">
-              <gui:Enabled>true</gui:Enabled>
-              <gui:Visible>true</gui:Visible>
-              <gui:Text>0.00</gui:Text>
-            </Expression>
-            <Expression xsi:type="VisualizerMapping" />
           </Nodes>
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
-            <Edge From="1" To="153" Label="Source1" />
+            <Edge From="1" To="172" Label="Source1" />
             <Edge From="2" To="3" Label="Source1" />
             <Edge From="3" To="4" Label="Source1" />
             <Edge From="4" To="5" Label="Source1" />
-            <Edge From="5" To="153" Label="Source2" />
+            <Edge From="5" To="172" Label="Source2" />
             <Edge From="6" To="7" Label="Source1" />
-            <Edge From="7" To="153" Label="Source3" />
+            <Edge From="7" To="172" Label="Source3" />
             <Edge From="8" To="9" Label="Source1" />
             <Edge From="9" To="10" Label="Source1" />
             <Edge From="10" To="11" Label="Source1" />
             <Edge From="11" To="12" Label="Source1" />
-            <Edge From="12" To="153" Label="Source4" />
+            <Edge From="12" To="172" Label="Source4" />
             <Edge From="13" To="14" Label="Source1" />
-            <Edge From="14" To="153" Label="Source5" />
+            <Edge From="14" To="172" Label="Source5" />
             <Edge From="15" To="16" Label="Source1" />
             <Edge From="16" To="17" Label="Source1" />
             <Edge From="17" To="18" Label="Source1" />
             <Edge From="18" To="19" Label="Source1" />
-            <Edge From="19" To="153" Label="Source6" />
+            <Edge From="19" To="172" Label="Source6" />
             <Edge From="20" To="21" Label="Source1" />
-            <Edge From="21" To="153" Label="Source7" />
+            <Edge From="21" To="172" Label="Source7" />
             <Edge From="22" To="23" Label="Source1" />
             <Edge From="23" To="24" Label="Source1" />
             <Edge From="24" To="25" Label="Source1" />
             <Edge From="25" To="26" Label="Source1" />
-            <Edge From="26" To="153" Label="Source8" />
+            <Edge From="26" To="172" Label="Source8" />
             <Edge From="27" To="28" Label="Source1" />
-            <Edge From="28" To="153" Label="Source9" />
+            <Edge From="28" To="172" Label="Source9" />
             <Edge From="29" To="30" Label="Source1" />
             <Edge From="30" To="31" Label="Source1" />
             <Edge From="31" To="32" Label="Source1" />
             <Edge From="32" To="33" Label="Source1" />
-            <Edge From="33" To="153" Label="Source10" />
+            <Edge From="33" To="172" Label="Source10" />
             <Edge From="34" To="35" Label="Source1" />
-            <Edge From="35" To="153" Label="Source11" />
+            <Edge From="35" To="172" Label="Source11" />
             <Edge From="36" To="37" Label="Source1" />
             <Edge From="37" To="38" Label="Source1" />
             <Edge From="38" To="39" Label="Source1" />
             <Edge From="39" To="40" Label="Source1" />
             <Edge From="40" To="41" Label="Source1" />
-            <Edge From="41" To="153" Label="Source12" />
+            <Edge From="41" To="172" Label="Source12" />
             <Edge From="42" To="43" Label="Source1" />
-            <Edge From="43" To="153" Label="Source13" />
+            <Edge From="43" To="172" Label="Source13" />
             <Edge From="44" To="45" Label="Source1" />
             <Edge From="45" To="46" Label="Source1" />
             <Edge From="46" To="47" Label="Source1" />
             <Edge From="47" To="48" Label="Source1" />
             <Edge From="48" To="49" Label="Source1" />
-            <Edge From="49" To="153" Label="Source14" />
+            <Edge From="49" To="172" Label="Source14" />
             <Edge From="50" To="51" Label="Source1" />
-            <Edge From="51" To="153" Label="Source19" />
+            <Edge From="51" To="172" Label="Source15" />
             <Edge From="52" To="53" Label="Source1" />
             <Edge From="53" To="54" Label="Source1" />
             <Edge From="54" To="55" Label="Source1" />
             <Edge From="55" To="56" Label="Source1" />
             <Edge From="56" To="57" Label="Source1" />
-            <Edge From="57" To="153" Label="Source20" />
+            <Edge From="57" To="172" Label="Source16" />
             <Edge From="58" To="59" Label="Source1" />
-            <Edge From="59" To="153" Label="Source21" />
+            <Edge From="59" To="172" Label="Source17" />
             <Edge From="60" To="61" Label="Source1" />
-            <Edge From="61" To="62" Label="Source1" />
-            <Edge From="62" To="63" Label="Source1" />
+            <Edge From="61" To="63" Label="Source1" />
+            <Edge From="62" To="63" Label="Source2" />
             <Edge From="63" To="64" Label="Source1" />
             <Edge From="64" To="65" Label="Source1" />
-            <Edge From="65" To="153" Label="Source22" />
+            <Edge From="65" To="66" Label="Source1" />
             <Edge From="66" To="67" Label="Source1" />
-            <Edge From="67" To="153" Label="Source23" />
-            <Edge From="68" To="69" Label="Source1" />
+            <Edge From="67" To="68" Label="Source1" />
+            <Edge From="68" To="172" Label="Source18" />
             <Edge From="69" To="70" Label="Source1" />
-            <Edge From="70" To="71" Label="Source1" />
+            <Edge From="70" To="172" Label="Source19" />
             <Edge From="71" To="72" Label="Source1" />
             <Edge From="72" To="73" Label="Source1" />
-            <Edge From="73" To="153" Label="Source24" />
+            <Edge From="73" To="74" Label="Source1" />
             <Edge From="74" To="75" Label="Source1" />
-            <Edge From="75" To="153" Label="Source25" />
-            <Edge From="76" To="77" Label="Source1" />
+            <Edge From="75" To="76" Label="Source1" />
+            <Edge From="76" To="172" Label="Source20" />
             <Edge From="77" To="78" Label="Source1" />
-            <Edge From="78" To="79" Label="Source1" />
+            <Edge From="78" To="172" Label="Source21" />
             <Edge From="79" To="80" Label="Source1" />
             <Edge From="80" To="81" Label="Source1" />
-            <Edge From="81" To="153" Label="Source26" />
+            <Edge From="81" To="82" Label="Source1" />
             <Edge From="82" To="83" Label="Source1" />
-            <Edge From="83" To="153" Label="Source27" />
-            <Edge From="84" To="85" Label="Source1" />
+            <Edge From="83" To="84" Label="Source1" />
+            <Edge From="84" To="172" Label="Source22" />
             <Edge From="85" To="86" Label="Source1" />
-            <Edge From="86" To="87" Label="Source1" />
+            <Edge From="86" To="172" Label="Source23" />
             <Edge From="87" To="88" Label="Source1" />
-            <Edge From="88" To="153" Label="Source28" />
+            <Edge From="88" To="89" Label="Source1" />
             <Edge From="89" To="90" Label="Source1" />
-            <Edge From="90" To="153" Label="Source29" />
+            <Edge From="90" To="91" Label="Source1" />
             <Edge From="91" To="92" Label="Source1" />
-            <Edge From="92" To="93" Label="Source1" />
+            <Edge From="92" To="172" Label="Source24" />
             <Edge From="93" To="94" Label="Source1" />
-            <Edge From="94" To="95" Label="Source1" />
-            <Edge From="95" To="153" Label="Source30" />
+            <Edge From="94" To="172" Label="Source25" />
+            <Edge From="95" To="96" Label="Source1" />
             <Edge From="96" To="97" Label="Source1" />
-            <Edge From="97" To="153" Label="Source31" />
+            <Edge From="97" To="98" Label="Source1" />
             <Edge From="98" To="99" Label="Source1" />
             <Edge From="99" To="100" Label="Source1" />
-            <Edge From="100" To="101" Label="Source1" />
+            <Edge From="100" To="172" Label="Source26" />
             <Edge From="101" To="102" Label="Source1" />
-            <Edge From="102" To="103" Label="Source1" />
-            <Edge From="103" To="153" Label="Source32" />
+            <Edge From="102" To="172" Label="Source27" />
+            <Edge From="103" To="104" Label="Source1" />
             <Edge From="104" To="105" Label="Source1" />
-            <Edge From="105" To="153" Label="Source33" />
+            <Edge From="105" To="106" Label="Source1" />
             <Edge From="106" To="107" Label="Source1" />
-            <Edge From="107" To="108" Label="Source1" />
+            <Edge From="107" To="172" Label="Source28" />
             <Edge From="108" To="109" Label="Source1" />
-            <Edge From="109" To="110" Label="Source1" />
-            <Edge From="110" To="153" Label="Source34" />
+            <Edge From="109" To="172" Label="Source29" />
+            <Edge From="110" To="111" Label="Source1" />
             <Edge From="111" To="112" Label="Source1" />
-            <Edge From="112" To="153" Label="Source35" />
+            <Edge From="112" To="113" Label="Source1" />
             <Edge From="113" To="114" Label="Source1" />
-            <Edge From="114" To="115" Label="Source1" />
+            <Edge From="114" To="172" Label="Source30" />
             <Edge From="115" To="116" Label="Source1" />
-            <Edge From="116" To="117" Label="Source1" />
-            <Edge From="117" To="153" Label="Source36" />
+            <Edge From="116" To="172" Label="Source31" />
+            <Edge From="117" To="118" Label="Source1" />
             <Edge From="118" To="119" Label="Source1" />
-            <Edge From="119" To="153" Label="Source37" />
+            <Edge From="119" To="120" Label="Source1" />
             <Edge From="120" To="121" Label="Source1" />
             <Edge From="121" To="122" Label="Source1" />
-            <Edge From="122" To="123" Label="Source1" />
+            <Edge From="122" To="172" Label="Source32" />
             <Edge From="123" To="124" Label="Source1" />
-            <Edge From="124" To="153" Label="Source38" />
+            <Edge From="124" To="172" Label="Source33" />
             <Edge From="125" To="126" Label="Source1" />
-            <Edge From="126" To="153" Label="Source39" />
+            <Edge From="126" To="127" Label="Source1" />
             <Edge From="127" To="128" Label="Source1" />
             <Edge From="128" To="129" Label="Source1" />
-            <Edge From="129" To="130" Label="Source1" />
+            <Edge From="129" To="172" Label="Source34" />
             <Edge From="130" To="131" Label="Source1" />
-            <Edge From="131" To="153" Label="Source40" />
+            <Edge From="131" To="172" Label="Source35" />
             <Edge From="132" To="133" Label="Source1" />
-            <Edge From="133" To="153" Label="Source41" />
+            <Edge From="133" To="134" Label="Source1" />
             <Edge From="134" To="135" Label="Source1" />
             <Edge From="135" To="136" Label="Source1" />
-            <Edge From="136" To="137" Label="Source1" />
+            <Edge From="136" To="172" Label="Source36" />
             <Edge From="137" To="138" Label="Source1" />
-            <Edge From="138" To="153" Label="Source42" />
+            <Edge From="138" To="172" Label="Source37" />
             <Edge From="139" To="140" Label="Source1" />
-            <Edge From="140" To="153" Label="Source43" />
+            <Edge From="140" To="141" Label="Source1" />
             <Edge From="141" To="142" Label="Source1" />
             <Edge From="142" To="143" Label="Source1" />
-            <Edge From="143" To="144" Label="Source1" />
+            <Edge From="143" To="172" Label="Source38" />
             <Edge From="144" To="145" Label="Source1" />
-            <Edge From="145" To="153" Label="Source44" />
+            <Edge From="145" To="172" Label="Source39" />
             <Edge From="146" To="147" Label="Source1" />
-            <Edge From="147" To="153" Label="Source45" />
+            <Edge From="147" To="148" Label="Source1" />
             <Edge From="148" To="149" Label="Source1" />
             <Edge From="149" To="150" Label="Source1" />
-            <Edge From="150" To="151" Label="Source1" />
+            <Edge From="150" To="172" Label="Source40" />
             <Edge From="151" To="152" Label="Source1" />
-            <Edge From="152" To="153" Label="Source46" />
+            <Edge From="152" To="172" Label="Source41" />
             <Edge From="153" To="154" Label="Source1" />
             <Edge From="154" To="155" Label="Source1" />
             <Edge From="155" To="156" Label="Source1" />
-            <Edge From="156" To="279" Label="Source1" />
-            <Edge From="157" To="158" Label="Source1" />
+            <Edge From="156" To="157" Label="Source1" />
+            <Edge From="157" To="172" Label="Source42" />
             <Edge From="158" To="159" Label="Source1" />
-            <Edge From="159" To="279" Label="Source2" />
+            <Edge From="159" To="172" Label="Source43" />
             <Edge From="160" To="161" Label="Source1" />
             <Edge From="161" To="162" Label="Source1" />
             <Edge From="162" To="163" Label="Source1" />
             <Edge From="163" To="164" Label="Source1" />
-            <Edge From="164" To="182" Label="Source1" />
+            <Edge From="164" To="172" Label="Source44" />
             <Edge From="165" To="166" Label="Source1" />
-            <Edge From="166" To="167" Label="Source1" />
+            <Edge From="166" To="172" Label="Source45" />
             <Edge From="167" To="168" Label="Source1" />
             <Edge From="168" To="169" Label="Source1" />
-            <Edge From="169" To="182" Label="Source2" />
+            <Edge From="169" To="170" Label="Source1" />
             <Edge From="170" To="171" Label="Source1" />
-            <Edge From="171" To="172" Label="Source1" />
+            <Edge From="171" To="172" Label="Source46" />
             <Edge From="172" To="173" Label="Source1" />
             <Edge From="173" To="174" Label="Source1" />
-            <Edge From="174" To="182" Label="Source3" />
-            <Edge From="175" To="176" Label="Source1" />
+            <Edge From="174" To="175" Label="Source1" />
+            <Edge From="175" To="298" Label="Source1" />
             <Edge From="176" To="177" Label="Source1" />
-            <Edge From="176" To="178" Label="Source2" />
             <Edge From="177" To="178" Label="Source1" />
-            <Edge From="178" To="179" Label="Source1" />
+            <Edge From="178" To="298" Label="Source2" />
             <Edge From="179" To="180" Label="Source1" />
             <Edge From="180" To="181" Label="Source1" />
-            <Edge From="181" To="182" Label="Source4" />
+            <Edge From="181" To="182" Label="Source1" />
             <Edge From="182" To="183" Label="Source1" />
-            <Edge From="183" To="184" Label="Source1" />
+            <Edge From="183" To="201" Label="Source1" />
             <Edge From="184" To="185" Label="Source1" />
-            <Edge From="185" To="279" Label="Source3" />
+            <Edge From="185" To="186" Label="Source1" />
             <Edge From="186" To="187" Label="Source1" />
-            <Edge From="187" To="258" Label="Source1" />
-            <Edge From="188" To="189" Label="Source1" />
-            <Edge From="189" To="258" Label="Source2" />
+            <Edge From="187" To="188" Label="Source1" />
+            <Edge From="188" To="201" Label="Source2" />
+            <Edge From="189" To="190" Label="Source1" />
             <Edge From="190" To="191" Label="Source1" />
             <Edge From="191" To="192" Label="Source1" />
             <Edge From="192" To="193" Label="Source1" />
-            <Edge From="193" To="258" Label="Source3" />
+            <Edge From="193" To="201" Label="Source3" />
             <Edge From="194" To="195" Label="Source1" />
             <Edge From="195" To="196" Label="Source1" />
+            <Edge From="195" To="197" Label="Source2" />
             <Edge From="196" To="197" Label="Source1" />
             <Edge From="197" To="198" Label="Source1" />
-            <Edge From="198" To="258" Label="Source4" />
+            <Edge From="198" To="199" Label="Source1" />
             <Edge From="199" To="200" Label="Source1" />
-            <Edge From="200" To="201" Label="Source1" />
-            <Edge From="201" To="258" Label="Source5" />
+            <Edge From="200" To="201" Label="Source4" />
+            <Edge From="201" To="202" Label="Source1" />
             <Edge From="202" To="203" Label="Source1" />
             <Edge From="203" To="204" Label="Source1" />
-            <Edge From="204" To="205" Label="Source1" />
-            <Edge From="205" To="258" Label="Source6" />
-            <Edge From="206" To="207" Label="Source1" />
-            <Edge From="207" To="258" Label="Source7" />
-            <Edge From="208" To="209" Label="Source1" />
+            <Edge From="204" To="298" Label="Source3" />
+            <Edge From="205" To="206" Label="Source1" />
+            <Edge From="206" To="277" Label="Source1" />
+            <Edge From="207" To="208" Label="Source1" />
+            <Edge From="208" To="277" Label="Source2" />
             <Edge From="209" To="210" Label="Source1" />
-            <Edge From="210" To="258" Label="Source8" />
+            <Edge From="210" To="211" Label="Source1" />
             <Edge From="211" To="212" Label="Source1" />
-            <Edge From="212" To="213" Label="Source1" />
-            <Edge From="213" To="258" Label="Source9" />
+            <Edge From="212" To="277" Label="Source3" />
+            <Edge From="213" To="214" Label="Source1" />
             <Edge From="214" To="215" Label="Source1" />
             <Edge From="215" To="216" Label="Source1" />
-            <Edge From="216" To="258" Label="Source10" />
-            <Edge From="217" To="218" Label="Source1" />
-            <Edge From="218" To="258" Label="Source11" />
+            <Edge From="216" To="217" Label="Source1" />
+            <Edge From="217" To="277" Label="Source4" />
+            <Edge From="218" To="219" Label="Source1" />
             <Edge From="219" To="220" Label="Source1" />
-            <Edge From="220" To="221" Label="Source1" />
-            <Edge From="221" To="258" Label="Source12" />
+            <Edge From="220" To="277" Label="Source5" />
+            <Edge From="221" To="222" Label="Source1" />
             <Edge From="222" To="223" Label="Source1" />
             <Edge From="223" To="224" Label="Source1" />
-            <Edge From="224" To="258" Label="Source13" />
+            <Edge From="224" To="277" Label="Source6" />
             <Edge From="225" To="226" Label="Source1" />
-            <Edge From="226" To="258" Label="Source14" />
+            <Edge From="226" To="277" Label="Source7" />
             <Edge From="227" To="228" Label="Source1" />
             <Edge From="228" To="229" Label="Source1" />
-            <Edge From="229" To="258" Label="Source15" />
+            <Edge From="229" To="277" Label="Source8" />
             <Edge From="230" To="231" Label="Source1" />
-            <Edge From="231" To="258" Label="Source16" />
-            <Edge From="232" To="233" Label="Source1" />
+            <Edge From="231" To="232" Label="Source1" />
+            <Edge From="232" To="277" Label="Source9" />
             <Edge From="233" To="234" Label="Source1" />
-            <Edge From="234" To="258" Label="Source17" />
-            <Edge From="235" To="236" Label="Source1" />
-            <Edge From="236" To="258" Label="Source18" />
-            <Edge From="237" To="238" Label="Source1" />
+            <Edge From="234" To="235" Label="Source1" />
+            <Edge From="235" To="277" Label="Source10" />
+            <Edge From="236" To="237" Label="Source1" />
+            <Edge From="237" To="277" Label="Source11" />
             <Edge From="238" To="239" Label="Source1" />
-            <Edge From="239" To="258" Label="Source19" />
-            <Edge From="240" To="241" Label="Source1" />
+            <Edge From="239" To="240" Label="Source1" />
+            <Edge From="240" To="277" Label="Source12" />
             <Edge From="241" To="242" Label="Source1" />
-            <Edge From="242" To="258" Label="Source20" />
-            <Edge From="243" To="244" Label="Source1" />
+            <Edge From="242" To="243" Label="Source1" />
+            <Edge From="243" To="277" Label="Source13" />
             <Edge From="244" To="245" Label="Source1" />
-            <Edge From="245" To="258" Label="Source21" />
+            <Edge From="245" To="277" Label="Source14" />
             <Edge From="246" To="247" Label="Source1" />
-            <Edge From="247" To="258" Label="Source22" />
-            <Edge From="248" To="249" Label="Source1" />
-            <Edge From="249" To="258" Label="Source23" />
-            <Edge From="250" To="251" Label="Source1" />
-            <Edge From="251" To="258" Label="Source24" />
+            <Edge From="247" To="248" Label="Source1" />
+            <Edge From="248" To="277" Label="Source15" />
+            <Edge From="249" To="250" Label="Source1" />
+            <Edge From="250" To="277" Label="Source16" />
+            <Edge From="251" To="252" Label="Source1" />
             <Edge From="252" To="253" Label="Source1" />
-            <Edge From="253" To="254" Label="Source1" />
+            <Edge From="253" To="277" Label="Source17" />
             <Edge From="254" To="255" Label="Source1" />
-            <Edge From="255" To="256" Label="Source1" />
+            <Edge From="255" To="277" Label="Source18" />
             <Edge From="256" To="257" Label="Source1" />
-            <Edge From="256" To="280" Label="Source1" />
-            <Edge From="257" To="258" Label="Source25" />
-            <Edge From="258" To="259" Label="Source1" />
+            <Edge From="257" To="258" Label="Source1" />
+            <Edge From="258" To="277" Label="Source19" />
             <Edge From="259" To="260" Label="Source1" />
             <Edge From="260" To="261" Label="Source1" />
-            <Edge From="261" To="279" Label="Source4" />
+            <Edge From="261" To="277" Label="Source20" />
             <Edge From="262" To="263" Label="Source1" />
-            <Edge From="263" To="275" Label="Source1" />
-            <Edge From="264" To="265" Label="Source1" />
-            <Edge From="265" To="275" Label="Source2" />
-            <Edge From="266" To="267" Label="Source1" />
+            <Edge From="263" To="264" Label="Source1" />
+            <Edge From="264" To="277" Label="Source21" />
+            <Edge From="265" To="266" Label="Source1" />
+            <Edge From="266" To="277" Label="Source22" />
             <Edge From="267" To="268" Label="Source1" />
-            <Edge From="268" To="275" Label="Source3" />
+            <Edge From="268" To="277" Label="Source23" />
             <Edge From="269" To="270" Label="Source1" />
-            <Edge From="270" To="271" Label="Source1" />
-            <Edge From="271" To="275" Label="Source4" />
+            <Edge From="270" To="277" Label="Source24" />
+            <Edge From="271" To="272" Label="Source1" />
             <Edge From="272" To="273" Label="Source1" />
             <Edge From="273" To="274" Label="Source1" />
-            <Edge From="274" To="275" Label="Source5" />
+            <Edge From="274" To="275" Label="Source1" />
             <Edge From="275" To="276" Label="Source1" />
-            <Edge From="276" To="277" Label="Source1" />
+            <Edge From="275" To="299" Label="Source1" />
+            <Edge From="276" To="277" Label="Source25" />
             <Edge From="277" To="278" Label="Source1" />
-            <Edge From="278" To="279" Label="Source5" />
-            <Edge From="280" To="281" Label="Source1" />
-            <Edge From="282" To="283" Label="Source1" />
+            <Edge From="278" To="279" Label="Source1" />
+            <Edge From="279" To="280" Label="Source1" />
+            <Edge From="280" To="298" Label="Source4" />
+            <Edge From="281" To="282" Label="Source1" />
+            <Edge From="282" To="294" Label="Source1" />
             <Edge From="283" To="284" Label="Source1" />
-            <Edge From="284" To="287" Label="Source1" />
+            <Edge From="284" To="294" Label="Source2" />
             <Edge From="285" To="286" Label="Source1" />
-            <Edge From="286" To="287" Label="Source2" />
+            <Edge From="286" To="287" Label="Source1" />
+            <Edge From="287" To="294" Label="Source3" />
             <Edge From="288" To="289" Label="Source1" />
-            <Edge From="290" To="291" Label="Source1" />
-            <Edge From="291" To="153" Label="Source15" />
+            <Edge From="289" To="290" Label="Source1" />
+            <Edge From="290" To="294" Label="Source4" />
+            <Edge From="291" To="292" Label="Source1" />
             <Edge From="292" To="293" Label="Source1" />
-            <Edge From="293" To="294" Label="Source1" />
+            <Edge From="293" To="294" Label="Source5" />
             <Edge From="294" To="295" Label="Source1" />
             <Edge From="295" To="296" Label="Source1" />
             <Edge From="296" To="297" Label="Source1" />
-            <Edge From="297" To="153" Label="Source16" />
-            <Edge From="298" To="299" Label="Source1" />
-            <Edge From="299" To="153" Label="Source17" />
-            <Edge From="300" To="301" Label="Source1" />
-            <Edge From="301" To="303" Label="Source1" />
-            <Edge From="302" To="303" Label="Source2" />
-            <Edge From="303" To="304" Label="Source1" />
+            <Edge From="297" To="298" Label="Source5" />
+            <Edge From="299" To="300" Label="Source1" />
+            <Edge From="301" To="302" Label="Source1" />
+            <Edge From="302" To="303" Label="Source1" />
+            <Edge From="303" To="306" Label="Source1" />
             <Edge From="304" To="305" Label="Source1" />
-            <Edge From="305" To="306" Label="Source1" />
-            <Edge From="306" To="307" Label="Source1" />
+            <Edge From="305" To="306" Label="Source2" />
             <Edge From="307" To="308" Label="Source1" />
-            <Edge From="308" To="153" Label="Source18" />
           </Edges>
         </Workflow>
       </Expression>
@@ -3775,7 +3844,7 @@ means a saved position is never applied against an unknown motor origin.]]></Tex
                                       <Property Name="FileName" />
                                     </Expression>
                                     <Expression xsi:type="io:CsvReader">
-                                      <io:FileName>C:\RigConfigs\LickSpoutPositions\TC001.csv</io:FileName>
+                                      <io:FileName>C:\RigConfigs\LickSpoutPositions\TC003.csv</io:FileName>
                                       <io:ScanPattern>%i,%i,%i,%i,%i</io:ScanPattern>
                                       <io:SkipRows>0</io:SkipRows>
                                     </Expression>
@@ -3909,7 +3978,7 @@ means a saved position is never applied against an unknown motor origin.]]></Tex
                                 <Property Name="FileName" />
                               </Expression>
                               <Expression xsi:type="io:CsvWriter">
-                                <io:FileName>C:\RigConfigs\LickSpoutPositions\TC001.csv</io:FileName>
+                                <io:FileName>C:\RigConfigs\LickSpoutPositions\TC003.csv</io:FileName>
                                 <io:Delimiter>,</io:Delimiter>
                                 <io:ListSeparator>;</io:ListSeparator>
                                 <io:Append>false</io:Append>
@@ -4599,6 +4668,20 @@ means a saved position is never applied against an unknown motor origin.]]></Tex
                         </Expression>
                         <Expression xsi:type="rx:AsyncSubject">
                           <Name>ErrorTone</Name>
+                        </Expression>
+                        <Expression xsi:type="Annotation">
+                          <Name>Optogenetics</Name>
+                          <Text><![CDATA[Zapit optogenetics, as in av-dome. ZapitCommands go to the Zapit include in Devices, which answers on ZapitReplies. OptoTrial holds the stimulation drawn for the current trial, set at ITI start in TaskLogic.]]></Text>
+                        </Expression>
+
+                        <Expression xsi:type="rx:BehaviorSubject" TypeArguments="p3:ZapitCommand">
+                          <rx:Name>ZapitCommands</rx:Name>
+                        </Expression>
+                        <Expression xsi:type="rx:BehaviorSubject" TypeArguments="p3:ZapitReply">
+                          <rx:Name>ZapitReplies</rx:Name>
+                        </Expression>
+                        <Expression xsi:type="rx:BehaviorSubject" TypeArguments="p3:OptoTrial">
+                          <rx:Name>OptoTrial</rx:Name>
                         </Expression>
                       </Nodes>
                       <Edges>
@@ -5589,7 +5672,7 @@ means a saved position is never applied against an unknown motor origin.]]></Tex
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="p8:JsonWriter">
-                            <p8:Path>C:\dev\auditory-vr-corridor\Logs\sub-TC001\ses-A42_date-2026-09-23T13-48-00\TaskSchemaLog_A42_TC001_\TaskSchemaLog_A42_TC001_.json</p8:Path>
+                            <p8:Path>C:\Github\Coen-Lab\auditory-vr-corridor\Logs\sub-TC003\ses-A49_date-2026-10-20T13-03-31\TaskSchemaLog_A49_TC003_\TaskSchemaLog_A49_TC003_.json</p8:Path>
                             <p8:Suffix>None</p8:Suffix>
                             <p8:Overwrite>false</p8:Overwrite>
                           </Combinator>
@@ -5734,35 +5817,92 @@ means a saved position is never applied against an unknown motor origin.]]></Tex
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="rx:WithLatestFrom" />
                   </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>TruncationPoint</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>ITIStartHarp</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>InterTrialInterval</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>TrialStartHarp</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>TrialStartWheelDistance</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>CueOnsetHarp</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>OutcomeHarp</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>WasPunished</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>HarpTime</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
                   <Expression xsi:type="scr:ExpressionTransform">
                     <scr:Name>FormatTrialData</scr:Name>
                     <scr:Expression>new 
 (
-it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1 as BonsaiTime,
-it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as Modality,
-it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as Trial,
-it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as ShapingStage,
-it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as AudAmplitude,
-it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as RewAudFreqFloor,
-it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as RewAudFreqCeil,
-it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as TrialEndAudFreq,
-it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as TrialEndVisFreq,
-it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as TrackLength,
-it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as TrialEndPosCm,
-it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as LickCount,
-it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as WasRewarded,
-it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as WasTimeout,
-it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as HitEndOfTrack,
-it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as TruncationPoint,
-String.Format("{0:F6}", it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2) as ITIStartHarp,
-it.Item1.Item1.Item1.Item1.Item1.Item1.Item2.TotalSeconds as ITIDrawnSec,
-String.Format("{0:F6}", it.Item1.Item1.Item1.Item1.Item1.Item2) as TrialStartHarp,
-String.Format("{0:F4}", it.Item1.Item1.Item1.Item1.Item2) as TrialStartWheelDistanceCm,
-String.Format("{0:F6}", it.Item1.Item1.Item1.Item2) as CueOnsetHarp,
-String.Format("{0:F6}", it.Item1.Item1.Item2) as OutcomeHarp,
-(it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 ? "EndOfTrack" : it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 ? "Timeout" : it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 &lt;= 2 ? "FreqReached" : it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 ? "CorrectLick" : "WrongLickLimit") as EndReason,
-it.Item1.Item2 as WasPunished,
-String.Format("{0:F6}", it.Item2) as TrialEndHarp
+it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1 as BonsaiTime,
+it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as Modality,
+it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as Trial,
+it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as ShapingStage,
+it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as AudAmplitude,
+it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as RewAudFreqFloor,
+it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as RewAudFreqCeil,
+it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as TrialEndAudFreq,
+it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as TrialEndVisFreq,
+it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as TrackLength,
+it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as TrialEndPosCm,
+it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as LickCount,
+it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as WasRewarded,
+it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as WasTimeout,
+it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as HitEndOfTrack,
+it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 as TruncationPoint,
+String.Format("{0:F6}", it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2) as ITIStartHarp,
+it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2.TotalSeconds as ITIDrawnSec,
+String.Format("{0:F6}", it.Item1.Item1.Item1.Item1.Item1.Item1.Item2) as TrialStartHarp,
+String.Format("{0:F4}", it.Item1.Item1.Item1.Item1.Item1.Item2) as TrialStartWheelDistanceCm,
+String.Format("{0:F6}", it.Item1.Item1.Item1.Item1.Item2) as CueOnsetHarp,
+String.Format("{0:F6}", it.Item1.Item1.Item1.Item2) as OutcomeHarp,
+(it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 ? "EndOfTrack" : it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 ? "Timeout" : it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 &lt;= 2 ? "FreqReached" : it.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item1.Item2 ? "CorrectLick" : "WrongLickLimit") as EndReason,
+it.Item1.Item1.Item2 as WasPunished,
+String.Format("{0:F6}", it.Item1.Item2) as TrialEndHarp,
+it.Item2.OptogeneticEnabled as OptogeneticEnabled,
+it.Item2.OptogeneticCondition as OptogeneticCondition,
+it.Item2.OptogeneticDuration as OptogeneticDuration
 )</scr:Expression>
                   </Expression>
                   <Expression xsi:type="ExternalizedMapping">
@@ -5853,63 +5993,16 @@ String.Format("{0:F6}", it.Item2) as TrialEndHarp
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC001\ses-A42_date-2026-09-23T13-48-00\TrialLog_A42_TC001_\TrialLog_A42_TC001_.csv</io:FileName>
+                    <io:FileName>C:\Github\Coen-Lab\auditory-vr-corridor\Logs\sub-TC003\ses-A49_date-2026-10-20T13-03-31\TrialLog_A49_TC003_\TrialLog_A49_TC003_.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>true</io:Overwrite>
                     <io:Suffix>Timestamp</io:Suffix>
                     <io:IncludeHeader>true</io:IncludeHeader>
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
-                    <Name>TruncationPoint</Name>
+                    <Name>OptoTrial</Name>
                   </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:WithLatestFrom" />
-                  </Expression>
-                  <Expression xsi:type="SubscribeSubject">
-                    <Name>ITIStartHarp</Name>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:WithLatestFrom" />
-                  </Expression>
-                  <Expression xsi:type="SubscribeSubject">
-                    <Name>InterTrialInterval</Name>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:WithLatestFrom" />
-                  </Expression>
-                  <Expression xsi:type="SubscribeSubject">
-                    <Name>TrialStartHarp</Name>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:WithLatestFrom" />
-                  </Expression>
-                  <Expression xsi:type="SubscribeSubject">
-                    <Name>TrialStartWheelDistance</Name>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:WithLatestFrom" />
-                  </Expression>
-                  <Expression xsi:type="SubscribeSubject">
-                    <Name>CueOnsetHarp</Name>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:WithLatestFrom" />
-                  </Expression>
-                  <Expression xsi:type="SubscribeSubject">
-                    <Name>OutcomeHarp</Name>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:WithLatestFrom" />
-                  </Expression>
-                  <Expression xsi:type="SubscribeSubject">
-                    <Name>WasPunished</Name>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:WithLatestFrom" />
-                  </Expression>
-                  <Expression xsi:type="SubscribeSubject">
-                    <Name>HarpTime</Name>
-                  </Expression>
+
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="rx:WithLatestFrom" />
                   </Expression>
@@ -5947,29 +6040,31 @@ String.Format("{0:F6}", it.Item2) as TrialEndHarp
                   <Edge From="29" To="30" Label="Source2" />
                   <Edge From="30" To="32" Label="Source1" />
                   <Edge From="31" To="32" Label="Source2" />
-                  <Edge From="32" To="39" Label="Source1" />
-                  <Edge From="33" To="37" Label="Source1" />
-                  <Edge From="34" To="35" Label="Source1" />
-                  <Edge From="35" To="36" Label="Source1" />
-                  <Edge From="36" To="37" Label="Source2" />
-                  <Edge From="38" To="39" Label="Source2" />
-                  <Edge From="39" To="41" Label="Source1" />
-                  <Edge From="40" To="41" Label="Source2" />
-                  <Edge From="41" To="43" Label="Source1" />
-                  <Edge From="42" To="43" Label="Source2" />
-                  <Edge From="43" To="45" Label="Source1" />
-                  <Edge From="44" To="45" Label="Source2" />
-                  <Edge From="45" To="47" Label="Source1" />
-                  <Edge From="46" To="47" Label="Source2" />
-                  <Edge From="47" To="49" Label="Source1" />
-                  <Edge From="48" To="49" Label="Source2" />
-                  <Edge From="49" To="51" Label="Source1" />
-                  <Edge From="50" To="51" Label="Source2" />
-                  <Edge From="51" To="53" Label="Source1" />
-                  <Edge From="52" To="53" Label="Source2" />
-                  <Edge From="53" To="55" Label="Source1" />
+                  <Edge From="32" To="34" Label="Source1" />
+                  <Edge From="33" To="34" Label="Source2" />
+                  <Edge From="34" To="36" Label="Source1" />
+                  <Edge From="35" To="36" Label="Source2" />
+                  <Edge From="36" To="38" Label="Source1" />
+                  <Edge From="37" To="38" Label="Source2" />
+                  <Edge From="38" To="40" Label="Source1" />
+                  <Edge From="39" To="40" Label="Source2" />
+                  <Edge From="40" To="42" Label="Source1" />
+                  <Edge From="41" To="42" Label="Source2" />
+                  <Edge From="42" To="44" Label="Source1" />
+                  <Edge From="43" To="44" Label="Source2" />
+                  <Edge From="44" To="46" Label="Source1" />
+                  <Edge From="45" To="46" Label="Source2" />
+                  <Edge From="46" To="48" Label="Source1" />
+                  <Edge From="47" To="48" Label="Source2" />
+                  <Edge From="48" To="50" Label="Source1" />
+                  <Edge From="49" To="50" Label="Source2" />
+                  <Edge From="50" To="57" Label="Source1" />
+                  <Edge From="51" To="55" Label="Source1" />
+                  <Edge From="52" To="53" Label="Source1" />
+                  <Edge From="53" To="54" Label="Source1" />
                   <Edge From="54" To="55" Label="Source2" />
-                  <Edge From="55" To="33" Label="Source1" />
+                  <Edge From="56" To="57" Label="Source2" />
+                  <Edge From="57" To="51" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -6153,7 +6248,7 @@ String.Format("{0:F6}", it.Item2) as TrialEndHarp
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="cv:VideoWriter">
-                            <cv:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC001\ses-A42_date-2026-09-23T13-48-00\Cameras\VideoData_Camera1.avi</cv:FileName>
+                            <cv:FileName>C:\Github\Coen-Lab\auditory-vr-corridor\Logs\sub-TC003\ses-A49_date-2026-10-20T13-03-31\Cameras\VideoData_Camera1.avi</cv:FileName>
                             <cv:Suffix>None</cv:Suffix>
                             <cv:Buffered>true</cv:Buffered>
                             <cv:Overwrite>true</cv:Overwrite>
@@ -6247,7 +6342,7 @@ Item3 as FrameID)</scr:Expression>
                           </PropertyMappings>
                         </Expression>
                         <Expression xsi:type="io:CsvWriter">
-                          <io:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC001\ses-A42_date-2026-09-23T13-48-00\Cameras\VideoData_Camera1.csv</io:FileName>
+                          <io:FileName>C:\Github\Coen-Lab\auditory-vr-corridor\Logs\sub-TC003\ses-A49_date-2026-10-20T13-03-31\Cameras\VideoData_Camera1.csv</io:FileName>
                           <io:Append>false</io:Append>
                           <io:Overwrite>true</io:Overwrite>
                           <io:Suffix>None</io:Suffix>
@@ -6364,7 +6459,7 @@ Item3 as FrameID)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="cv:VideoWriter">
-                            <cv:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC001\ses-A42_date-2026-09-23T13-48-00\Cameras\VideoData_Camera2.avi</cv:FileName>
+                            <cv:FileName>C:\Github\Coen-Lab\auditory-vr-corridor\Logs\sub-TC003\ses-A49_date-2026-10-20T13-03-31\Cameras\VideoData_Camera2.avi</cv:FileName>
                             <cv:Suffix>None</cv:Suffix>
                             <cv:Buffered>true</cv:Buffered>
                             <cv:Overwrite>true</cv:Overwrite>
@@ -6458,7 +6553,7 @@ Item3 as FrameID)</scr:Expression>
                           </PropertyMappings>
                         </Expression>
                         <Expression xsi:type="io:CsvWriter">
-                          <io:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC001\ses-A42_date-2026-09-23T13-48-00\Cameras\VideoData_Camera2.csv</io:FileName>
+                          <io:FileName>C:\Github\Coen-Lab\auditory-vr-corridor\Logs\sub-TC003\ses-A49_date-2026-10-20T13-03-31\Cameras\VideoData_Camera2.csv</io:FileName>
                           <io:Append>false</io:Append>
                           <io:Overwrite>true</io:Overwrite>
                           <io:Suffix>None</io:Suffix>
@@ -6575,7 +6670,7 @@ Item3 as FrameID)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="cv:VideoWriter">
-                            <cv:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC001\ses-A42_date-2026-09-23T13-48-00\Cameras\VideoData_Camera3.avi</cv:FileName>
+                            <cv:FileName>C:\Github\Coen-Lab\auditory-vr-corridor\Logs\sub-TC003\ses-A49_date-2026-10-20T13-03-31\Cameras\VideoData_Camera3.avi</cv:FileName>
                             <cv:Suffix>None</cv:Suffix>
                             <cv:Buffered>true</cv:Buffered>
                             <cv:Overwrite>true</cv:Overwrite>
@@ -6669,7 +6764,7 @@ Item3 as FrameID)</scr:Expression>
                           </PropertyMappings>
                         </Expression>
                         <Expression xsi:type="io:CsvWriter">
-                          <io:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC001\ses-A42_date-2026-09-23T13-48-00\Cameras\VideoData_Camera3.csv</io:FileName>
+                          <io:FileName>C:\Github\Coen-Lab\auditory-vr-corridor\Logs\sub-TC003\ses-A49_date-2026-10-20T13-03-31\Cameras\VideoData_Camera3.csv</io:FileName>
                           <io:Append>false</io:Append>
                           <io:Overwrite>true</io:Overwrite>
                           <io:Suffix>None</io:Suffix>
@@ -6747,6 +6842,12 @@ Item3 as FrameID)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
                     <Name>AudAmplitude</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:DistinctUntilChanged" />
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>CueActive</Name>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="rx:DistinctUntilChanged" />
@@ -6836,6 +6937,12 @@ Item3 as FrameID)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
                     <Name>WasRewarded</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>CueActive</Name>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="rx:WithLatestFrom" />
@@ -6947,45 +7054,33 @@ it.Item2 as CueActive
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC001\ses-A42_date-2026-09-23T13-48-00\IntervalLog_A42_TC001_\IntervalLog_A42_TC001_.csv</io:FileName>
+                    <io:FileName>C:\Github\Coen-Lab\auditory-vr-corridor\Logs\sub-TC003\ses-A49_date-2026-10-20T13-03-31\IntervalLog_A49_TC003_\IntervalLog_A49_TC003_.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>true</io:Overwrite>
                     <io:Suffix>Timestamp</io:Suffix>
                     <io:IncludeHeader>true</io:IncludeHeader>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
-                  <Expression xsi:type="SubscribeSubject">
-                    <Name>CueActive</Name>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:DistinctUntilChanged" />
-                  </Expression>
-                  <Expression xsi:type="SubscribeSubject">
-                    <Name>CueActive</Name>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:WithLatestFrom" />
-                  </Expression>
                 </Nodes>
                 <Edges>
                   <Edge From="0" To="1" Label="Source1" />
-                  <Edge From="1" To="10" Label="Source1" />
+                  <Edge From="1" To="12" Label="Source1" />
                   <Edge From="2" To="3" Label="Source1" />
                   <Edge From="3" To="4" Label="Source1" />
-                  <Edge From="4" To="10" Label="Source2" />
+                  <Edge From="4" To="12" Label="Source2" />
                   <Edge From="5" To="6" Label="Source1" />
                   <Edge From="6" To="7" Label="Source1" />
-                  <Edge From="7" To="10" Label="Source3" />
+                  <Edge From="7" To="12" Label="Source3" />
                   <Edge From="8" To="9" Label="Source1" />
-                  <Edge From="9" To="10" Label="Source4" />
+                  <Edge From="9" To="12" Label="Source4" />
                   <Edge From="10" To="11" Label="Source1" />
-                  <Edge From="11" To="12" Label="Source1" />
-                  <Edge From="12" To="14" Label="Source1" />
-                  <Edge From="13" To="14" Label="Source2" />
-                  <Edge From="14" To="15" Label="Source1" />
-                  <Edge From="15" To="16" Label="Source1" />
-                  <Edge From="16" To="18" Label="Source1" />
-                  <Edge From="17" To="18" Label="Source2" />
+                  <Edge From="11" To="12" Label="Source5" />
+                  <Edge From="12" To="13" Label="Source1" />
+                  <Edge From="13" To="14" Label="Source1" />
+                  <Edge From="14" To="16" Label="Source1" />
+                  <Edge From="15" To="16" Label="Source2" />
+                  <Edge From="16" To="17" Label="Source1" />
+                  <Edge From="17" To="18" Label="Source1" />
                   <Edge From="18" To="20" Label="Source1" />
                   <Edge From="19" To="20" Label="Source2" />
                   <Edge From="20" To="22" Label="Source1" />
@@ -7006,16 +7101,16 @@ it.Item2 as CueActive
                   <Edge From="35" To="36" Label="Source2" />
                   <Edge From="36" To="38" Label="Source1" />
                   <Edge From="37" To="38" Label="Source2" />
-                  <Edge From="38" To="48" Label="Source1" />
-                  <Edge From="39" To="43" Label="Source1" />
-                  <Edge From="40" To="41" Label="Source1" />
-                  <Edge From="41" To="42" Label="Source1" />
-                  <Edge From="42" To="43" Label="Source2" />
-                  <Edge From="43" To="44" Label="Source1" />
+                  <Edge From="38" To="40" Label="Source1" />
+                  <Edge From="39" To="40" Label="Source2" />
+                  <Edge From="40" To="42" Label="Source1" />
+                  <Edge From="41" To="42" Label="Source2" />
+                  <Edge From="42" To="43" Label="Source1" />
+                  <Edge From="43" To="47" Label="Source1" />
+                  <Edge From="44" To="45" Label="Source1" />
                   <Edge From="45" To="46" Label="Source1" />
-                  <Edge From="46" To="10" Label="Source5" />
-                  <Edge From="47" To="48" Label="Source2" />
-                  <Edge From="48" To="39" Label="Source1" />
+                  <Edge From="46" To="47" Label="Source2" />
+                  <Edge From="47" To="48" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -7045,9 +7140,9 @@ it.Item2 as CueActive
               </PropertyMappings>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="UclOpen.Logging:LogController.bonsai">
-              <SubjectId>TC001</SubjectId>
-              <SessionId>A42</SessionId>
-              <Path>../Logs</Path>
+              <SubjectId>TC003</SubjectId>
+              <SessionId>A49</SessionId>
+              <Path>C:\Github\Coen-Lab\auditory-vr-corridor\Logs</Path>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
               <Name>BehaviorEvents</Name>
@@ -7340,14 +7435,14 @@ it.Item2 as CueActive
                   <Edge From="10" To="11" Label="Source1" />
                   <Edge From="12" To="13" Label="Source1" />
                   <Edge From="13" To="15" Label="Source1" />
+                  <Edge From="13" To="18" Label="Source1" />
+                  <Edge From="13" To="22" Label="Source1" />
                   <Edge From="14" To="15" Label="Source2" />
                   <Edge From="15" To="16" Label="Source1" />
                   <Edge From="16" To="17" Label="Source1" />
-                  <Edge From="13" To="18" Label="Source1" />
                   <Edge From="18" To="19" Label="Source1" />
                   <Edge From="18" To="20" Label="Source1" />
                   <Edge From="18" To="21" Label="Source1" />
-                  <Edge From="13" To="22" Label="Source1" />
                   <Edge From="22" To="23" Label="Source1" />
                   <Edge From="24" To="25" Label="Source1" />
                   <Edge From="25" To="27" Label="Source1" />
@@ -7364,7 +7459,7 @@ it.Item2 as CueActive
             </Expression>
             <Expression xsi:type="GroupWorkflow">
               <Name>RigLogger</Name>
-              <Description>Writes the RigLog once at the start of the session: this PC's name (COMPUTERNAME) and the rig settings in effect from RigConfigs (COM ports, camera serials, mesh map, valve open time and spout IN positions).</Description>
+              <Description>Writes the RigLog once at the start of the session: this PC's name (COMPUTERNAME) and the rig settings in effect from RigConfigs (COM ports, camera serials, mesh map, valve open time, spout IN positions and Zapit settings).</Description>
               <Workflow>
                 <Nodes>
                   <Expression xsi:type="SubscribeSubject">
@@ -7380,7 +7475,7 @@ it.Item2 as CueActive
                   </Expression>
                   <Expression xsi:type="scr:ExpressionTransform">
                     <scr:Name>FormatRigData</scr:Name>
-                    <scr:Expression>new(it.Item1 as RigName, it.Item2.COMPortTimestampGenerator as COMPortTimestampGenerator, it.Item2.COMPortBehaviourBoard as COMPortBehaviourBoard, it.Item2.COMPortStepperDriver1 as COMPortStepperDriver1, it.Item2.COMPortStepperDriver2 as COMPortStepperDriver2, it.Item2.COMPortLicketySplit as COMPortLicketySplit, it.Item2.SerialNumberCamera1 as SerialNumberCamera1, it.Item2.SerialNumberCamera2 as SerialNumberCamera2, it.Item2.SerialNumberCamera3 as SerialNumberCamera3, it.Item2.AudioDeviceName as AudioDeviceName, it.Item2.MeshMapFilePath as MeshMapFilePath, it.Item2.ValveOpenTime as ValveOpenTime, it.Item2.Motor1InPosition as Motor1InPosition, it.Item2.Motor2InPosition as Motor2InPosition, it.Item2.Motor3InPosition as Motor3InPosition, it.Item2.Motor4InPosition as Motor4InPosition, it.Item2.Motor5InPosition as Motor5InPosition)</scr:Expression>
+                    <scr:Expression>new(it.Item1 as RigName, it.Item2.COMPortTimestampGenerator as COMPortTimestampGenerator, it.Item2.COMPortBehaviourBoard as COMPortBehaviourBoard, it.Item2.COMPortStepperDriver1 as COMPortStepperDriver1, it.Item2.COMPortStepperDriver2 as COMPortStepperDriver2, it.Item2.COMPortLicketySplit as COMPortLicketySplit, it.Item2.SerialNumberCamera1 as SerialNumberCamera1, it.Item2.SerialNumberCamera2 as SerialNumberCamera2, it.Item2.SerialNumberCamera3 as SerialNumberCamera3, it.Item2.AudioDeviceName as AudioDeviceName, it.Item2.MeshMapFilePath as MeshMapFilePath, it.Item2.ValveOpenTime as ValveOpenTime, it.Item2.Motor1InPosition as Motor1InPosition, it.Item2.Motor2InPosition as Motor2InPosition, it.Item2.Motor3InPosition as Motor3InPosition, it.Item2.Motor4InPosition as Motor4InPosition, it.Item2.Motor5InPosition as Motor5InPosition, it.Item2.ZapitHost as ZapitHost, it.Item2.ZapitPort as ZapitPort, it.Item2.ZapitHardwareTriggered as ZapitHardwareTriggered, it.Item2.ZapitTriggerPulseWidth as ZapitTriggerPulseWidth)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="ExternalizedMapping">
                     <Property Name="Name" />
@@ -7470,7 +7565,7 @@ it.Item2 as CueActive
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>RigLog.csv</io:FileName>
+                    <io:FileName>C:\Github\Coen-Lab\auditory-vr-corridor\Logs\sub-TC003\ses-A49_date-2026-10-20T13-03-31\RigLog_A49_TC003_\RigLog_A49_TC003_.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>true</io:Overwrite>
                     <io:Suffix>Timestamp</io:Suffix>
@@ -7587,7 +7682,7 @@ it.Item2 as CueActive
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="io:TextWriter">
-                      <io:FileName>WorkflowCopy.bonsai</io:FileName>
+                      <io:FileName>C:\Github\Coen-Lab\auditory-vr-corridor\Logs\sub-TC003\ses-A49_date-2026-10-20T13-03-31\WorkflowCopy_A49_TC003_\WorkflowCopy_A49_TC003_.bonsai</io:FileName>
                       <io:Suffix>None</io:Suffix>
                       <io:Buffered>true</io:Buffered>
                       <io:Overwrite>true</io:Overwrite>
@@ -7701,7 +7796,7 @@ it.Item2 as CueActive
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="io:TextWriter">
-                      <io:FileName>RigConfigsCopy.cs</io:FileName>
+                      <io:FileName>C:\Github\Coen-Lab\auditory-vr-corridor\Logs\sub-TC003\ses-A49_date-2026-10-20T13-03-31\RigConfigsCopy_A49_TC003_\RigConfigsCopy_A49_TC003_.cs</io:FileName>
                       <io:Suffix>None</io:Suffix>
                       <io:Buffered>true</io:Buffered>
                       <io:Overwrite>true</io:Overwrite>
@@ -7714,6 +7809,133 @@ it.Item2 as CueActive
                   <Edge From="1" To="2" Label="Source1" />
                   <Edge From="2" To="3" Label="Source1" />
                   <Edge From="3" To="4" Label="Source2" />
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="GroupWorkflow">
+              <Name>ZapitLogger</Name>
+              <Description>Writes Zapit.csv: every reply from Zapit on the Harp clock (HarpTime is the latest Behavior board time when the reply arrived, not laser onset). Command 1 is StartStimulus (Value is the condition presented, LaserOn 1 if the laser fired), 0 StopStimulus, 2 and 4 the startup checks. The hardware onset of a TTL-triggered stimulus is the DO3 write in the Behavior board log.</Description>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>ZapitReplies</Name>
+                  </Expression>
+
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>HarpTime</Name>
+                  </Expression>
+
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+
+                  <Expression xsi:type="scr:ExpressionTransform">
+                    <scr:Name>FormatZapitReply</scr:Name>
+                    <scr:Expression>new(String.Format("{0:F6}", it.Item2) as HarpTime, it.Item1.CommandCode as Command, it.Item1.Value as Value, it.Item1.LaserOn as LaserOn, it.Item1.IsError as IsError, String.Format("{0:F8}", it.Item1.ServerDatenum) as ServerDatenum)</scr:Expression>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="Name" />
+                    <Property Name="Extension" />
+                  </Expression>
+                  <Expression xsi:type="GroupWorkflow">
+                    <Name>FormatFileName</Name>
+                    <Description>Generates a log filename based on the input timestamp.</Description>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>PathPrefix</Name>
+                        </Expression>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="ExternalizedMapping">
+                          <Property Name="Value" DisplayName="Name" Description="The base name of the log file." />
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="StringProperty">
+                            <Value>Zapit</Value>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>AnimalAndSessionID</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Zip" />
+                        </Expression>
+                        <Expression xsi:type="Format">
+                          <Format>{0}_{1}_</Format>
+                          <Selector>Item1, Item2</Selector>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Take">
+                            <rx:Count>1</rx:Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="p6:StripSubstring" />
+                        </Expression>
+                        <Expression xsi:type="ExternalizedMapping">
+                          <Property Name="Value" DisplayName="Extension" Description="The file extension" />
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="StringProperty">
+                            <Value>csv</Value>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Take">
+                            <rx:Count>1</rx:Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Zip" />
+                        </Expression>
+                        <Expression xsi:type="Format">
+                          <Format>{0}\{1}\{2}.{3}</Format>
+                          <Selector>Item1,Item2,Item3,Item4</Selector>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                      </Nodes>
+                      <Edges>
+                        <Edge From="0" To="12" Label="Source1" />
+                        <Edge From="1" To="3" Label="Source1" />
+                        <Edge From="2" To="3" Label="Source2" />
+                        <Edge From="3" To="5" Label="Source1" />
+                        <Edge From="4" To="5" Label="Source2" />
+                        <Edge From="5" To="6" Label="Source1" />
+                        <Edge From="6" To="7" Label="Source1" />
+                        <Edge From="7" To="8" Label="Source1" />
+                        <Edge From="7" To="12" Label="Source3" />
+                        <Edge From="8" To="12" Label="Source2" />
+                        <Edge From="9" To="10" Label="Source1" />
+                        <Edge From="10" To="11" Label="Source1" />
+                        <Edge From="11" To="12" Label="Source4" />
+                        <Edge From="12" To="13" Label="Source1" />
+                        <Edge From="13" To="14" Label="Source1" />
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                  <Expression xsi:type="PropertyMapping">
+                    <PropertyMappings>
+                      <Property Name="FileName" />
+                    </PropertyMappings>
+                  </Expression>
+                  <Expression xsi:type="io:CsvWriter">
+                    <io:FileName>Zapit.csv</io:FileName>
+                    <io:Append>false</io:Append>
+                    <io:Overwrite>true</io:Overwrite>
+                    <io:Suffix>Timestamp</io:Suffix>
+                    <io:IncludeHeader>true</io:IncludeHeader>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="2" Label="Source1" />
+                  <Edge From="1" To="2" Label="Source2" />
+                  <Edge From="2" To="3" Label="Source1" />
+                  <Edge From="3" To="7" Label="Source1" />
+                  <Edge From="4" To="5" Label="Source1" />
+                  <Edge From="5" To="6" Label="Source1" />
+                  <Edge From="6" To="7" Label="Source2" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -8017,7 +8239,7 @@ it.Item2 as CueActive
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="rx:Timer">
-                            <rx:DueTime>PT1S</rx:DueTime>
+                            <rx:DueTime>PT0S</rx:DueTime>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="rx:SelectMany">
@@ -8368,6 +8590,457 @@ it.Item2 as CueActive
                   <Expression xsi:type="MulticastSubject">
                     <Name>CueActive</Name>
                   </Expression>
+                  <Expression xsi:type="Annotation">
+                    <Name>Optogenetics</Name>
+                    <Text><![CDATA[At ITI start the stimulation for the new trial is drawn (InitialiseOptoTrial, ported from av-dome's InitialiseTrial). ArmZapit runs alongside InitITI; OptoOnset turns the laser on at beep 0; ProcessTrialEnd stops it at the outcome.]]></Text>
+                  </Expression>
+
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>TaskParams</Name>
+                  </Expression>
+
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="p3:InitialiseOptoTrial">
+                      <p3:Seed>-1</p3:Seed>
+                    </Combinator>
+                  </Expression>
+
+                  <Expression xsi:type="MulticastSubject">
+                    <Name>OptoTrial</Name>
+                  </Expression>
+                  <Expression xsi:type="rx:SelectMany">
+                    <Name>ThisTrialOpto</Name>
+                    <Description>Waits for the stimulation drawn for the trial that is starting (OptoTrial is drawn when TrialNumber goes up), so ArmZapit never acts on the previous trial's draw.</Description>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>OptoTrial</Name>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>TrialNumber</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:CombineLatest" />
+                        </Expression>
+                        <Expression xsi:type="rx:Condition">
+                          <Name>ThisTrial?</Name>
+                          <Workflow>
+                            <Nodes>
+                              <Expression xsi:type="WorkflowInput">
+                                <Name>Source1</Name>
+                              </Expression>
+                              <Expression xsi:type="scr:ExpressionTransform">
+                                <scr:Expression>Item1.TrialNumber == Item2</scr:Expression>
+                              </Expression>
+                              <Expression xsi:type="WorkflowOutput" />
+                            </Nodes>
+                            <Edges>
+                              <Edge From="0" To="1" Label="Source1" />
+                              <Edge From="1" To="2" Label="Source1" />
+                            </Edges>
+                          </Workflow>
+                        </Expression>
+                        <Expression xsi:type="MemberSelector">
+                          <Selector>Item1</Selector>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Take">
+                            <rx:Count>1</rx:Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                      </Nodes>
+                      <Edges>
+                        <Edge From="1" To="3" Label="Source1" />
+                        <Edge From="2" To="3" Label="Source2" />
+                        <Edge From="3" To="4" Label="Source1" />
+                        <Edge From="4" To="5" Label="Source1" />
+                        <Edge From="5" To="6" Label="Source1" />
+                        <Edge From="6" To="7" Label="Source1" />
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                  <Expression xsi:type="rx:SelectMany">
+                    <Name>ArmZapit</Name>
+                    <Description>Hardware-triggered rigs only (RigConfigs ZapitHardwareTriggered): sends this trial's StartStimulus during the ITI, so Zapit loads the waveform and waits for the DO3 TTL from OptoOnset, and passes once Zapit confirms it is armed. Other trials pass straight through. Runs alongside InitITI and the two are zipped, as av-dome zips ArmZapit with its pre-trial delay, so arming only holds the trial if Zapit answers after the ITI has ended.</Description>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Take">
+                            <rx:Count>1</rx:Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="rx:AsyncSubject">
+                          <Name>settings</Name>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>settings</Name>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>RigConfigs</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Zip" />
+                        </Expression>
+                        <Expression xsi:type="rx:Condition">
+                          <Name>HardwareTriggeredOptoTrial?</Name>
+                          <Workflow>
+                            <Nodes>
+                              <Expression xsi:type="WorkflowInput">
+                                <Name>Source1</Name>
+                              </Expression>
+                              <Expression xsi:type="MemberSelector">
+                                <Selector>Item1</Selector>
+                              </Expression>
+                              <Expression xsi:type="MemberSelector">
+                                <Selector>OptogeneticEnabled</Selector>
+                              </Expression>
+                              <Expression xsi:type="MemberSelector">
+                                <Selector>Item2</Selector>
+                              </Expression>
+                              <Expression xsi:type="MemberSelector">
+                                <Selector>ZapitHardwareTriggered</Selector>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="rx:Zip" />
+                              </Expression>
+                              <Expression xsi:type="BitwiseAnd" />
+                              <Expression xsi:type="WorkflowOutput" />
+                            </Nodes>
+                            <Edges>
+                              <Edge From="0" To="1" Label="Source1" />
+                              <Edge From="0" To="3" Label="Source1" />
+                              <Edge From="1" To="2" Label="Source1" />
+                              <Edge From="2" To="5" Label="Source1" />
+                              <Edge From="3" To="4" Label="Source1" />
+                              <Edge From="4" To="5" Label="Source2" />
+                              <Edge From="5" To="6" Label="Source1" />
+                              <Edge From="6" To="7" Label="Source1" />
+                            </Edges>
+                          </Workflow>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>settings</Name>
+                        </Expression>
+                        <Expression xsi:type="PropertyMapping">
+                          <PropertyMappings>
+                            <Property Name="ConditionNumber" Selector="OptogeneticCondition" />
+                            <Property Name="StimDuration" Selector="OptogeneticDuration" />
+                          </PropertyMappings>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="p3:CreateStartStimulus">
+                            <p3:ConditionNumber>0</p3:ConditionNumber>
+                            <p3:LaserOn>true</p3:LaserOn>
+                            <p3:HardwareTriggered>true</p3:HardwareTriggered>
+                            <p3:Logging>true</p3:Logging>
+                            <p3:StimDuration>0</p3:StimDuration>
+                            <p3:LaserPower>0</p3:LaserPower>
+                            <p3:StartDelay>0</p3:StartDelay>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="MulticastSubject">
+                          <Name>ZapitCommands</Name>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>ZapitReplies</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Skip">
+                            <rx:Count>1</rx:Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="rx:Condition">
+                          <Name>ArmedForTtl?</Name>
+                          <Description>Passes a StartStimulus reply only when Zapit reported success.</Description>
+                          <Workflow>
+                            <Nodes>
+                              <Expression xsi:type="WorkflowInput">
+                                <Name>Source1</Name>
+                              </Expression>
+                              <Expression xsi:type="scr:ExpressionTransform">
+                                <scr:Expression>It.CommandCode == 1 &amp;&amp; !It.IsError</scr:Expression>
+                              </Expression>
+                              <Expression xsi:type="WorkflowOutput" />
+                            </Nodes>
+                            <Edges>
+                              <Edge From="0" To="1" Label="Source1" />
+                              <Edge From="1" To="2" Label="Source1" />
+                            </Edges>
+                          </Workflow>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>settings</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:WithLatestFrom" />
+                        </Expression>
+                        <Expression xsi:type="MemberSelector">
+                          <Selector>Item2</Selector>
+                        </Expression>
+                        <Expression xsi:type="rx:Condition">
+                          <Name>NoArmingNeeded?</Name>
+                          <Description>Trials that are not stimulated, and every trial on a software-timed rig, start without waiting for Zapit.</Description>
+                          <Workflow>
+                            <Nodes>
+                              <Expression xsi:type="WorkflowInput">
+                                <Name>Source1</Name>
+                              </Expression>
+                              <Expression xsi:type="scr:ExpressionTransform">
+                                <scr:Expression>!(Item1.OptogeneticEnabled &amp;&amp; Item2.ZapitHardwareTriggered)</scr:Expression>
+                              </Expression>
+                              <Expression xsi:type="WorkflowOutput" />
+                            </Nodes>
+                            <Edges>
+                              <Edge From="0" To="1" Label="Source1" />
+                              <Edge From="1" To="2" Label="Source1" />
+                            </Edges>
+                          </Workflow>
+                        </Expression>
+                        <Expression xsi:type="MemberSelector">
+                          <Selector>Item1</Selector>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Merge" />
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Take">
+                            <rx:Count>1</rx:Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>ZapitReplies</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Skip">
+                            <rx:Count>1</rx:Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="rx:Condition">
+                          <Name>StartRefused?</Name>
+                          <Description>Zapit refused a StartStimulus, here or in OptoOnset. The session stops rather than carrying on without stimulation.</Description>
+                          <Workflow>
+                            <Nodes>
+                              <Expression xsi:type="WorkflowInput">
+                                <Name>Source1</Name>
+                              </Expression>
+                              <Expression xsi:type="scr:ExpressionTransform">
+                                <scr:Expression>CommandCode == 1 &amp;&amp; IsError</scr:Expression>
+                              </Expression>
+                              <Expression xsi:type="WorkflowOutput" />
+                            </Nodes>
+                            <Edges>
+                              <Edge From="0" To="1" Label="Source1" />
+                              <Edge From="1" To="2" Label="Source1" />
+                            </Edges>
+                          </Workflow>
+                        </Expression>
+                        <Expression xsi:type="Format">
+                          <Format>Zapit refused StartStimulus (reply value {0}). Check the MATLAB window: is the stimulus config from the session JSON loaded in Zapit?</Format>
+                          <Selector>Value</Selector>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="p3:ThrowError" />
+                        </Expression>
+                      </Nodes>
+                      <Edges>
+                        <Edge From="0" To="1" Label="Source1" />
+                        <Edge From="1" To="2" Label="Source1" />
+                        <Edge From="3" To="5" Label="Source1" />
+                        <Edge From="4" To="5" Label="Source2" />
+                        <Edge From="5" To="6" Label="Source1" />
+                        <Edge From="6" To="9" Label="Source1" />
+                        <Edge From="7" To="8" Label="Source1" />
+                        <Edge From="8" To="9" Label="Source2" />
+                        <Edge From="9" To="10" Label="Source1" />
+                        <Edge From="11" To="12" Label="Source1" />
+                        <Edge From="12" To="13" Label="Source1" />
+                        <Edge From="13" To="15" Label="Source1" />
+                        <Edge From="14" To="15" Label="Source2" />
+                        <Edge From="15" To="16" Label="Source1" />
+                        <Edge From="16" To="19" Label="Source1" />
+                        <Edge From="5" To="17" Label="Source1" />
+                        <Edge From="17" To="18" Label="Source1" />
+                        <Edge From="18" To="19" Label="Source2" />
+                        <Edge From="19" To="20" Label="Source1" />
+                        <Edge From="20" To="21" Label="Source1" />
+                        <Edge From="22" To="23" Label="Source1" />
+                        <Edge From="23" To="24" Label="Source1" />
+                        <Edge From="24" To="25" Label="Source1" />
+                        <Edge From="25" To="26" Label="Source1" />
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Zip" />
+                  </Expression>
+
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Item1</Selector>
+                  </Expression>
+
+                  <Expression xsi:type="rx:Condition">
+                    <Name>FirstBeep?</Name>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="scr:ExpressionTransform">
+                          <scr:Expression>it == 0</scr:Expression>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                      </Nodes>
+                      <Edges>
+                        <Edge From="0" To="1" Label="Source1" />
+                        <Edge From="1" To="2" Label="Source1" />
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                  <Expression xsi:type="rx:SelectMany">
+                    <Name>OptoOnset</Name>
+                    <Description>Turns the laser on at beep 0 of a stimulated trial, LeadTime before the first tone pip (CueStartBeep in TaskLogic). Hardware triggered: pulses behaviour board DO3, which fires the waveform ArmZapit loaded, so onset is on the Harp clock and logged in the Behavior board log. Software timed: sends StartStimulus, and Zapit starts on receipt. DO3 is set directly because the PulseController include only pulses DO0-DO2 through TriggerValve; it is pulse-enabled there, with the width from RigConfigs ZapitTriggerPulseWidth.</Description>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>OptoTrial</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Take">
+                            <rx:Count>1</rx:Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="rx:AsyncSubject">
+                          <Name>settings</Name>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>settings</Name>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>RigConfigs</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Zip" />
+                        </Expression>
+                        <Expression xsi:type="rx:Condition">
+                          <Name>HardwareTriggeredOptoTrial?</Name>
+                          <Workflow>
+                            <Nodes>
+                              <Expression xsi:type="WorkflowInput">
+                                <Name>Source1</Name>
+                              </Expression>
+                              <Expression xsi:type="MemberSelector">
+                                <Selector>Item1</Selector>
+                              </Expression>
+                              <Expression xsi:type="MemberSelector">
+                                <Selector>OptogeneticEnabled</Selector>
+                              </Expression>
+                              <Expression xsi:type="MemberSelector">
+                                <Selector>Item2</Selector>
+                              </Expression>
+                              <Expression xsi:type="MemberSelector">
+                                <Selector>ZapitHardwareTriggered</Selector>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="rx:Zip" />
+                              </Expression>
+                              <Expression xsi:type="BitwiseAnd" />
+                              <Expression xsi:type="WorkflowOutput" />
+                            </Nodes>
+                            <Edges>
+                              <Edge From="0" To="1" Label="Source1" />
+                              <Edge From="0" To="3" Label="Source1" />
+                              <Edge From="1" To="2" Label="Source1" />
+                              <Edge From="2" To="5" Label="Source1" />
+                              <Edge From="3" To="4" Label="Source1" />
+                              <Edge From="4" To="5" Label="Source2" />
+                              <Edge From="5" To="6" Label="Source1" />
+                              <Edge From="6" To="7" Label="Source1" />
+                            </Edges>
+                          </Workflow>
+                        </Expression>
+                        <Expression xsi:type="beh:CreateMessage">
+                          <harp:MessageType>Write</harp:MessageType>
+                          <harp:Payload xsi:type="beh:CreateOutputSetPayload">
+                            <beh:OutputSet>DO3</beh:OutputSet>
+                          </harp:Payload>
+                        </Expression>
+                        <Expression xsi:type="MulticastSubject">
+                          <Name>BehaviorCommands</Name>
+                        </Expression>
+                        <Expression xsi:type="rx:Condition">
+                          <Name>SoftwareTriggeredOptoTrial?</Name>
+                          <Workflow>
+                            <Nodes>
+                              <Expression xsi:type="WorkflowInput">
+                                <Name>Source1</Name>
+                              </Expression>
+                              <Expression xsi:type="scr:ExpressionTransform">
+                                <scr:Expression>Item1.OptogeneticEnabled &amp;&amp; !Item2.ZapitHardwareTriggered</scr:Expression>
+                              </Expression>
+                              <Expression xsi:type="WorkflowOutput" />
+                            </Nodes>
+                            <Edges>
+                              <Edge From="0" To="1" Label="Source1" />
+                              <Edge From="1" To="2" Label="Source1" />
+                            </Edges>
+                          </Workflow>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>settings</Name>
+                        </Expression>
+                        <Expression xsi:type="PropertyMapping">
+                          <PropertyMappings>
+                            <Property Name="ConditionNumber" Selector="OptogeneticCondition" />
+                            <Property Name="StimDuration" Selector="OptogeneticDuration" />
+                          </PropertyMappings>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="p3:CreateStartStimulus">
+                            <p3:ConditionNumber>0</p3:ConditionNumber>
+                            <p3:LaserOn>true</p3:LaserOn>
+                            <p3:HardwareTriggered>false</p3:HardwareTriggered>
+                            <p3:Logging>true</p3:Logging>
+                            <p3:StimDuration>0</p3:StimDuration>
+                            <p3:LaserPower>0</p3:LaserPower>
+                            <p3:StartDelay>0</p3:StartDelay>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="MulticastSubject">
+                          <Name>ZapitCommands</Name>
+                        </Expression>
+                      </Nodes>
+                      <Edges>
+                        <Edge From="1" To="2" Label="Source1" />
+                        <Edge From="2" To="3" Label="Source1" />
+                        <Edge From="4" To="6" Label="Source1" />
+                        <Edge From="5" To="6" Label="Source2" />
+                        <Edge From="6" To="7" Label="Source1" />
+                        <Edge From="7" To="8" Label="Source1" />
+                        <Edge From="8" To="9" Label="Source1" />
+                        <Edge From="6" To="10" Label="Source1" />
+                        <Edge From="10" To="13" Label="Source1" />
+                        <Edge From="11" To="12" Label="Source1" />
+                        <Edge From="12" To="13" Label="Source2" />
+                        <Edge From="13" To="14" Label="Source1" />
+                      </Edges>
+                    </Workflow>
+                  </Expression>
                 </Nodes>
                 <Edges>
                   <Edge From="0" To="11" Label="Source1" />
@@ -8378,7 +9051,7 @@ it.Item2 as CueActive
                   <Edge From="5" To="6" Label="Source1" />
                   <Edge From="6" To="7" Label="Source1" />
                   <Edge From="7" To="8" Label="Source1" />
-                  <Edge From="8" To="9" Label="Source1" />
+                  <Edge From="8" To="59" Label="Source1" />
                   <Edge From="9" To="10" Label="Source1" />
                   <Edge From="9" To="14" Label="Source1" />
                   <Edge From="9" To="19" Label="Source1" />
@@ -8411,6 +9084,17 @@ it.Item2 as CueActive
                   <Edge From="46" To="47" Label="Source1" />
                   <Edge From="48" To="49" Label="Source1" />
                   <Edge From="50" To="51" Label="Source1" />
+                  <Edge From="32" To="54" Label="Source1" />
+                  <Edge From="53" To="54" Label="Source2" />
+                  <Edge From="54" To="55" Label="Source1" />
+                  <Edge From="55" To="56" Label="Source1" />
+                  <Edge From="7" To="57" Label="Source1" />
+                  <Edge From="57" To="58" Label="Source1" />
+                  <Edge From="58" To="59" Label="Source2" />
+                  <Edge From="59" To="60" Label="Source1" />
+                  <Edge From="60" To="9" Label="Source1" />
+                  <Edge From="12" To="61" Label="Source1" />
+                  <Edge From="61" To="62" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -8686,7 +9370,7 @@ it.Item2 as CueActive
                   </Expression>
                   <Expression xsi:type="Add">
                     <Operand xsi:type="DoubleProperty">
-                      <Value>2050.3207556014713</Value>
+                      <Value>2976.4527660424314</Value>
                     </Operand>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
@@ -8829,7 +9513,7 @@ it.Item2 as CueActive
                   </Expression>
                   <Expression xsi:type="Index">
                     <Operand xsi:type="IntProperty">
-                      <Value>0</Value>
+                      <Value>97</Value>
                     </Operand>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
@@ -8842,11 +9526,11 @@ it.Item2 as CueActive
                   <Edge From="1" To="2" Label="Source2" />
                   <Edge From="2" To="3" Label="Source1" />
                   <Edge From="3" To="5" Label="Source1" />
+                  <Edge From="3" To="9" Label="Source1" />
                   <Edge From="4" To="5" Label="Source2" />
                   <Edge From="5" To="6" Label="Source1" />
                   <Edge From="6" To="7" Label="Source1" />
                   <Edge From="7" To="8" Label="Source1" />
-                  <Edge From="3" To="9" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -8897,6 +9581,72 @@ it.Item2 as CueActive
                   <Edge From="6" To="7" Label="Source1" />
                   <Edge From="7" To="8" Label="Source1" />
                   <Edge From="8" To="9" Label="Source1" />
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="GroupWorkflow">
+              <Name>SilenceAfterTruncation</Name>
+              <Description>Silences the tone past the truncation point on truncated trials (stage 6)</Description>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>CurrFreq</Name>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>TruncationPoint</Name>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>TaskParams</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:CombineLatest" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="scr:ExpressionTransform">
+                    <scr:Name>CueActive</scr:Name>
+                    <scr:Description>Tone's sweep fraction, compared with the truncation point. EndFreq / StartFreq is divided as whole numbers (25000 / 2000 = 12), exactly as in 'cm to Hz', so the fraction matches how the tone actually sweeps (2-24 kHz) and equals the grating's in HideAfterTruncation. Rounded to 3 decimals in both, so CurrFreq's whole-Hz rounding cannot put the tone and grating a beep apart.</scr:Description>
+                    <scr:Expression>new(it.Item1 as Buffer, (it.Item2.Item2 &gt;= 1 || Math.Round(Math.Log(Convert.ToDouble(it.Item2.Item1) / Convert.ToDouble(it.Item2.Item3.StartFreq)) / Math.Log(Convert.ToDouble(it.Item2.Item3.EndFreq / it.Item2.Item3.StartFreq)), 3) &lt; it.Item2.Item2 ? 1.0 : 0.0) as Gain)</scr:Expression>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Gain</Selector>
+                  </Expression>
+                  <Expression xsi:type="MulticastSubject">
+                    <Name>CueActive</Name>
+                  </Expression>
+                  <Expression xsi:type="InputMapping">
+                    <PropertyMappings>
+                      <Property Name="RangeMax" Selector="Gain" />
+                    </PropertyMappings>
+                    <Selector>Buffer</Selector>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="dsp:Rescale">
+                      <dsp:Min>0</dsp:Min>
+                      <dsp:Max>1</dsp:Max>
+                      <dsp:RangeMin>0</dsp:RangeMin>
+                      <dsp:RangeMax>1</dsp:RangeMax>
+                      <dsp:RescaleType>Linear</dsp:RescaleType>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="5" Label="Source1" />
+                  <Edge From="1" To="4" Label="Source1" />
+                  <Edge From="2" To="4" Label="Source2" />
+                  <Edge From="3" To="4" Label="Source3" />
+                  <Edge From="4" To="5" Label="Source2" />
+                  <Edge From="5" To="6" Label="Source1" />
+                  <Edge From="6" To="7" Label="Source1" />
+                  <Edge From="6" To="9" Label="Source1" />
+                  <Edge From="7" To="8" Label="Source1" />
+                  <Edge From="9" To="10" Label="Source1" />
+                  <Edge From="10" To="11" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -9920,6 +10670,20 @@ it.Item2 as CueActive
                   <Expression xsi:type="Disable">
                     <Builder xsi:type="WorkflowOutput" />
                   </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>TaskParams</Name>
+                  </Expression>
+
+                  <Expression xsi:type="scr:ExpressionTransform">
+                    <scr:Name>CueStartBeep</scr:Name>
+                    <scr:Description>First beep with a tone pip: 1 as before, or LeadTime / 50 ms in an optogenetics session, so the laser (on at beep 0) leads the cue by LeadTime on every trial of that session, stimulated or not.</scr:Description>
+                    <scr:Expression>it.Optogenetics.Enabled ? Convert.ToInt32(Math.Round(it.Optogenetics.LeadTime / 0.05)) : 1</scr:Expression>
+                  </Expression>
+                  <Expression xsi:type="PropertyMapping">
+                    <PropertyMappings>
+                      <Property Name="Count" />
+                    </PropertyMappings>
+                  </Expression>
                 </Nodes>
                 <Edges>
                   <Edge From="0" To="2" Label="Source1" />
@@ -9971,6 +10735,9 @@ it.Item2 as CueActive
                   <Edge From="41" To="42" Label="Source1" />
                   <Edge From="42" To="43" Label="Source5" />
                   <Edge From="43" To="44" Label="Source1" />
+                  <Edge From="45" To="46" Label="Source1" />
+                  <Edge From="46" To="47" Label="Source1" />
+                  <Edge From="47" To="6" Label="Source2" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -10108,7 +10875,7 @@ it.Item2 as CueActive
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="rx:Timer">
-                      <rx:DueTime>PT10S</rx:DueTime>
+                      <rx:DueTime>PT12S</rx:DueTime>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
@@ -10163,6 +10930,20 @@ it.Item2 as CueActive
                     <Name>WasTimeout</Name>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>TaskParams</Name>
+                  </Expression>
+
+                  <Expression xsi:type="scr:ExpressionTransform">
+                    <scr:Name>CueStartBeep</scr:Name>
+                    <scr:Description>First beep with a tone pip: 1 as before, or LeadTime / 50 ms in an optogenetics session, so the laser (on at beep 0) leads the cue by LeadTime on every trial of that session, stimulated or not.</scr:Description>
+                    <scr:Expression>it.Optogenetics.Enabled ? Convert.ToInt32(Math.Round(it.Optogenetics.LeadTime / 0.05)) : 1</scr:Expression>
+                  </Expression>
+                  <Expression xsi:type="PropertyMapping">
+                    <PropertyMappings>
+                      <Property Name="Count" />
+                    </PropertyMappings>
+                  </Expression>
                 </Nodes>
                 <Edges>
                   <Edge From="0" To="1" Label="Source1" />
@@ -10178,6 +10959,9 @@ it.Item2 as CueActive
                   <Edge From="11" To="12" Label="Source1" />
                   <Edge From="12" To="13" Label="Source1" />
                   <Edge From="13" To="14" Label="Source1" />
+                  <Edge From="15" To="16" Label="Source1" />
+                  <Edge From="16" To="17" Label="Source1" />
+                  <Edge From="17" To="8" Label="Source2" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -11172,6 +11956,45 @@ it.Item2 as CueActive
                   <Expression xsi:type="MulticastSubject">
                     <Name>TrialActive</Name>
                   </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>OptoTrial</Name>
+                  </Expression>
+
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Item2</Selector>
+                  </Expression>
+
+                  <Expression xsi:type="rx:Condition">
+                    <Name>OptoTrial?</Name>
+                    <Description>Stops the laser at the outcome of a stimulated trial. Zapit ramps it down over offRampDownDuration_ms from its stimulus config; OptogeneticDuration caps it if the outcome is late.</Description>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="MemberSelector">
+                          <Selector>OptogeneticEnabled</Selector>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                      </Nodes>
+                      <Edges>
+                        <Edge From="0" To="1" Label="Source1" />
+                        <Edge From="1" To="2" Label="Source1" />
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="p3:CreateStopStimulus" />
+                  </Expression>
+
+                  <Expression xsi:type="MulticastSubject">
+                    <Name>ZapitCommands</Name>
+                  </Expression>
                 </Nodes>
                 <Edges>
                   <Edge From="0" To="1" Label="Source1" />
@@ -11214,6 +12037,12 @@ it.Item2 as CueActive
                   <Edge From="33" To="34" Label="Source1" />
                   <Edge From="34" To="35" Label="Source1" />
                   <Edge From="36" To="37" Label="Source1" />
+                  <Edge From="37" To="39" Label="Source1" />
+                  <Edge From="38" To="39" Label="Source2" />
+                  <Edge From="39" To="40" Label="Source1" />
+                  <Edge From="40" To="41" Label="Source1" />
+                  <Edge From="41" To="42" Label="Source1" />
+                  <Edge From="42" To="43" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -11374,7 +12203,7 @@ it.Item2 as CueActive
                   </Expression>
                   <Expression xsi:type="Add">
                     <Operand xsi:type="DoubleProperty">
-                      <Value>0.030698789768422635</Value>
+                      <Value>0.0626788839256218</Value>
                     </Operand>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
@@ -11646,153 +12475,19 @@ it.Item2 as CueActive
                 </Edges>
               </Workflow>
             </Expression>
-            <Expression xsi:type="MulticastSubject">
-              <Name>GratingOpacity</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:CombineLatest" />
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:CombineLatest" />
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:Take">
-                <rx:Count>1</rx:Count>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="GroupWorkflow">
-              <Name>Monitor</Name>
-              <Workflow>
-                <Nodes>
-                  <Expression xsi:type="ExternalizedMapping">
-                    <Property Name="Value" />
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="StringProperty">
-                      <Value>ProcessedTrialEnd</Value>
-                    </Combinator>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:Take">
-                      <rx:Count>1</rx:Count>
-                    </Combinator>
-                  </Expression>
-                  <Expression xsi:type="WorkflowInput">
-                    <Name>Source1</Name>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:Materialize" />
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:CombineLatest" />
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="io:WriteLine" />
-                  </Expression>
-                  <Expression xsi:type="MemberSelector">
-                    <Selector>Item2</Selector>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:Dematerialize" />
-                  </Expression>
-                  <Expression xsi:type="WorkflowOutput" />
-                </Nodes>
-                <Edges>
-                  <Edge From="0" To="1" Label="Source1" />
-                  <Edge From="1" To="2" Label="Source1" />
-                  <Edge From="2" To="5" Label="Source1" />
-                  <Edge From="3" To="4" Label="Source1" />
-                  <Edge From="4" To="5" Label="Source2" />
-                  <Edge From="5" To="6" Label="Source1" />
-                  <Edge From="6" To="7" Label="Source1" />
-                  <Edge From="7" To="8" Label="Source1" />
-                  <Edge From="8" To="9" Label="Source1" />
-                </Edges>
-              </Workflow>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:Repeat" />
-            </Expression>
-            <Expression xsi:type="WorkflowOutput" />
-            <Expression xsi:type="GroupWorkflow">
-              <Name>SilenceAfterTruncation</Name>
-              <Description>Silences the tone past the truncation point on truncated trials (stage 6)</Description>
-              <Workflow>
-                <Nodes>
-                  <Expression xsi:type="WorkflowInput">
-                    <Name>Source1</Name>
-                  </Expression>
-                  <Expression xsi:type="SubscribeSubject">
-                    <Name>CurrFreq</Name>
-                  </Expression>
-                  <Expression xsi:type="SubscribeSubject">
-                    <Name>TruncationPoint</Name>
-                  </Expression>
-                  <Expression xsi:type="SubscribeSubject">
-                    <Name>TaskParams</Name>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:CombineLatest" />
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:WithLatestFrom" />
-                  </Expression>
-                  <Expression xsi:type="scr:ExpressionTransform">
-                    <scr:Name>CueActive</scr:Name>
-                    <scr:Description>Tone's sweep fraction, compared with the truncation point. EndFreq / StartFreq is divided as whole numbers (25000 / 2000 = 12), exactly as in 'cm to Hz', so the fraction matches how the tone actually sweeps (2-24 kHz) and equals the grating's in HideAfterTruncation. Rounded to 3 decimals in both, so CurrFreq's whole-Hz rounding cannot put the tone and grating a beep apart.</scr:Description>
-                    <scr:Expression>new(it.Item1 as Buffer, (it.Item2.Item2 &gt;= 1 || Math.Round(Math.Log(Convert.ToDouble(it.Item2.Item1) / Convert.ToDouble(it.Item2.Item3.StartFreq)) / Math.Log(Convert.ToDouble(it.Item2.Item3.EndFreq / it.Item2.Item3.StartFreq)), 3) &lt; it.Item2.Item2 ? 1.0 : 0.0) as Gain)</scr:Expression>
-                  </Expression>
-                  <Expression xsi:type="MemberSelector">
-                    <Selector>Gain</Selector>
-                  </Expression>
-                  <Expression xsi:type="MulticastSubject">
-                    <Name>CueActive</Name>
-                  </Expression>
-                  <Expression xsi:type="InputMapping">
-                    <PropertyMappings>
-                      <Property Name="RangeMax" Selector="Gain" />
-                    </PropertyMappings>
-                    <Selector>Buffer</Selector>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="dsp:Rescale">
-                      <dsp:Min>0</dsp:Min>
-                      <dsp:Max>1</dsp:Max>
-                      <dsp:RangeMin>0</dsp:RangeMin>
-                      <dsp:RangeMax>1</dsp:RangeMax>
-                      <dsp:RescaleType>Linear</dsp:RescaleType>
-                    </Combinator>
-                  </Expression>
-                  <Expression xsi:type="WorkflowOutput" />
-                </Nodes>
-                <Edges>
-                  <Edge From="0" To="5" Label="Source1" />
-                  <Edge From="1" To="4" Label="Source1" />
-                  <Edge From="2" To="4" Label="Source2" />
-                  <Edge From="3" To="4" Label="Source3" />
-                  <Edge From="4" To="5" Label="Source2" />
-                  <Edge From="5" To="6" Label="Source1" />
-                  <Edge From="6" To="7" Label="Source1" />
-                  <Edge From="6" To="9" Label="Source1" />
-                  <Edge From="7" To="8" Label="Source1" />
-                  <Edge From="9" To="10" Label="Source1" />
-                  <Edge From="10" To="11" Label="Source1" />
-                </Edges>
-              </Workflow>
-            </Expression>
             <Expression xsi:type="GroupWorkflow">
               <Name>LogStimulus</Name>
               <Description>One StimulusLog row per beep while the trial is active (TrialActive = 1, so rows stop at the outcome): the beep count and position from Skip and the grating from the visual branch, zipped beep by beep, with the tone values that same beep set (CurrFreq, AudBin, CueActive are updated by the tone branch before the grating branch runs). Reads the tone only through those subjects, so the tone's chain is untouched. Also publishes CueOnsetHarp, the Harp time of the trial's first row. Sits in series between HideAfterTruncation and GratingOpacity and passes the opacity straight through: a branch that did not lead on to the Repeat would stop the trials restarting.</Description>
               <Workflow>
                 <Nodes>
                   <Expression xsi:type="WorkflowInput">
-                    <Name>Source1</Name>
-                  </Expression>
-                  <Expression xsi:type="WorkflowInput">
                     <Name>Source2</Name>
                   </Expression>
                   <Expression xsi:type="WorkflowInput">
                     <Name>Source3</Name>
+                  </Expression>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="rx:Zip" />
@@ -11886,9 +12581,10 @@ String.Format("{0:0.###}", it.Item1.Item1.Item1.Item1.Item1.Item3) as GratingOpa
                   <Expression xsi:type="WorkflowOutput" />
                 </Nodes>
                 <Edges>
-                  <Edge From="1" To="3" Label="Source1" />
-                  <Edge From="2" To="3" Label="Source2" />
-                  <Edge From="0" To="3" Label="Source3" />
+                  <Edge From="0" To="3" Label="Source1" />
+                  <Edge From="1" To="3" Label="Source2" />
+                  <Edge From="2" To="3" Label="Source3" />
+                  <Edge From="2" To="23" Label="Source1" />
                   <Edge From="3" To="5" Label="Source1" />
                   <Edge From="4" To="5" Label="Source2" />
                   <Edge From="5" To="7" Label="Source1" />
@@ -11902,16 +12598,83 @@ String.Format("{0:0.###}", it.Item1.Item1.Item1.Item1.Item1.Item3) as GratingOpa
                   <Edge From="13" To="15" Label="Source1" />
                   <Edge From="14" To="15" Label="Source2" />
                   <Edge From="15" To="17" Label="Source1" />
+                  <Edge From="15" To="20" Label="Source1" />
                   <Edge From="16" To="17" Label="Source2" />
                   <Edge From="17" To="18" Label="Source1" />
                   <Edge From="18" To="19" Label="Source1" />
-                  <Edge From="15" To="20" Label="Source1" />
                   <Edge From="20" To="21" Label="Source1" />
                   <Edge From="21" To="22" Label="Source1" />
-                  <Edge From="0" To="23" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
+            <Expression xsi:type="MulticastSubject">
+              <Name>GratingOpacity</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:CombineLatest" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:CombineLatest" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Take">
+                <rx:Count>1</rx:Count>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="GroupWorkflow">
+              <Name>Monitor</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="ExternalizedMapping">
+                    <Property Name="Value" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="StringProperty">
+                      <Value>ProcessedTrialEnd</Value>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Take">
+                      <rx:Count>1</rx:Count>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Materialize" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:CombineLatest" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="io:WriteLine" />
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Item2</Selector>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Dematerialize" />
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="1" Label="Source1" />
+                  <Edge From="1" To="2" Label="Source1" />
+                  <Edge From="2" To="5" Label="Source1" />
+                  <Edge From="3" To="4" Label="Source1" />
+                  <Edge From="4" To="5" Label="Source2" />
+                  <Edge From="5" To="6" Label="Source1" />
+                  <Edge From="6" To="7" Label="Source1" />
+                  <Edge From="7" To="8" Label="Source1" />
+                  <Edge From="8" To="9" Label="Source1" />
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Repeat" />
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
             <Expression xsi:type="GroupWorkflow">
               <Name>StimulusLogger</Name>
               <Description>Writes the StimulusLog: one row per beep with the stimulus actually presented, built by LogStimulus. Sits here rather than in Logging because a logger there cannot subscribe to a subject declared in TaskLogic (Bonsai reports a circular definition). Not part of the repeating trial chain, so it writes one file per session. AudBin (declared in InitVars) is published by MakeSoundwave.</Description>
@@ -12008,7 +12771,7 @@ String.Format("{0:0.###}", it.Item1.Item1.Item1.Item1.Item1.Item3) as GratingOpa
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="io:CsvWriter">
-                    <io:FileName>C:\dev\auditory-vr-corridor\Logs\sub-TC001\ses-A42_date-2026-09-23T13-48-00\StimulusLog_A42_TC001_\StimulusLog_A42_TC001_.csv</io:FileName>
+                    <io:FileName>C:\Github\Coen-Lab\auditory-vr-corridor\Logs\sub-TC003\ses-A49_date-2026-10-20T13-03-31\StimulusLog_A49_TC003_\StimulusLog_A49_TC003_.csv</io:FileName>
                     <io:Append>false</io:Append>
                     <io:Overwrite>true</io:Overwrite>
                     <io:Suffix>Timestamp</io:Suffix>
@@ -12023,13 +12786,28 @@ String.Format("{0:0.###}", it.Item1.Item1.Item1.Item1.Item1.Item3) as GratingOpa
                 </Edges>
               </Workflow>
             </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>TaskParams</Name>
+            </Expression>
+
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Name>CueStartBeep</scr:Name>
+              <scr:Description>First beep with a tone pip: 1 as before, or LeadTime / 50 ms in an optogenetics session, so the laser (on at beep 0) leads the cue by LeadTime on every trial of that session, stimulated or not.</scr:Description>
+              <scr:Expression>it.Optogenetics.Enabled ? Convert.ToInt32(Math.Round(it.Optogenetics.LeadTime / 0.05)) : 1</scr:Expression>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="Count" />
+              </PropertyMappings>
+            </Expression>
           </Nodes>
           <Edges>
             <Edge From="0" To="2" Label="Source1" />
             <Edge From="1" To="2" Label="Source2" />
             <Edge From="2" To="3" Label="Source1" />
             <Edge From="3" To="4" Label="Source1" />
-            <Edge From="3" To="49" Label="Source1" />
+            <Edge From="3" To="50" Label="Source1" />
+            <Edge From="3" To="57" Label="Source2" />
             <Edge From="4" To="7" Label="Source1" />
             <Edge From="5" To="6" Label="Source1" />
             <Edge From="5" To="10" Label="Source1" />
@@ -12037,9 +12815,9 @@ String.Format("{0:0.###}", it.Item1.Item1.Item1.Item1.Item1.Item3) as GratingOpa
             <Edge From="6" To="7" Label="Source2" />
             <Edge From="7" To="8" Label="Source1" />
             <Edge From="8" To="13" Label="Source1" />
-            <Edge From="8" To="40" Label="Source1" />
+            <Edge From="8" To="41" Label="Source1" />
             <Edge From="9" To="12" Label="Source1" />
-            <Edge From="9" To="39" Label="Source1" />
+            <Edge From="9" To="40" Label="Source1" />
             <Edge From="10" To="12" Label="Source2" />
             <Edge From="11" To="12" Label="Source3" />
             <Edge From="12" To="13" Label="Source2" />
@@ -12054,52 +12832,54 @@ String.Format("{0:0.###}", it.Item1.Item1.Item1.Item1.Item1.Item3) as GratingOpa
             <Edge From="20" To="21" Label="Source1" />
             <Edge From="21" To="22" Label="Source1" />
             <Edge From="22" To="23" Label="Source1" />
-            <Edge From="23" To="63" Label="Source1" />
-            <Edge From="24" To="32" Label="Source1" />
-            <Edge From="25" To="26" Label="Source1" />
-            <Edge From="26" To="31" Label="Source1" />
-            <Edge From="27" To="28" Label="Source1" />
-            <Edge From="28" To="31" Label="Source2" />
-            <Edge From="29" To="30" Label="Source1" />
-            <Edge From="30" To="31" Label="Source3" />
-            <Edge From="31" To="32" Label="Source2" />
-            <Edge From="32" To="33" Label="Source1" />
+            <Edge From="23" To="24" Label="Source1" />
+            <Edge From="24" To="25" Label="Source1" />
+            <Edge From="25" To="33" Label="Source1" />
+            <Edge From="26" To="27" Label="Source1" />
+            <Edge From="27" To="32" Label="Source1" />
+            <Edge From="28" To="29" Label="Source1" />
+            <Edge From="29" To="32" Label="Source2" />
+            <Edge From="30" To="31" Label="Source1" />
+            <Edge From="31" To="32" Label="Source3" />
+            <Edge From="32" To="33" Label="Source2" />
             <Edge From="33" To="34" Label="Source1" />
             <Edge From="34" To="35" Label="Source1" />
             <Edge From="35" To="36" Label="Source1" />
-            <Edge From="36" To="58" Label="Source1" />
-            <Edge From="37" To="39" Label="Source2" />
-            <Edge From="38" To="39" Label="Source3" />
-            <Edge From="39" To="40" Label="Source2" />
-            <Edge From="40" To="41" Label="Source1" />
+            <Edge From="36" To="37" Label="Source1" />
+            <Edge From="37" To="60" Label="Source1" />
+            <Edge From="38" To="40" Label="Source2" />
+            <Edge From="39" To="40" Label="Source3" />
+            <Edge From="40" To="41" Label="Source2" />
             <Edge From="41" To="42" Label="Source1" />
-            <Edge From="41" To="45" Label="Source1" />
             <Edge From="42" To="43" Label="Source1" />
+            <Edge From="42" To="46" Label="Source1" />
             <Edge From="43" To="44" Label="Source1" />
-            <Edge From="44" To="47" Label="Source1" />
-            <Edge From="45" To="46" Label="Source1" />
-            <Edge From="46" To="47" Label="Source2" />
-            <Edge From="47" To="48" Label="Source1" />
-            <Edge From="48" To="52" Label="Source1" />
-            <Edge From="49" To="50" Label="Source1" />
-            <Edge From="49" To="51" Label="Source1" />
-            <Edge From="50" To="52" Label="Source2" />
-            <Edge From="51" To="52" Label="Source3" />
-            <Edge From="52" To="53" Label="Source1" />
-            <Edge From="52" To="55" Label="Source1" />
+            <Edge From="44" To="45" Label="Source1" />
+            <Edge From="45" To="48" Label="Source1" />
+            <Edge From="46" To="47" Label="Source1" />
+            <Edge From="47" To="48" Label="Source2" />
+            <Edge From="48" To="49" Label="Source1" />
+            <Edge From="49" To="53" Label="Source1" />
+            <Edge From="50" To="51" Label="Source1" />
+            <Edge From="50" To="52" Label="Source1" />
+            <Edge From="51" To="53" Label="Source2" />
+            <Edge From="52" To="53" Label="Source3" />
             <Edge From="53" To="54" Label="Source1" />
-            <Edge From="54" To="57" Label="Source1" />
-            <Edge From="55" To="64" Label="Source1" />
-            <Edge From="56" To="57" Label="Source2" />
-            <Edge From="57" To="58" Label="Source2" />
-            <Edge From="58" To="59" Label="Source1" />
-            <Edge From="59" To="60" Label="Source1" />
+            <Edge From="53" To="56" Label="Source1" />
+            <Edge From="53" To="57" Label="Source3" />
+            <Edge From="54" To="55" Label="Source1" />
+            <Edge From="55" To="59" Label="Source1" />
+            <Edge From="56" To="57" Label="Source1" />
+            <Edge From="57" To="58" Label="Source1" />
+            <Edge From="58" To="59" Label="Source2" />
+            <Edge From="59" To="60" Label="Source2" />
             <Edge From="60" To="61" Label="Source1" />
             <Edge From="61" To="62" Label="Source1" />
-            <Edge From="63" To="24" Label="Source1" />
-            <Edge From="3" To="64" Label="Source2" />
-            <Edge From="52" To="64" Label="Source3" />
-            <Edge From="64" To="56" Label="Source1" />
+            <Edge From="62" To="63" Label="Source1" />
+            <Edge From="63" To="64" Label="Source1" />
+            <Edge From="66" To="67" Label="Source1" />
+            <Edge From="67" To="68" Label="Source1" />
+            <Edge From="68" To="3" Label="Source2" />
           </Edges>
         </Workflow>
       </Expression>
@@ -12197,7 +12977,7 @@ Convert.ToBoolean(it.Item2) ? 0.0 : Math.Min((it.Item1.Item1.Item1 - Math.Min(it
         <Layer>1</Layer>
         <ExtentX>270</ExtentX>
         <ExtentY>105</ExtentY>
-        <SpatialFrequency>0.03</SpatialFrequency>
+        <SpatialFrequency>0.3</SpatialFrequency>
         <TemporalFrequency>0</TemporalFrequency>
         <Phase>16.8036766</Phase>
         <Angle>90</Angle>
@@ -12814,7 +13594,7 @@ it.EngagedTrials as Total
               </PropertyMappings>
             </Expression>
             <Expression xsi:type="io:CsvWriter">
-              <io:FileName>EventLog.csv</io:FileName>
+              <io:FileName>C:\Github\Coen-Lab\auditory-vr-corridor\Logs\sub-TC003\ses-A49_date-2026-10-20T13-03-31\EventLog_A49_TC003_\EventLog_A49_TC003_.csv</io:FileName>
               <io:Append>false</io:Append>
               <io:Overwrite>true</io:Overwrite>
               <io:Suffix>Timestamp</io:Suffix>

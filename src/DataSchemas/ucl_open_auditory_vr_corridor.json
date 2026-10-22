@@ -222,6 +222,59 @@
       "title": "LogConfig",
       "type": "object"
     },
+    "OptogeneticsConfig": {
+      "description": "Zapit optogenetic stimulation. Field names follow the av-dome task schema.\n\nThe stimulation sites, laser power and ramp-down are set in the Zapit stimulus config loaded in Zapit, not here. Bonsai reads the same file only to\nlist its conditions (stimLocations01, stimLocations02, ...), and draws one per stimulated trial. On a stimulated trial the laser comes on lead_time\nbefore the first tone pip and is stopped at the trial outcome, or after stim_duration if that comes first.",
+      "properties": {
+        "enabled": {
+          "default": false,
+          "description": "Whether optogenetic stimulation runs this session. When false, Bonsai does not connect to Zapit",
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "zapitConfigPath": {
+          "default": "",
+          "description": "Path to the Zapit stimulus config YAML loaded in Zapit, listing the stimulation conditions",
+          "title": "ZapitConfigPath",
+          "type": "string"
+        },
+        "stimProbability": {
+          "default": 0.75,
+          "description": "Probability that a trial receives stimulation",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "StimProbability",
+          "type": "number"
+        },
+        "stimDuration": {
+          "default": 12.0,
+          "description": "Longest the laser stays on in one trial, in seconds. It normally stops earlier, at the trial outcome",
+          "exclusiveMinimum": 0,
+          "title": "StimDuration",
+          "type": "number"
+        },
+        "leadTime": {
+          "default": 0.1,
+          "description": "How long before the first tone pip the laser comes on, in seconds. A multiple of the 50 ms beep interval, from 0.05 to 1. Applied to every trial of an optogenetics session, stimulated or not, so trial timing does not reveal which trials are stimulated",
+          "title": "LeadTime",
+          "type": "number"
+        },
+        "pseudorandomSelection": {
+          "default": true,
+          "description": "Draw conditions from a shuffled queue, so each is used equally often, rather than independently each trial",
+          "title": "PseudorandomSelection",
+          "type": "boolean"
+        },
+        "warmupTrials": {
+          "default": 0,
+          "description": "Trials at session start with no stimulation",
+          "minimum": 0,
+          "title": "WarmupTrials",
+          "type": "integer"
+        }
+      },
+      "title": "OptogeneticsConfig",
+      "type": "object"
+    },
     "PulseController": {
       "description": "Represents the PulseController module on the BehaviourBoard.\nMirrors the externalized properties of the Bonsai workflow of the same name,\nexcluding subject name properties.",
       "properties": {
@@ -566,10 +619,19 @@
               "rollThreshold": 0.5,
               "rollWindow": 25
             },
+            "optogenetics": {
+              "enabled": false,
+              "leadTime": 0.1,
+              "pseudorandomSelection": true,
+              "stimDuration": 12.0,
+              "stimProbability": 0.75,
+              "warmupTrials": 0,
+              "zapitConfigPath": ""
+            },
             "logConfig": {
               "animalId": "unknown_animal",
               "loggingRootPath": "..\\Logs",
-              "sessionId": "2026-10-19T13_58_09"
+              "sessionId": "2026-10-22T18_35_25"
             },
             "amplitude": 0.05,
             "quantizeBinSize": 1
@@ -682,11 +744,24 @@
           },
           "title": "Engagement"
         },
+        "optogenetics": {
+          "$ref": "#/$defs/OptogeneticsConfig",
+          "default": {
+            "enabled": false,
+            "zapitConfigPath": "",
+            "stimProbability": 0.75,
+            "stimDuration": 12.0,
+            "leadTime": 0.1,
+            "pseudorandomSelection": true,
+            "warmupTrials": 0
+          },
+          "title": "Optogenetics"
+        },
         "logConfig": {
           "$ref": "#/$defs/LogConfig",
           "default": {
             "loggingRootPath": "..\\Logs",
-            "sessionId": "2026-10-19T13_58_09",
+            "sessionId": "2026-10-22T18_35_25",
             "animalId": "unknown_animal"
           }
         },

@@ -47,11 +47,10 @@ public class RigConfigs
         configs.SerialNumberCamera3 = "23201535";  // Face
 
         // Audio and visual
-        configs.AudioDeviceName = "Speakers (7- XMOS xCORE-200 MC (UAC2.0))";  // TODO: check on this rig
         configs.MeshMapFilePath = @"C:\RigConfigs\MeshMap.csv";
 
         // Valve calibration
-        configs.ValveOpenTime = 55;  // in ms. ~10ms min. TODO: not calibrated on this rig
+        configs.ValveOpenTime = 80;  // in ms. ~10ms min. TODO: not calibrated on this rig
 
         // Spout start positions
         configs.Motor1InPosition = 3550;  // TODO: not set on this rig
@@ -59,6 +58,12 @@ public class RigConfigs
         configs.Motor3InPosition = 4700;
         configs.Motor4InPosition = 2150;
         configs.Motor5InPosition = 950;
+
+        // Zapit optogenetics, only used when the session JSON enables optogenetics
+        configs.ZapitHost = "127.0.0.1";  // PC running Zapit; 127.0.0.1 when it runs on this rig PC
+        configs.ZapitPort = 1488;  // tcpServer.port in Zapit's settings file
+        configs.ZapitHardwareTriggered = false;  // true once DO3 is cabled to the Zapit DAQ trigger input
+        configs.ZapitTriggerPulseWidth = 5;  // in ms, the DO3 pulse that fires the laser
 
         return configs;
     }
@@ -93,6 +98,12 @@ public class RigConfigs
         configs.Motor4InPosition = 2150;
         configs.Motor5InPosition = 950;
 
+        // Zapit optogenetics, only used when the session JSON enables optogenetics
+        configs.ZapitHost = "127.0.0.1";  // PC running Zapit; 127.0.0.1 when it runs on this rig PC
+        configs.ZapitPort = 1488;  // tcpServer.port in Zapit's settings file
+        configs.ZapitHardwareTriggered = false;  // true once DO3 is cabled to the Zapit DAQ trigger input
+        configs.ZapitTriggerPulseWidth = 5;  // in ms, the DO3 pulse that fires the laser
+
         return configs;
     }
 
@@ -124,6 +135,12 @@ public class RigConfigs
         configs.Motor3InPosition = 4700;
         configs.Motor4InPosition = 2150;
         configs.Motor5InPosition = 950;
+
+        // Zapit optogenetics, only used when the session JSON enables optogenetics
+        configs.ZapitHost = "127.0.0.1";  // PC running Zapit; 127.0.0.1 when it runs on this rig PC
+        configs.ZapitPort = 1488;  // tcpServer.port in Zapit's settings file
+        configs.ZapitHardwareTriggered = false;  // true once DO3 is cabled to the Zapit DAQ trigger input
+        configs.ZapitTriggerPulseWidth = 5;  // in ms, the DO3 pulse that fires the laser
 
         return configs;
     }
@@ -157,4 +174,11 @@ public class RigSpecificConfigs
     public int Motor3InPosition;
     public int Motor4InPosition;
     public int Motor5InPosition;
+
+    // Zapit optogenetics. Hardware triggered: Zapit is armed during the ITI and a pulse on behaviour board DO3 fires the laser, so onset is on the
+    // Harp clock. Not hardware triggered: the laser starts when the command reaches Zapit, a few tens of ms late. Use for tests without the cable.
+    public String ZapitHost;  // PC running Zapit
+    public int ZapitPort;  // TCP port of the Zapit server
+    public bool ZapitHardwareTriggered;  // Fire the laser with the DO3 TTL rather than on receipt of the command
+    public Double ZapitTriggerPulseWidth;  // in ms, width of the DO3 pulse
 }

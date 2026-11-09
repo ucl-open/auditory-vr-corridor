@@ -107,3 +107,7 @@ src/waveforms/*
 ToDo.txt
 ErrorLog/
 *.out
+
+# Mac headless Bonsai simulation kit (sim/setup.sh builds into sim/build; sim/run.py writes runs to temp folders or --run-dir)
+sim/build/
+sim/runs/

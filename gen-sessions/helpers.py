@@ -55,6 +55,44 @@ def engaged_success_text(trials, engaged):
     return f'Engaged trials: {n_engaged}, Success rate while engaged: {engaged_rewarded / n_engaged:.2%}'
 
 
+def laser_on_trials(trials):
+    '''
+    Which trials of a trial log had the laser on (OptogeneticEnabled), as a boolean array.
+    All False for logs from before optogenetics, which have no OptogeneticEnabled column.
+    '''
+    if 'OptogeneticEnabled' not in trials.columns:
+        return np.zeros(len(trials), dtype=bool)
+    # Read as text, since a column with a missing value is not parsed as bool and 'False' is a truthy string
+    return trials['OptogeneticEnabled'].map(lambda value: str(value).strip().lower() in ('true', '1')).to_numpy(dtype=bool)
+
+
+def is_optogenetics_session(trials):
+    '''
+    True if a trial log comes from an optogenetics session. Every trial of one sends Zapit a condition, laser-on or sham, so OptogeneticCondition is above 0;
+    in any other session it is 0. Logs from before optogenetics have no such column and are never one. A log with any laser-on trial counts too, so that a
+    laser-on trial can never reach a shaping stage decision.
+    '''
+    if 'OptogeneticCondition' in trials.columns and (pd.to_numeric(trials['OptogeneticCondition'], errors='coerce') > 0).any():
+        return True
+    return bool(laser_on_trials(trials).any())
+
+
+def optogenetics_success_text(trials, engaged):
+    '''
+    Success on the laser-on and the control (laser-off) trials of an optogenetics session, reported separately, since only the control trials show how the
+    animal does without stimulation. Control trials include the warmup trials at the start of the session. Formatted for the session report below.
+    '''
+    laser_on = laser_on_trials(trials)
+    lines = []
+    for label, group in (('Laser-on trials', laser_on), ('Control (laser-off) trials', ~laser_on)):
+        n_trials = int(group.sum())
+        rewarded_trials = int(trials['WasRewarded'].values[group].sum())
+        success_rate = f'{rewarded_trials / n_trials:.2%}' if n_trials > 0 else 'n/a'
+        lines.append(f'{label}: {n_trials}, Rewarded trials: {rewarded_trials}, Success rate: {success_rate}')
+        lines.append(f'    {engaged_success_text(trials[group], engaged[group])}')
+    return '\n'.join(lines)
+
+
 def collect_session_dirs(
         logging_root_paths: list,
         animal_id: str
@@ -121,6 +159,8 @@ def determine_shaping_stage(
     Sessions of a different modality are ignored, so e.g. a first-ever 'A' session starts at stage 1 even if 'V' is on a later stage.
     Since stage 2 is auto-rewarded, it only advances to stage 3 once the 2 most recent consecutive sessions each have at least 50 trials.
     Stages 3-5 also advance on the first 100 or first 150 trials alone, since mice often stop licking late in a session and drag the full-session average down.
+    An optogenetics session never changes the stage: its stage is kept, and success is reported separately for laser-on and control (laser-off) trials.
+    Laser-on trials never count toward a stage decision.
     '''
     print(f"Determining shaping stage for animal '{animal_id}' (new session: {session_id}, modality: {modality})...")
 
@@ -168,6 +208,7 @@ def determine_shaping_stage(
         return 1
 
     total_trials = len(df)
+    optogenetics_session = is_optogenetics_session(df) # Read before the stage filter below, from the whole session
 
     # Check stage was consistent throughout previous session
     start_stage = df['ShapingStage'].iloc[0]
@@ -180,6 +221,19 @@ def determine_shaping_stage(
     if continue_session:
         print(f'\nContinuing session, maintaining same shaping stage as last session ({end_stage}).\n')
         return end_stage
+
+    # An optogenetics session never changes the stage: stimulation is meant to change performance, so its success rate says nothing about whether the animal
+    # is ready for the next stage. Laser-on and control trials are reported separately, as the control trials alone show the animal's unstimulated performance.
+    if optogenetics_session:
+        print("\nOptogenetics session - success is reported separately for laser-on and control trials:")
+        print(optogenetics_success_text(df, label_engagement((df['LickCount'] > 0).values)))
+        print(f"\nOptogenetics sessions never change the shaping stage, maintaining same shaping stage ({end_stage}).\n")
+        return end_stage
+
+    # Laser-on trials never count toward a stage decision. An optogenetics session has returned above, so this only drops trials from the previous session
+    # used by the stage 2 rule below; logs from before optogenetics have no laser-on trials, so nothing is dropped from them.
+    if prev_df is not None:
+        prev_df = prev_df[~laser_on_trials(prev_df)]
 
     # If less than 50 trials, keep to same shaping stage
     if total_trials < 50:

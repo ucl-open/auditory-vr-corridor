@@ -7,6 +7,10 @@ from ucl_open_auditory_vr_corridor.helpers import calc_log_window
 
 from ucl_open_auditory_vr_corridor import __semver__
 
+BEEP_INTERVAL_SEC = 0.05 # The tone pips are 50 ms apart on the Harp clock (every 50th Behavior board sample in main.bonsai's HarpBeat)
+MAX_TRIAL_TIME_SEC = 12.0 # main.bonsai's MaxTrialTimeSec (Params/InitVars): the trial timeout, counted from the first tone pip
+STIM_DURATION_MARGIN_SEC = 0.25 # How much longer than the longest trial the optogenetics stim_duration cap must be
+
 
 class Stage(BaseSchema):
     '''Frequency boundaries for a single shaping stage.'''
@@ -64,6 +68,47 @@ class EngagementConfig(BaseSchema):
     min_epoch: int = Field(default=10, description='Shortest run of trials that can be called engaged or disengaged - shorter runs are absorbed into their neighbours. Above 20 this starts swallowing real working periods', ge=1, le=20)
 
 
+class OptogeneticsConfig(BaseSchema):
+    '''Zapit optogenetic stimulation. Field names follow the av-dome task schema.
+
+    The stimulation sites, laser power and ramp-down are set in the Zapit stimulus config loaded in Zapit, not here. Bonsai reads the same file only to
+    list its conditions (stimLocations01, stimLocations02, ...). Every trial of an optogenetics session sends Zapit a condition: laser-on trials with the
+    laser on, all others as sham trials with the laser off, so galvo noise and masking light are the same on every trial. The stimulus is continuous: it
+    starts lead_time before the first tone pip and is stopped at the trial outcome, or after stim_duration if that comes first.
+    '''
+    enabled: bool = Field(default=False, description='Whether this is an optogenetics session. When false, Bonsai sends nothing to Zapit and does not connect to it')
+    zapit_config_path: str = Field(default='', description='Path to the Zapit stimulus config YAML loaded in Zapit. Its top-level stimLocations01, stimLocations02, ... entries are the conditions and must be numbered 1 to N with no gaps')
+    stim_probability: float = Field(default=0.4, ge=0.0, le=1.0, description='Probability that a trial after the warmup is a laser-on trial, shared equally by every condition in the Zapit stimulus config: the target sites and any laser-on control site (for example 5 conditions, one of them a laser-on control site, at 0.4 gives each 8%). All other trials are sham trials: Zapit is sent a condition with the laser off')
+    stim_duration: float = Field(default=12.5, gt=0, description='Longest the laser stays on in one trial, in seconds from onset, timed by Bonsai. A safety cap: the stimulus normally stops at the trial outcome. Must be at least 12 s + lead_time + 0.25 s, so it never stops the laser before a timeout trial ends (the 12 s timeout counts from the first tone pip, which comes lead_time after onset); the default covers lead_time up to 0.25 s')
+    lead_time: float = Field(default=0.1, description='How long before the first tone pip the stimulus starts, in seconds. A multiple of the 50 ms beep interval, from 0.05 to 1. Applied to every trial of an optogenetics session, laser-on or sham, so trial timing does not reveal which trials are laser-on')
+    pseudorandom_selection: bool = Field(default=True, description='Draw conditions from shuffled queues, one for laser-on and one for sham trials, so each condition is used equally often, rather than independently each trial')
+    warmup_trials: int = Field(default=20, ge=0, description='Trials at session start that are all sham trials, with the laser off')
+
+    @model_validator(mode="after")
+    def validate_lead_time(self):
+        # Bonsai starts the stimulus on a beep and moves the first tone pip lead_time later, so lead_time has to be a whole number of beeps
+        beeps = self.lead_time / BEEP_INTERVAL_SEC
+        if abs(beeps - round(beeps)) > 1e-6 or not 1 <= round(beeps) <= 20:
+            raise ValueError(f'lead_time ({self.lead_time}) must be a multiple of the {BEEP_INTERVAL_SEC} s beep interval, from 0.05 to 1 s')
+        return self
+
+    @model_validator(mode="after")
+    def validate_stim_duration(self):
+        # The laser is meant to stay on until the outcome; a cap shorter than the longest trial would cut every timeout trial short
+        shortest = MAX_TRIAL_TIME_SEC + self.lead_time + STIM_DURATION_MARGIN_SEC
+        if self.stim_duration < shortest - 1e-9:
+            raise ValueError(f'stim_duration ({self.stim_duration} s) must be at least {shortest:g} s: the {MAX_TRIAL_TIME_SEC:g} s timeout counts from the first tone pip, '
+                             f'which comes lead_time ({self.lead_time} s) after onset, so a shorter cap would stop the laser before a timeout trial ends')
+        return self
+
+    @model_validator(mode="after")
+    def validate_zapit_config_path(self):
+        # Bonsai lists the conditions from this file, so an empty path would only be caught once Bonsai is already running
+        if self.enabled and not self.zapit_config_path.strip():
+            raise ValueError('optogenetics is enabled but zapit_config_path is empty')
+        return self
+
+
 class LogConfig(BaseSchema):
     '''Logging params.'''
     logging_root_path: str = Field(default=r"..\Logs", description="Root path for logs")
@@ -89,6 +134,7 @@ class UclOpenAuditoryVrCorridorTaskParameters(BaseSchema):
     punishment: PunishmentConfig = PunishmentConfig()
     truncation: TruncationConfig = TruncationConfig()
     engagement: EngagementConfig = EngagementConfig()
+    optogenetics: OptogeneticsConfig = OptogeneticsConfig()
     log_config: LogConfig = LogConfig()
     amplitude: float = Field(default=0.05, description='Audio amplitude (0.0 to 1.0)', ge=0.0, le=1.0)
     background_noise_level: float = Field(default=0.5, description='Constant background white noise RMS, as a fraction of the beep RMS (0 = off)', ge=0.0, le=1.0)

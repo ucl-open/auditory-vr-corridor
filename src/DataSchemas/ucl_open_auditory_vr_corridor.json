@@ -222,6 +222,59 @@
       "title": "LogConfig",
       "type": "object"
     },
+    "OptogeneticsConfig": {
+      "description": "Zapit optogenetic stimulation. Field names follow the av-dome task schema.\n\nThe stimulation sites, laser power and ramp-down are set in the Zapit stimulus config loaded in Zapit, not here. Bonsai reads the same file only to\nlist its conditions (stimLocations01, stimLocations02, ...). Every trial of an optogenetics session sends Zapit a condition: laser-on trials with the\nlaser on, all others as sham trials with the laser off, so galvo noise and masking light are the same on every trial. The stimulus is continuous: it\nstarts lead_time before the first tone pip and is stopped at the trial outcome, or after stim_duration if that comes first.",
+      "properties": {
+        "enabled": {
+          "default": false,
+          "description": "Whether this is an optogenetics session. When false, Bonsai sends nothing to Zapit and does not connect to it",
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "zapitConfigPath": {
+          "default": "",
+          "description": "Path to the Zapit stimulus config YAML loaded in Zapit. Its top-level stimLocations01, stimLocations02, ... entries are the conditions and must be numbered 1 to N with no gaps",
+          "title": "ZapitConfigPath",
+          "type": "string"
+        },
+        "stimProbability": {
+          "default": 0.4,
+          "description": "Probability that a trial after the warmup is a laser-on trial, shared equally by every condition in the Zapit stimulus config: the target sites and any laser-on control site (for example 5 conditions, one of them a laser-on control site, at 0.4 gives each 8%). All other trials are sham trials: Zapit is sent a condition with the laser off",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "StimProbability",
+          "type": "number"
+        },
+        "stimDuration": {
+          "default": 12.5,
+          "description": "Longest the laser stays on in one trial, in seconds from onset, timed by Bonsai. A safety cap: the stimulus normally stops at the trial outcome. Must be at least 12 s + lead_time + 0.25 s, so it never stops the laser before a timeout trial ends (the 12 s timeout counts from the first tone pip, which comes lead_time after onset); the default covers lead_time up to 0.25 s",
+          "exclusiveMinimum": 0,
+          "title": "StimDuration",
+          "type": "number"
+        },
+        "leadTime": {
+          "default": 0.1,
+          "description": "How long before the first tone pip the stimulus starts, in seconds. A multiple of the 50 ms beep interval, from 0.05 to 1. Applied to every trial of an optogenetics session, laser-on or sham, so trial timing does not reveal which trials are laser-on",
+          "title": "LeadTime",
+          "type": "number"
+        },
+        "pseudorandomSelection": {
+          "default": true,
+          "description": "Draw conditions from shuffled queues, one for laser-on and one for sham trials, so each condition is used equally often, rather than independently each trial",
+          "title": "PseudorandomSelection",
+          "type": "boolean"
+        },
+        "warmupTrials": {
+          "default": 20,
+          "description": "Trials at session start that are all sham trials, with the laser off",
+          "minimum": 0,
+          "title": "WarmupTrials",
+          "type": "integer"
+        }
+      },
+      "title": "OptogeneticsConfig",
+      "type": "object"
+    },
     "PulseController": {
       "description": "Represents the PulseController module on the BehaviourBoard.\nMirrors the externalized properties of the Bonsai workflow of the same name,\nexcluding subject name properties.",
       "properties": {
@@ -566,10 +619,19 @@
               "rollThreshold": 0.5,
               "rollWindow": 25
             },
+            "optogenetics": {
+              "enabled": false,
+              "leadTime": 0.1,
+              "pseudorandomSelection": true,
+              "stimDuration": 12.5,
+              "stimProbability": 0.4,
+              "warmupTrials": 20,
+              "zapitConfigPath": ""
+            },
             "logConfig": {
               "animalId": "unknown_animal",
               "loggingRootPath": "..\\Logs",
-              "sessionId": "2026-10-22T18_34_27"
+              "sessionId": "2026-11-09T12_13_36"
             },
             "amplitude": 0.05,
             "backgroundNoiseLevel": 0.5,
@@ -683,11 +745,24 @@
           },
           "title": "Engagement"
         },
+        "optogenetics": {
+          "$ref": "#/$defs/OptogeneticsConfig",
+          "default": {
+            "enabled": false,
+            "zapitConfigPath": "",
+            "stimProbability": 0.4,
+            "stimDuration": 12.5,
+            "leadTime": 0.1,
+            "pseudorandomSelection": true,
+            "warmupTrials": 20
+          },
+          "title": "Optogenetics"
+        },
         "logConfig": {
           "$ref": "#/$defs/LogConfig",
           "default": {
             "loggingRootPath": "..\\Logs",
-            "sessionId": "2026-10-22T18_34_27",
+            "sessionId": "2026-11-09T12_13_36",
             "animalId": "unknown_animal"
           }
         },

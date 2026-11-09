@@ -6,6 +6,7 @@ since regenerating it needs the dotnet SDK, so these tests are what catches it d
 import inspect
 import json
 import re
+import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import Union
 
@@ -16,6 +17,9 @@ from ucl_open_auditory_vr_corridor.task import (
     OptogeneticsConfig,
     UclOpenAuditoryVrCorridorTaskLogic,
     UclOpenAuditoryVrCorridorTaskParameters,
+    BEEP_INTERVAL_SEC,
+    MAX_TRIAL_TIME_SEC,
+    STIM_DURATION_MARGIN_SEC,
 )
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -186,3 +190,47 @@ def test_generated_cs_task_parameters_include_optogenetics():
     assert "_optogenetics = new OptogeneticsConfig();" in text
     assert '[Newtonsoft.Json.JsonPropertyAttribute("optogenetics")]' in text
     assert UclOpenAuditoryVrCorridorTaskParameters.model_fields["optogenetics"].alias == "optogenetics"
+
+
+# --- the stim_duration rule's constants, shared by task.py, main.bonsai and InitialiseOptoTrial.cs ----------------------------------------------------
+
+def _iso_seconds(duration):
+    '''An ISO 8601 duration as Bonsai writes a TimeSpan, e.g. PT12S, PT0.5S, PT1M.'''
+    hours, minutes, seconds = re.fullmatch(r"PT(?:(\d+)H)?(?:(\d+)M)?(?:([\d.]+)S)?", duration).groups()
+    return float(hours or 0) * 3600 + float(minutes or 0) * 60 + float(seconds or 0)
+
+
+def test_workflow_trial_timeout_matches_max_trial_time_sec():
+    '''The TimeSpanProperty feeding the MaxTrialTimeSec BehaviorSubject (Params/InitVars) is the timeout the stim_duration rule assumes.'''
+    xsi_type = "{http://www.w3.org/2001/XMLSchema-instance}type"
+    local = lambda tag: tag.rsplit("}", 1)[-1]
+    timeouts = []
+    for workflow in ET.parse(REPO_ROOT / "src" / "main.bonsai").getroot().iter():
+        nodes = next((child for child in workflow if local(child.tag) == "Nodes"), None)
+        edges = next((child for child in workflow if local(child.tag) == "Edges"), None)
+        if nodes is None or edges is None:
+            continue
+        nodes = list(nodes)
+        links = [(int(edge.get("From")), int(edge.get("To"))) for edge in edges]
+        for index, node in enumerate(nodes):
+            name = node.find("{*}Name")
+            if "BehaviorSubject" in (node.get(xsi_type) or "") and name is not None and name.text == "MaxTrialTimeSec":
+                for source, target in links:
+                    value = nodes[source].find(".//{*}Value") if target == index else None
+                    if value is not None:
+                        timeouts.append(_iso_seconds(value.text))
+    assert timeouts == [MAX_TRIAL_TIME_SEC]
+
+
+def test_initialise_opto_trial_guard_matches_task_py():
+    '''InitialiseOptoTrial.cs re-checks stim_duration and lead_time at trial 1 with its own copies of the constants.'''
+    text = (REPO_ROOT / "src" / "Extensions" / "InitialiseOptoTrial.cs").read_text(encoding="utf-8")
+    assert float(re.search(r"const double MaxTrialTimeSec = ([\d.]+);", text).group(1)) == MAX_TRIAL_TIME_SEC
+    assert float(re.search(r"const double StimDurationMarginSec = ([\d.]+);", text).group(1)) == STIM_DURATION_MARGIN_SEC
+    assert "optogenetics.LeadTime / " + repr(BEEP_INTERVAL_SEC) in text
+
+
+@pytest.mark.parametrize("value", [float("inf"), float("nan")])
+def test_stim_duration_must_be_finite(value):
+    with pytest.raises(pydantic.ValidationError, match="stim_duration"):
+        OptogeneticsConfig(stim_duration=value)

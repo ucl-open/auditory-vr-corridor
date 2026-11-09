@@ -117,7 +117,7 @@ public class InitialiseOptoTrial
                 "optogenetics.leadTime must be a multiple of 0.05 s from 0.05 to 1; got {0}.", optogenetics.LeadTime));
         }
         // The laser is meant to stay on until the outcome, so the cap must be longer than the longest trial: the workflow's
-        // MaxTrialTimeSec (12 s, counted from the first tone pip, which comes LeadTime after onset) plus a margin.
+        // MaxTrialTimeSec (12 s, counted from the first tone pip, LeadTime after onset, on trial 1 and one beep earlier later) plus a margin.
         var shortestCap = MaxTrialTimeSec + optogenetics.LeadTime + StimDurationMarginSec;
         if (!(optogenetics.StimDuration >= shortestCap - 1e-9) || double.IsInfinity(optogenetics.StimDuration))
         {

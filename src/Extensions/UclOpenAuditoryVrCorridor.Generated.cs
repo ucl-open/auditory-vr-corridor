@@ -889,10 +889,10 @@ namespace UclOpenAuditoryVrCorridorDataSchema
         }
     
         /// <summary>
-        /// Longest the laser stays on in one trial, in seconds from onset, timed by Bonsai. A safety cap: the stimulus normally stops at the trial outcome. Must be at least 12 s + lead_time + 0.25 s, so it never stops the laser before a timeout trial ends (the 12 s timeout counts from the first tone pip, which comes lead_time after onset); the default covers lead_time up to 0.25 s
+        /// Longest the stimulus runs in one trial, in seconds from onset, timed by Bonsai; the laser then ramps down over the condition's offRampDownDuration_ms. A safety cap: the stimulus normally stops at the trial outcome. Must be at least 12 s + lead_time + 0.25 s, so it never stops the laser before a timeout trial ends (on trial 1 the 12 s timeout counts from the first tone pip, which comes lead_time after onset; from trial 2 it starts one beep earlier); the default covers lead_time up to 0.25 s. Stages 1-3 have no timeout, so there a trial longer than this loses its stimulus
         /// </summary>
         [Newtonsoft.Json.JsonPropertyAttribute("stimDuration")]
-        [System.ComponentModel.DescriptionAttribute(@"Longest the laser stays on in one trial, in seconds from onset, timed by Bonsai. A safety cap: the stimulus normally stops at the trial outcome. Must be at least 12 s + lead_time + 0.25 s, so it never stops the laser before a timeout trial ends (the 12 s timeout counts from the first tone pip, which comes lead_time after onset); the default covers lead_time up to 0.25 s")]
+        [System.ComponentModel.DescriptionAttribute(@"Longest the stimulus runs in one trial, in seconds from onset, timed by Bonsai; the laser then ramps down over the condition's offRampDownDuration_ms. A safety cap: the stimulus normally stops at the trial outcome. Must be at least 12 s + lead_time + 0.25 s, so it never stops the laser before a timeout trial ends (on trial 1 the 12 s timeout counts from the first tone pip, which comes lead_time after onset; from trial 2 it starts one beep earlier); the default covers lead_time up to 0.25 s. Stages 1-3 have no timeout, so there a trial longer than this loses its stimulus")]
         public double StimDuration
         {
             get

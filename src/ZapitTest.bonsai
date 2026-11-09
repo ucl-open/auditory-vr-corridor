@@ -11,7 +11,7 @@
         <Name>How to use</Name>
         <Text><![CDATA[Checks that Bonsai can talk to Zapit, without any rig hardware. Nothing here touches main.bonsai.
 
-1. In MATLAB: start_zapit('simulated', true), then hZP.applyUnityStereotaxicCalib, then load a stim config in the Zapit GUI. Zapit's settings YAML needs tcpServer.enable: true.
+1. In MATLAB, start Zapit on the real DAQ with the laser shutter closed (or 0 mW), calibrate, and load a stim config in the Zapit GUI. Without a rig, start_zapit('simulated', true) then hZP.applyUnityStereotaxicCalib also works, but its simulated DAQ stops every stimulus by itself, so there the GetState check at 7 s proves nothing. Zapit's settings YAML needs tcpServer.enable: true.
 2. Set Host and Port on the Zapit include below (127.0.0.1 and 1488 when Zapit runs on this PC).
 3. Start. Replies are printed to the console, in this order:
    IsStimConfigLoaded value=1, GetNumConditions value=N (on connect)

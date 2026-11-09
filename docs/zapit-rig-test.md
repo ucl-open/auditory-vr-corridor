@@ -8,9 +8,14 @@ Use a TEST animal ID (for example `TEST`) throughout, so nothing is logged with 
 
 ## Before you start
 
-- On the rig PC: `git fetch`, then `git status`. If `src/main.bonsai` shows as modified (Bonsai saved it after a session), run
-  `git stash` first. Then `git checkout zapit-integration-v2`. `main` is not touched by this branch. Afterwards go back with
-  `git checkout main` (and `git stash pop` if you stashed).
+- On the rig PC: `git fetch`, then `git status`. A rig usually shows `src/main.bonsai` (Bonsai saved it after a session) and
+  `session-schemas/current-session/UclOpenAuditoryVrCorridorTaskLogic.json` (written by every gen_session run) as modified; if
+  anything is, run `git stash` first. Then `git checkout zapit-integration-v2`. `main` is not touched by this branch.
+- To go back afterwards, first throw away the test's own changes on this branch (your `RigConfigs.cs` edits, the session JSON the
+  TEST sessions wrote, `main.bonsai` if Bonsai saved it) with `git checkout -- .`. Without that, `git checkout main` refuses
+  (`RigConfigs.cs` and `main.bonsai` differ between the branches) and so does `git stash pop` (the session JSON). Then
+  `git checkout main`, and `git stash pop` if you stashed. Do not run `git stash` a second time on this branch: the later
+  `git stash pop` would then put this branch's changes onto `main`.
 - Do not run `scripts/update_workflow_keep_rig_config.py` on this branch without `--ref origin/zapit-integration-v2`: by default it
   takes `main.bonsai` from `origin/main`, which would silently remove all the Zapit nodes.
 - Zapit: `tcpServer.enable: true` in its settings YAML, restart Zapit, calibrate, and load the stimulus config you will use. Use the
@@ -22,11 +27,12 @@ Use a TEST animal ID (for example `TEST`) throughout, so nothing is logged with 
 
 ## Step 1: no optogenetics, nothing should change
 
-Run `uv run gen-sessions\gen_session.py` with a TEST animal and answer N at the optogenetics prompt (at stages below 5 it is not
-offered). Run `main.bonsai` for about 20 trials.
+Run `uv run gen-sessions\gen_session.py` with a TEST animal and answer N at the "Optogenetics (Zapit)?" prompt (TEST animals are
+asked at every stage; real animals only at stages 5 and 6). Run `main.bonsai` for about 20 trials.
 
-**Pass:** the task behaves exactly as on `main`; nothing appears in Zapit's MATLAB window; the TrialLog has four extra columns at the
-end, `OptogeneticEnabled` False, `OptogeneticCondition` 0, `OptoOnsetHarp` and `OptoOffsetHarp` NaN.
+**Pass:** the task behaves exactly as on `main`; nothing appears in Zapit's MATLAB window; the session's log folder has no
+`Zapit_...` and no `ZapitStimConfigCopy_...` folder; the TrialLog has four extra columns at the end, `OptogeneticEnabled` False,
+`OptogeneticCondition` 0, `OptoOnsetHarp` and `OptoOffsetHarp` NaN.
 
 ## Step 2: connection, `src/ZapitTest.bonsai`
 
@@ -38,16 +44,22 @@ really ended the stimulus.
 
 ## Step 3: software-timed optogenetics session
 
-`gen_session.py` again with the TEST animal, answer y and give the stimulus config file that is loaded in Zapit. Run `main.bonsai`
-for at least 30 trials (the first 20 are warmup: galvos move but the laser stays off).
+`gen_session.py` again with the TEST animal. At the shaping stage prompt enter `5`: a new TEST animal is otherwise offered stage 1,
+and stages 1-3 have no trial timeout, so the 12.5 s cap rather than the outcome would end each stimulus. Answer y at the
+optogenetics prompt and give the stimulus config file that is loaded in Zapit. Run `main.bonsai` for at least 30 trials (the first
+20 are warmup: galvos move but the laser stays off). With nobody at the wheel every trial times out after 12 s.
 
 **Pass:**
 - Bonsai does not stop. It stops on purpose, with a message saying why, if Zapit refuses a command or has a different number of
   conditions loaded from the file in the session JSON.
 - `Zapit.csv`: one `Command 1` row per trial (`Value` = that trial's condition, `LaserOn` 1 on laser trials and 0 on sham trials), and
-  one `Command 0` (StopStimulus) row per trial, at its outcome. `IsError` is False everywhere.
-- TrialLog: `OptogeneticEnabled` and `OptogeneticCondition` match `Zapit.csv` trial by trial; `OptoOnsetHarp` is about the trial start
-  and `OptoOffsetHarp` about the outcome.
+  one `Command 0` (StopStimulus) row per trial, at its outcome. `IsError` is False everywhere. If you stop Bonsai during a trial (or,
+  on a hardware-triggered rig, after the next trial has been armed), that last trial has a `Command 1` row but no `Command 0` row and
+  no TrialLog row: the StopStimulus Bonsai sends when the workflow stops is not logged.
+- TrialLog: `OptogeneticEnabled` and `OptogeneticCondition` match `Zapit.csv` trial by trial. `OptoOnsetHarp` is within a few tens of
+  ms of `TrialStartHarp` and about 0.1 s (lead_time) before `CueOnsetHarp`. `OptoOffsetHarp` equals `OutcomeHarp`, about 12.1 s after
+  `OptoOnsetHarp` on trial 1 and 12.05 s on later trials (the timeout arms one beep earlier from trial 2), below the 12.5 s cap.
+- Console: no line starting "Zapit: the previous trial ended without a StopStimulus".
 - MATLAB window: no "Not ready to stimulate". The galvos move on every trial, laser or sham.
 
 ## Step 4: hardware-triggered (TTL) session
@@ -57,7 +69,9 @@ repeat step 3. This is the only mode real animals can use: with any animal ID th
 startup if the rig is in software mode.
 
 **Pass:** as step 3, plus:
-- every trial's StartStimulus reply arrives just after the ITI ends, a few tens of ms before beep 0 (Zapit arms, then waits for the TTL);
+- every trial's StartStimulus reply (`Command 1` in `Zapit.csv`) has the same `HarpTime` (to a ms or two) as that trial's
+  `TrialStartHarp`: the trial starts only once Zapit has answered that it is armed, a few tens of ms after the ITI ended.
+  `OptoOnsetHarp` (beep 0, the DO3 write) follows a few ms later;
 - the Behavior board log has one DO3 write per trial at beep 0, matching `OptoOnsetHarp` in the TrialLog;
 - with the galvos visible or a laser monitor connected, the stimulus starts at the TTL, not at the command.
 
@@ -75,7 +89,7 @@ Bonsai in the short window after an arm and before beep 0 (or arm from MATLAB an
 
 ## If Bonsai crashes during an optogenetics session
 
-Bonsai stops the stimulus at every outcome, and sends a final StopStimulus whenever the workflow stops, including on an error. If the
+Bonsai stops the stimulus at every outcome (or at the 12.5 s cap), at the next ITI start if a trial ever ends without an outcome (the console then shows "Zapit: the previous trial ended without a StopStimulus ..."), and with a final StopStimulus whenever the workflow stops, including on an error. If the
 Bonsai process itself dies (a crash, the PC losing power, or killing it in Task Manager), nothing tells Zapit, and a continuous stimulus
 keeps playing until it is stopped. Rule: if Bonsai dies during an optogenetics session, stop the stimulus in Zapit straight away (Stop
 in the Zapit GUI, or `hZP.stopOptoStim` in MATLAB), or close the laser shutter. A permanent fix belongs in Zapit: its TCP server could
@@ -92,10 +106,16 @@ a different number of conditions loaded than the session's config file, and ever
 
 ## Step 6: laser on
 
-With a power meter or photodiode at the stimulation site: laser trials reach the configured power, sham trials stay dark, onset follows
-the TTL and offset follows the trial outcome (plus Zapit's ramp-down), and no trial stays lit past the 12.5 s cap. Optional but
-recommended: feed the laser analog control signal from the Zapit DAQ into a free Behavior board analog input, so every session records
-true laser onset and offset on the Harp clock.
+With a power meter or photodiode at the stimulation site: laser trials reach the configured power, sham trials stay dark, onset
+follows the TTL and offset follows the trial outcome (plus Zapit's ramp-down), and no stimulus lasts longer than the 12.5 s cap plus
+the ramp-down. At every offset the light must fade over the condition's `offRampDownDuration_ms` (250 ms by default), not cut off:
+that ramp is what prevents rebound excitation when the inhibition ends, and it only works if Zapit's laser output drives the
+laser's analog modulation input. A laser driven by TTL only (for example from the masking LED channel) gets no ramp and no power
+control. To see the cap itself, run a few trials of a TEST session at stage 2 or 3 with the wheel still: those stages have no
+timeout, so the trial does not end and the light must go off 12.5 s after onset (in `Zapit.csv` the `Command 0` row comes about
+12.5 s after the trial's `Command 1` row in software mode, or after its DO3 write in hardware mode); turn the wheel to finish the
+trial. Optional but recommended: feed the laser analog control signal from the Zapit DAQ into a free Behavior board analog input, so
+every session records true laser onset and offset on the Harp clock.
 
 ## Which timestamp means what
 
@@ -105,7 +125,10 @@ true laser onset and offset on the Harp clock.
   `offRampDownDuration_ms`.
 - `Zapit.csv` `HarpTime`: when each reply arrived, not laser onset. `ServerDatenum` is the Zapit PC clock, only for matching Zapit's own
   log.
-- `Zapit.csv` startup rows: Bonsai asks Zapit `IsStimConfigLoaded` (`Command 2`) and `GetNumConditions` (`Command 4`) as soon as it
-  connects, which can be before the logger has started. So the `Command 2` row can be missing and the `Command 4` row's `HarpTime` can
-  be NaN or late; use `ServerDatenum` for those two. The startup check itself does not depend on the log: Bonsai compares the
-  condition count with the session's stimulus config and stops if they differ.
+- `Zapit.csv` gaps: Bonsai asks Zapit `IsStimConfigLoaded` (`Command 2`) and `GetNumConditions` (`Command 4`) as soon as it
+  connects, which can be before the logger has started, so the `Command 2` row can be missing and the `Command 4` row's `HarpTime`
+  can be NaN or late; use `ServerDatenum` for those two. The startup check itself does not depend on the log: Bonsai compares the
+  condition count with the session's stimulus config and stops if they differ. An error reply that stops the session can also be
+  missing (Bonsai's error message quotes it), and the StopStimulus Bonsai sends when the workflow stops is never logged.
+- A stimulus ended by the 12.5 s cap rather than the outcome shows as `OptoOffsetHarp` earlier than `OutcomeHarp`; normally the two
+  are equal.

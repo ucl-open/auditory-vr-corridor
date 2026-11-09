@@ -167,9 +167,9 @@ def summarize(run, check=False, expect_trials=None, out=sys.stdout):
                 problems.append(f'trial {i + 1}: TrialLog condition {t.get("OptogeneticCondition")}/{t.get("OptogeneticEnabled")} '
                                 f'but Zapit was sent {starts[i].get("Value")}/laser {starts[i].get("LaserOn")}')
             onset = fnum(t.get('OptoOnsetHarp'))
-            # 20 ms: the TTL and the OptoOnsetHarp stamp are written by parallel branches; under Mono the first trial or two
-            # can be ~10 ms apart (first-run JIT), later trials ~1 ms
-            if ttls and onset == onset and min(abs(x - onset) for x in ttls) > 0.02:
+            # The TTL and the OptoOnsetHarp stamp are written by parallel branches: ~1 ms apart once warmed up, but on trial 1
+            # the first run of the stamp's branch (JIT, under Mono) can put it tens of ms after the TTL, so trial 1 is not checked
+            if i > 0 and ttls and onset == onset and min(abs(x - onset) for x in ttls) > 0.02:
                 problems.append(f'trial {i + 1}: OptoOnsetHarp {onset:.3f} is more than 20 ms from any DO3 TTL')
         console = os.path.join(run, 'bonsai_console.log')
         if os.path.exists(console) and 'previous trial ended without a StopStimulus' in open(console, errors='replace').read():

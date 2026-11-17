@@ -61,8 +61,8 @@ def collect_session_dirs(
     ):
     '''
     Returns every session folder for this animal across all log roots, most recent first.
-    Logs are written locally and pushed to the server daily (after which the local copy is deleted), so the server holds the full history.
-    The local folder is checked too, to catch a session that has been run but not yet synced.
+    Logs are written locally and copied to the server later, so no single root is guaranteed to hold the full history: every root is checked,
+    and the most recent session across all of them comes first.
     Folders are de-duplicated by name, keeping the copy from the first root given.
     Ordering uses the date in the folder name rather than file timestamps, since copying to the server rewrites those.
     '''

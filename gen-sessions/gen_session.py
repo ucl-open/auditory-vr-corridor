@@ -1,4 +1,5 @@
 from helpers import MAX_SHAPING_STAGE, determine_shaping_stage, generate_waveforms, next_session_id
+import os
 from pathlib import Path
 
 
@@ -26,7 +27,13 @@ def main():
     animal_id = input("\nEnter animal ID: ").strip().upper() or "unknown_animal" # Upper-cased so 'tc001' and 'TC001' are the same animal and end up in the same log folder
     modality = (input("Enter modality (A/V/AV) [default=A]: ").strip().upper() or "A")
     project_root = Path(__file__).parent.parent # Absolute path to the repo root, so every path below is absolute and does not depend on where this script is run from
-    server_root_path = r"\\rdp.arc.ucl.ac.uk\ritd-ag-project-rd01n9-pcoen00\AV_VR_Corridor" # Local logs are pushed here daily, so the server holds the full history for each animal
+    # Past sessions on the lab server, through the rigs share (K:, mapped on every rig). Two places, because neither holds everything:
+    # - Live-Data holds the full history up to its last sync, but not this rig's sessions since then.
+    # - staging\<this machine> holds this rig's sessions copied to the server and not yet in Live-Data.
+    server_root_paths = [
+        r"K:\legacy-sessions\Live-Data\AV_VR_Corridor",
+        rf"K:\staging\{os.environ['COMPUTERNAME']}",
+    ]
 
     # Test sessions are written to their own folder, which is not part of the daily push to the server, and their history is read only from there.
     # That keeps test runs out of the real data both ways round: they are never uploaded, and a real animal's sessions never affect a test one.
@@ -37,7 +44,14 @@ def main():
         print(f"\nTEST SESSION - logging to {logging_root_path}, nothing here is pushed to the server")
     else:
         logging_root_path = str(project_root / "Logs") # This session is written locally, to a "Logs" folder at project root. Writing live to the server risks stalling acquisition mid-session
-        read_root_paths = [logging_root_path, server_root_path] # Past sessions are read from both: the server has everything up to the last sync, and local catches anything not yet synced
+        # Past sessions are read from local and both server folders, and the most recent one across all of them is used: local catches anything not yet copied to the server.
+        # A server folder that cannot be reached would otherwise just look like an animal with no history, silently restarting it at session 1 and shaping stage 1.
+        unreachable = [path for path in server_root_paths if not Path(path).is_dir()]
+        if unreachable:
+            raise SystemExit(f"\nCannot reach the lab server folder(s): {', '.join(unreachable)}\n"
+                             "Without them this animal's past sessions cannot be read, so the session id and shaping stage would be wrong.\n"
+                             "Check K: (the rigs share) is connected, then run this again.\n")
+        read_root_paths = [logging_root_path, *server_root_paths]
 
     # Session id is set automatically by incrementing the most recent session of this modality for this animal, e.g. 'A7' if the last 'A' session was 'A6'
     session_id = next_session_id(animal_id=animal_id, modality=modality, logging_root_paths=read_root_paths)

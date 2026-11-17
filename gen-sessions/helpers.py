@@ -55,26 +55,54 @@ def engaged_success_text(trials, engaged):
     return f'Engaged trials: {n_engaged}, Success rate while engaged: {engaged_rewarded / n_engaged:.2%}'
 
 
-def collect_session_dirs(
+def collect_session_copies(
         logging_root_paths: list,
         animal_id: str
     ):
     '''
-    Returns every session folder for this animal across all log roots, most recent first.
+    Returns every session for this animal across all log roots, most recent first, each as the list of its copies in the order the roots were given.
     Logs are written locally and copied to the server later, so no single root is guaranteed to hold the full history: every root is checked,
     and the most recent session across all of them comes first.
-    Folders are de-duplicated by name, keeping the copy from the first root given.
+    A session is often in more than one root (e.g. staging and Live-Data), and one copy can be unreadable while another is fine, so every copy is kept.
     Ordering uses the date in the folder name rather than file timestamps, since copying to the server rewrites those.
     '''
-    session_dirs = {}
+    session_copies = {}
     for logging_root_path in logging_root_paths:
         animal_dir = Path(logging_root_path) / f"sub-{animal_id}"
         if not animal_dir.exists():
             continue
         for dir in animal_dir.iterdir():
             if dir.is_dir() and dir.name.startswith("ses-"):
-                session_dirs.setdefault(dir.name, dir)
-    return sorted(session_dirs.values(), key=lambda dir: dir.name.split("_date-")[-1], reverse=True)
+                session_copies.setdefault(dir.name, []).append(dir)
+    return sorted(session_copies.values(), key=lambda copies: copies[0].name.split("_date-")[-1], reverse=True)
+
+
+def collect_session_dirs(
+        logging_root_paths: list,
+        animal_id: str
+    ):
+    '''
+    Returns every session folder for this animal across all log roots, most recent first, de-duplicated by name (the copy from the first root given).
+    Only the folder names are used from these, so an unreadable copy does not matter here.
+    '''
+    return [copies[0] for copies in collect_session_copies(logging_root_paths, animal_id)]
+
+
+def find_trial_logs(copies: list):
+    '''
+    Returns (session folder, its trial logs) from the first copy of a session that can be read.
+    A copy can be listed but not opened, e.g. a server folder whose permissions do not let the rigs in. Then the next copy is tried.
+    If no copy can be read, stops rather than skipping the session, since skipping it would base the shaping stage on an older session.
+    '''
+    errors = []
+    for dir in copies:
+        try:
+            return dir, list(dir.glob("**/TrialLog_*.csv"))
+        except OSError as error:
+            print(f"\nNB: Cannot read {dir} ({error.strerror}), trying another copy.")
+            errors.append(f"{dir}: {error.strerror}")
+    raise SystemExit(f"\nCannot read any copy of session {copies[0].name}:\n  " + "\n  ".join(errors) + "\n"
+                     "Its trial log is needed to work out the shaping stage. Check the server folder's permissions, then run this again.\n")
 
 
 def session_exists(
@@ -126,10 +154,10 @@ def determine_shaping_stage(
 
     # Folder structure: {logging_root_path}/sub-{animal_id}/ses-{session_id}_date-{date}/TrialLog_{session_id}_{animal_id}/TrialLog_{session_id}_{animal_id}_{date}.csv
     # Find all session folders for this animal, across every log root. When continuing an existing session, include it; otherwise exclude any folder for this session_id
-    session_dirs = collect_session_dirs(logging_root_paths, animal_id) # Already ordered most to least recent
+    session_copies = collect_session_copies(logging_root_paths, animal_id) # Already ordered most to least recent
     if not continue_session:
-        session_dirs = [dir for dir in session_dirs if not dir.name.startswith(f"ses-{session_id}_")]
-    if not session_dirs:
+        session_copies = [copies for copies in session_copies if not copies[0].name.startswith(f"ses-{session_id}_")]
+    if not session_copies:
         print(f"\nNo previous session folders found for animal '{animal_id}' in {logging_root_paths}, defaulting to shaping stage 1.\n")
         return 1
 
@@ -137,8 +165,8 @@ def determine_shaping_stage(
     # Empty logs (sessions that were opened but ran no trials) and other modalities are skipped, not errored on.
     df = None
     prev_df = None # Second most recent matching session, used for the stage 2 advancement rule below
-    for session_dir in session_dirs:
-        trial_logs = list(session_dir.glob("**/TrialLog_*.csv"))
+    for copies in session_copies:
+        session_dir, trial_logs = find_trial_logs(copies)
         if not trial_logs:
             continue
 
